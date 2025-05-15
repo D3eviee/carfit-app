@@ -1,0 +1,99 @@
+// type for navbar profile menu
+export type NavbarProfileProps = {
+  name:string
+  phone: string
+  image:string | null
+  role: string
+}
+
+//type for business cards on landing and search page
+export type BusinessCardProps = {
+  id: string
+  name: string
+  image: string
+  category: string
+  town:string
+  district: string
+  street: string
+  reviews: { rate: number}[]
+}
+
+export type Client = {
+  id: string
+  name: string,
+  image: string | null
+}
+
+export type Service = {
+  id: string
+  categoryId: string
+  name: string
+  description: string
+  price: string,
+  from: number
+  to: number
+  duration: number                            
+  durationType: string                                
+}
+
+export type Review = {
+  id: string
+  content: string
+  rate: number
+  createdAt: Date
+  client: Client
+}
+
+export type WorkingDay = {
+  isOpen : boolean,
+  dayOfWeek: string,
+  open: string,
+  close: string
+}
+
+export type Category = {
+  id: string,
+  name: string,
+  services: Service[]
+}
+
+export type ServicePageTitleDataProps = {
+  name: string
+  category: string
+  town: string
+  zipcode: string
+  district: string
+  street: string
+  reviews: Review[]
+  workingDays: WorkingDay[]
+}
+
+export type BookingReservationData = {
+  reservationStart: Date
+  reservationEnd: Date
+  duration: number
+}
+
+export type NewReservation = {
+    businessId: string
+    servicesIds: string[]
+    reservationStart: Date 
+    reservationYear: number
+    reservationMonth: number
+    reservationEnd: Date
+    duration: number
+    charge: number
+    status: string
+    clientName: string
+    clientPhone: string
+}
+
+export type DashboardReservationListReservations = {
+  charge: number
+  duration: number
+  reservationStart: Date
+  status: string
+  services: { service: {
+    name: string}
+  }[]
+}
