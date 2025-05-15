@@ -106,6 +106,7 @@ export type ServicesCategory ={
 
 export type AddServiceModalProps = {
     name: string
+    phone: string
     category: string
     price: string
     description: string

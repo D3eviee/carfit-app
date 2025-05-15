@@ -7,8 +7,8 @@ import { Phone } from "lucide-react";
 import ModalProvider from "@/components/providers/modal-provider"
 import { useState } from "react"
 import { FormLabel } from "@/components/form-label";
-import { FormInput } from "@/components/form-input";
 import { useForm } from "react-hook-form";
+import default_user_image from "@/../public/default_user_image.png"
 
 export default function Profile(){
   const queryClient = useQueryClient()
@@ -19,7 +19,9 @@ export default function Profile(){
   const {data: userProfileData, status: userProfileDataStatus} = useQuery({
     queryKey: ["userProfileData"],
     queryFn: async () => {
-      return await getUserProfileData()
+      const response =  await getUserProfileData()
+      if(!response.success) return null
+      return response.data
     }
   })
 
@@ -63,36 +65,52 @@ export default function Profile(){
       mutate(form)
     }
 
-    const {register, getValues} = useForm()
+  type UpdateProfileProps = {
+    name: string
+    phone: string
+  } 
+
+    const {register, getValues} = useForm<UpdateProfileProps>()
+
+    const userVisits:number = userProfileData!.Reservation.length
+    const userSpendings = userVisits ? (userProfileData!.Reservation.reduce((sum, item) => sum + item.charge, 0)) : 0
 
     if(userProfileDataStatus == "pending") return <p>Pending</p>
     if(userProfileDataStatus == "error") return <p>Error</p>
-
-    const userVisits:number = userProfileData.Reservation.length
-    const userSpendings = userVisits ? (userProfileData.Reservation.reduce((sum, item) => sum + item.charge, 0)) : 0
+    if (!userProfileData) return <p>No user data.</p>
 
   return (
     <div className='flex flex-col gap-5 justify-center w-3/4 mx-auto'>
       <div className="flex flex-row justify-between items-start gap-5 p-5 rounded-md bg-[#F9FAFC] border border-[#F2F4F8]">
         <div className="w-full flex flex-row gap-5">
           <div className="flex justify-center items-center rounded-full w-[150px] h-[150px] shadow-md">
-            <Image
+            { userProfileData?.image ? 
+             <Image
               src={userProfileData.image}
               width={200}
               height={200}
               className="w-full h-full object-cover rounded-full"
               alt="Profile"
             />
+            :
+             <Image
+              src={default_user_image}
+              width={200}
+              height={200}
+              className="w-full h-full object-cover rounded-full"
+              alt="Profile"
+            />
+            }
           </div>
           <div className="flex flex-col gap-1">
-            <h1 className="text-2xl text-[#111] font-semibold">{userProfileData.name}</h1>
+            <h1 className="text-2xl text-[#111] font-semibold">{userProfileData!.name}</h1>
             <div className="flex flex-row items-center gap-3">
               <Mail size={18} color="#111" strokeWidth={1}/>
-              <h2 className="text-md text-[#111] font-light">{userProfileData.email}</h2>
+              <h2 className="text-md text-[#111] font-light">{userProfileData!.email}</h2>
             </div>
             <div className="flex flex-row items-center gap-3">
               <Phone size={18} color="#111" strokeWidth={1}/>
-              <h2 className="text-md text-[#111] font-light">{userProfileData.phone}</h2>
+              <h2 className="text-md text-[#111] font-light">{userProfileData!.phone}</h2>
             </div>
           </div>
         </div>
@@ -115,14 +133,23 @@ export default function Profile(){
       </div>
       <ModalProvider open={open} onClose={() => setIsOpen(false)} title="Edit profile">
       <div className="flex gap-5 items-center rounded-full w-[75] h-[75px] shadow-md mb-7">
-            <Image
+        { userProfileData?.image ? 
+             <Image
               src={userProfileData.image}
               width={90}
               height={90}
               className="w-full h-full object-cover rounded-full"
               alt="Profile"
             />
-
+            :
+             <Image
+              src={default_user_image}
+              width={90}
+              height={90}
+              className="w-full h-full object-cover rounded-full"
+              alt="Profile"
+            />
+            }
             <label className="text-white rounded border-none outline-none h-[30px] text-sm px-2 border bg-[#111] hover:bg-[#333] hover:cursor-pointer inline-flex items-center">
               Change
               <input 
@@ -139,12 +166,12 @@ export default function Profile(){
 
         <div className="flex flex-col mb-7">
           <FormLabel text="Full name"/>
-          <FormInput type="text" id="name" register={register} defaultValue={userProfileData.name}/>
+          <input type="text" id="name" {...register} defaultValue={userProfileData!.name}/>
         </div>
 
         <div className="flex flex-col">
           <FormLabel text="Phone"/>
-          <FormInput type="text" id="phone" register={register} defaultValue={userProfileData.phone} />
+          <input type="text" id="phone" {...register} defaultValue={userProfileData!.phone} />
         </div>
 
         <div className="w-full flex justify-end mt-5">

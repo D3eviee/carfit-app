@@ -35,41 +35,14 @@ export const getClientAppointments = async () => {
     }
 }
 
-//GETTING BUSINESS DATA FOR USER APPOINTMENT
-export const getAppointmentBusinessData = async (id: string) => {
-    try {
-        const businessData = await prisma.business.findFirst({
-            where: {
-                id: id
-            },
-            select: {
-                name: true,
-                phone: true,
-                image: true,
-                town: true,
-                district: true,
-                zipcode: true,
-                street: true,
-            }
-        })
-
-        return businessData
-    }
-    catch (error) {
-        console.log("Error while trying to retreieve service data:", error)
-    }
-}
-
-
-//function for getting user profile information 
+//getting user profile information 
 export const getUserProfileData = async () => {
-    const userId = await userAuth()
-
     try {
+        const user = await userAuth()
+        if(!user.success) return {success: false, message: "No-authenticated user. Log in"}
+        
         const userData = await prisma.client.findUnique({
-            where: {
-                id: userId.id
-            },
+            where: { id: user.id },
             select: {
                 id: true,
                 email: true,
@@ -83,20 +56,22 @@ export const getUserProfileData = async () => {
                 }
             }
         })
-        
-        return userData
-    } catch (error) {
-        return error
+
+         return {success: true, data: userData}
+    }catch(error){
+        return {success: false, message: "Server error occured while getting data: " + error}
     }
 }
 
+//updating user profile information 
 export const updateUserData = async (data) => {
-    const userId = await userAuth()
-
     try {
+        const user = await userAuth()
+        if(!user.success) return {success: false, message: "No-authenticated user. Log in"}
+
         const userData = await prisma.client.update({
             where: {
-                id: userId.id
+                id: user.id
             },
             data: {
                 name: data.name,
@@ -104,8 +79,8 @@ export const updateUserData = async (data) => {
             }
         })
 
-        return userData
+        return {success: true, data: userData}
     } catch (error) {
-        return error
+        return {success: false, message: "There was a server problem while updating profile data " + error}
     }
 }
