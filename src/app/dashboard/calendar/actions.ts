@@ -1,3 +1,5 @@
+'use server'
+
 import { businessAuth } from "@/lib/auth";
 import prisma from "@/lib/db";
 

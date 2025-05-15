@@ -2,8 +2,6 @@
 import prisma from "@/lib/db";
 import { authRole, businessAuth } from "@/lib/auth";
 
-// FROM HERE REFACTORING 
-
 // NAVBARS
 // returning data for navbar profile menu, depending on the type of logged user
 export const getNavbarUserData = async () => {
