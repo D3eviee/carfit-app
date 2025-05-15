@@ -68,7 +68,7 @@ export default function Profile(){
     if(userProfileDataStatus == "pending") return <p>Pending</p>
     if(userProfileDataStatus == "error") return <p>Error</p>
 
-    const userVisits = userProfileData.Reservation.length
+    const userVisits:number = userProfileData.Reservation.length
     const userSpendings = userVisits ? (userProfileData.Reservation.reduce((sum, item) => sum + item.charge, 0)) : 0
 
   return (

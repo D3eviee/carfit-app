@@ -1,7 +1,6 @@
 import UserAppointmentList from '../../../components/user/user-appointment-list';
 
 export default async function Appointments(){
-
   return (
     <div>
         <div className="mb-[50px]">

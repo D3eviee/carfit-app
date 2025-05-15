@@ -31,7 +31,7 @@ export const getClientAppointments = async () => {
         })
         return {success: true, data: clientAppointments}
     }catch(error){
-        return {success: false, message: "Server problem occured."}
+        return {success: false, message: "Server problem occured." + error}
     }
 }
 
