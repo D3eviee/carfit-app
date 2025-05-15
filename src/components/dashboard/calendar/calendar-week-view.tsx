@@ -1,10 +1,10 @@
 'use client'
 import {addDays, eachDayOfInterval, eachHourOfInterval, format,isSameDay,lastDayOfISOWeek,set, startOfISOWeek, subDays } from "date-fns";
 import { useQuery } from "@tanstack/react-query";
-import { getAppointmentsForWeekInterval } from "@/app/dashboard/actions";
 import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import CalendarWeekViewEvent from "./calendar-week-view-event";
+import { getAppointmentsForWeekInterval } from "@/app/dashboard/calendar/actions";
 
 export default function CalendarWeekView() {
   const date = new Date();
@@ -14,10 +14,12 @@ export default function CalendarWeekView() {
     end: lastDayOfISOWeek(date),
   }))
 
-  const { data } = useQuery({
-    queryKey:['getAppointments', currentWeek],
+  const { data: appointmentsForWeekIntervalData, status: appointmentsForWeekIntervalStatus } = useQuery({
+    queryKey:['getAppointmentsForWeekInterval', currentWeek],
     queryFn: async () => {
-      return await getAppointmentsForWeekInterval(currentWeek);
+      const response = await getAppointmentsForWeekInterval(currentWeek);
+      if(!response.success) return null
+      return response.data
     }
   })
 
@@ -56,6 +58,9 @@ export default function CalendarWeekView() {
       });
     })
   }
+
+  if(appointmentsForWeekIntervalStatus == "pending") return <p>PENDING</p>
+  if(appointmentsForWeekIntervalStatus == "error") return <p>ERROR</p>
   
   return (
     <div className="w-[1100px]">
@@ -110,7 +115,7 @@ export default function CalendarWeekView() {
                   {hours.map((_, i) => (
                     <div key={i} className=" border h-20"></div>
                   ))}
-                  {data?.map((item, i)=>(
+                  {appointmentsForWeekIntervalData?.map((item, i)=>(
                     isSameDay(day, item.reservationStart) && <CalendarWeekViewEvent event={item} key={i}/>
                 ))}
                 </div>

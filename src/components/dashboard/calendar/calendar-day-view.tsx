@@ -1,15 +1,13 @@
 'use client'
 import {addDays, eachDayOfInterval, eachHourOfInterval, format,isSameDay,lastDayOfISOWeek,set, startOfISOWeek, subDays } from "date-fns";
 import { useQuery } from "@tanstack/react-query";
-import { getAppointmentsForWeekInterval } from "@/app/dashboard/actions";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useBusinessSmallCallendarStore } from "@/lib/store";
 import CalendarDayViewEvent from "./calendar-day-view-event";
+import { getAppointmentsForWeekInterval } from "@/app/dashboard/calendar/actions";
 
 export default function CalendarDayView() {
-
   const activeDay = useBusinessSmallCallendarStore(store => store.activeDay)
-
   const setActiveDay = useBusinessSmallCallendarStore(store => store.setActiveDay)
 
   const currentWeekInterval: Date[] = eachDayOfInterval({
@@ -17,10 +15,12 @@ export default function CalendarDayView() {
     end: lastDayOfISOWeek(activeDay),
   })
 
-  const { data } = useQuery({
-    queryKey:['getAppointments', currentWeekInterval],
+  const { data: reservationsForWeekData, status:reservationsForWeekStatus } = useQuery({
+    queryKey:['getAppointmentsForWeekInterval ', currentWeekInterval],
     queryFn: async () => {
-      return await getAppointmentsForWeekInterval(currentWeekInterval);
+      const response = await getAppointmentsForWeekInterval(currentWeekInterval);
+      if(!response.success) return null 
+      return response.data
     }
   })
 
@@ -48,6 +48,9 @@ export default function CalendarDayView() {
     setActiveDay(subDays(activeDay, 1))
   }
   
+  if(reservationsForWeekStatus == "pending") return <p>PENDING</p>
+  if(reservationsForWeekStatus == "error") return <p>ERROR</p>
+
   return (
     <div className="w-[1100px]">
       <div className="w-full shadow-[0px_0px_0px_1px_5px_#CCCCCC30] rounded-2xl  border">
@@ -87,7 +90,7 @@ export default function CalendarDayView() {
                   {hours.map((_, i) => (
                     <div key={i} className="border h-20"></div>
                   ))}
-                  {data?.map((item, i)=>(
+                  {reservationsForWeekData?.map((item, i)=>(
                     isSameDay(activeDay, item.reservationStart) && <CalendarDayViewEvent event={item} key={i}/>
                   ))}
               </div>

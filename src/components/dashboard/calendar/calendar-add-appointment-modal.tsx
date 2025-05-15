@@ -28,10 +28,12 @@ export default function CalendarAddApppointmentModal({open, onClose}:ModalProps)
   })  
 
   //GETTING SERVICES FOR SELECT - SERVICES AND CATEGORIES
-  const { data, status } = useQuery({
-    queryKey: ["servicesData"],
+  const { data: businessCategoriesData, status: businessCategoriesStatus} = useQuery({
+    queryKey: ["addAppointmetnManuallyServices"],
     queryFn: async () => {
-      return await getServicesForBusiness()
+      const response =  await getServicesForBusiness()
+      if(!response.success) return null
+      return response.data
     } 
   }); 
 
@@ -39,7 +41,9 @@ export default function CalendarAddApppointmentModal({open, onClose}:ModalProps)
   const { data: workingDaysData, status: workingDaysDataStatus } = useQuery({
     queryKey: ["workingDaysData"],
     queryFn: async () => {
-      return await getWorkingTimeData("")
+      const response =  await getWorkingTimeData()
+      if(!response.success) return null
+      return response.data
     } 
   }); 
 
@@ -51,12 +55,14 @@ export default function CalendarAddApppointmentModal({open, onClose}:ModalProps)
   const { data: appointments, status: appointmentsStatus} = useQuery({
     queryKey: ["appointmentsData"],
     queryFn: async () => {
-      return await getActiveMonthAppointments(new Date(selectedDate))
+      const response =  await getActiveMonthAppointments(new Date(selectedDate))
+      if(!response.success) return null
+      return response.data
     } 
-  }); 
+  })
 
   //GETTING DATA OF SELECTED SERVICE
-  const selectedServiceData = data ?.find((category) => category.id === selectedCategory) ?.services.find((service) => service.id === selectedService);
+  const selectedServiceData = businessCategoriesData?.find((category) => category.id === selectedCategory) ?.services.find((service) => service.id === selectedService);
 
   const serviceDuration = selectedServiceData?.duration ?? 0;
   let activeDayOpeningData
@@ -111,7 +117,7 @@ export default function CalendarAddApppointmentModal({open, onClose}:ModalProps)
           <FormLabel text="Rodzaj" />
           <select className="border-[0.5px] border-[#E8E8E8] w-3/5 p-2" id="category" {...register('category')} required>
             <option key="0" value="select" disabled>Wybierz</option>
-              {data?.map((category)=>{
+              {businessCategoriesData?.map((category)=>{
                 return (<option key={category.id} value={category.id}>{category.name}</option>)
               })}
           </select>
@@ -121,7 +127,7 @@ export default function CalendarAddApppointmentModal({open, onClose}:ModalProps)
               <FormLabel text="Usługa" />
               <select className="border-[0.5px] border-[#E8E8E8] w-full p-2" id="service" {...register('service')} required>
                 <option value="select" disabled>Wybierz</option>
-                  { selectedCategory && data?.map((category)=>(
+                  { selectedCategory && businessCategoriesData?.map((category)=>(
                       selectedCategory == category.id && category.services.map((service) => {
                           return (<option className="flex flex-row justify-between" key={service.id} value={service.id}>{service.name} {service.duration}</option>)
                       })
@@ -150,7 +156,7 @@ export default function CalendarAddApppointmentModal({open, onClose}:ModalProps)
                       else{
                           const serviceEnd = addMinutes(time, Number(selectedServiceData.duration))
                               
-                          const isBetween = appointments.some((item) =>(
+                          const isBetween = appointments!.some((item) =>(
                               time < item.reservationEnd && serviceEnd > item.reservationStart
                           ))
 
@@ -171,12 +177,12 @@ export default function CalendarAddApppointmentModal({open, onClose}:ModalProps)
 
           <div>
               <FormLabel text="Client name"/>
-              <FormInput type="text" id="clientName" register={register} /> 
+              <input type="text" id="clientName" {...register} /> 
           </div>
 
           <div>
               <FormLabel text="Client phone"/>
-              <FormInput type="text" id="clientPhone" register={register}/> 
+              <input type="text" id="clientPhone" {...register}/> 
           </div>
 
         <button 

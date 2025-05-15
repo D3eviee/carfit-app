@@ -160,72 +160,24 @@ export const putBusinessImageToGallery = async (serviceId:string, imageKey:strin
     return putImage
 }
 
-/////////
-
-
-export const getWorkingTimeData = async (businessId: string) => {
+// getting working hours for business
+export const getWorkingTimeData = async () => {
     try {
-        const businessData = await businessAuth()
+        const business = await businessAuth()
+        if(!business.success) return {success: false, message: "No-authenticated. Log-in"}
 
-        const serviceData = await prisma.workingDay.findMany({
+        const workingTimeData = await prisma.workingDay.findMany({
             where: {
-                serviceId: businessData.id || businessId
+                serviceId: business.id
             },
             orderBy: {
                 dayOfWeek: "asc"
             }
         })
 
-        return serviceData
+        return { success: true, data: workingTimeData}
     }
     catch (error) {
-        console.log("Error while trying to retreieve working time data:", error)
+        return {success: false, message: "Error while trying to retreieve working time data: " + error}
     }
-}
-
-export const getServiceReviews = async (id: string) => {
-    try {
-        const serviceReviews = await prisma.review.findMany({
-            where: {
-                serviceId: id
-            },
-            orderBy: {
-                createdAt: "desc"
-            }
-        })
-
-        return serviceReviews
-    }
-    catch (error) {
-        console.log("Error while trying to retreieve reviews", error)
-    }
-}
-
-export const getAllServicesForBusiness = async (id:string) => {
-    const categories = await prisma.categories.findMany({
-        where: {
-            serviceId: id
-        },
-        select: {
-            id: true,
-            name: true,
-            services: true
-        }
-    })
-
-    const services = await prisma.service.findMany({
-        where: {
-            serviceId: id
-        },
-    })
-    return {categories, services}
-}
-
-export const getServiceDataForBooking = async (id:string) => {
-    const allServices = await prisma.service.findMany({
-        where: {
-            serviceId: id
-        },
-    })
-    return allServices
 }

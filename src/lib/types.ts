@@ -115,3 +115,22 @@ export type AddServiceModalProps = {
     to: number
     duration: number
 }
+
+//CALENDAR TYPES
+export type CalendarWeekViewEventProps = {
+  clientPhone: string | null
+  clientName: string | null
+  clientImage: string | null
+  duration: number
+  reservationStart: Date
+  charge: number,
+}
+
+export type CalendarDayViewEventProps = {
+  clientPhone: string | null
+  clientName: string | null
+  clientImage: string | null
+  duration: number
+  reservationStart: Date
+  charge: number
+}

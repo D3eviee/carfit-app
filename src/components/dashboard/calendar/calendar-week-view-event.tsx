@@ -1,20 +1,7 @@
+import { CalendarWeekViewEventProps } from "@/lib/types";
 import { addMinutes, format, getHours, getMinutes } from "date-fns";
 import Image from "next/image";
-
-type CalendarWeekViewEventProps = {
-  clientId: string
-  servicesIds: string[]
-  reservationStart: Date
-  duration: number
-  charge: number
-  clientName: string,
-  clientPhone: string,
-  client: {
-    name: string
-    email: string
-    image: string
-  }
-};
+import client_profile_picture from "@/../public/default_user_image.png"
 
 export default function CalendarWeekViewEvent({event}:{event:CalendarWeekViewEventProps}) {
   const startHour = getHours(event.reservationStart) - 6;
@@ -44,16 +31,26 @@ export default function CalendarWeekViewEvent({event}:{event:CalendarWeekViewEve
         {event.duration > 60 && 
         <div className="flex flex-row gap-1">
           <div>
-          <Image
-            src={event.client.image}
-            width={100}
-            height={100}
-            alt="client picture"
-            className="rounded-full  h-[25px] w-[25px] mt-1"
-          />
+          {event.clientImage ?
+            (<Image
+              src={event.clientImage}
+              alt="client picture"
+              className="rounded-full  h-[35px] w-[35px] mt-1"
+              width={100}
+              height={100}
+            />)
+             : (
+             <Image
+              src={client_profile_picture}
+              alt="client picture"
+              className="rounded-full  h-[35px] w-[35px] mt-1"
+              width={100}
+              height={100}
+            />)
+            }
           </div>
           <div className="flex flex-col">
-            <p className="font-normal text-xs">{event.clientId ? event.client.name :  event.clientName}</p>
+            <p className="font-normal text-xs">{event.clientName}</p>
             <p className="font-light text-xs">{event.clientPhone}</p>
           </div>
         </div>

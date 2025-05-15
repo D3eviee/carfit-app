@@ -161,34 +161,6 @@ type  GetAppointmentsForMonthIntervalProps = {
   monthInterval : Date[]
 }
 
-export const getAppointmentsForWeekInterval = async (weekInterval: Date[]) => {
-    return await prisma.reservation.findMany({
-      where: {
-        reservationStart: {
-          gte: weekInterval[0], // Start tygodnia
-          lte: weekInterval[weekInterval.length - 1], // Koniec tygodnia
-        },
-      },
-      select: {
-        clientPhone: true, 
-        clientName: true,
-        duration : true,
-        reservationStart: true,
-        charge: true,
-        services: true,
-        clientId:true,
-        client:{
-          select: {
-            name:true,
-            email: true,
-            phone: true,
-            image: true
-          }
-        }
-      },
-    });
-};
-
 export const getAppointmentsForMonthInterval = async ({monthInterval}: GetAppointmentsForMonthIntervalProps ) => {
   return await prisma.reservation.findMany({
     where: {
@@ -244,16 +216,16 @@ export const getAppointmentsForCurrentDay = async (nowDate:Date) => {
 
 export const getActiveMonthAppointments = async(date:Date) => {
   const selectedDate = new Date(date)
-
   const activeDateYear = selectedDate.getFullYear()
   const activeDateMonth = selectedDate.getMonth()+1
 
   try{
-      const businessData = await businessAuth()
+      const business = await businessAuth()
+      if(!business.success) return {success: false, message: "No-authenticated user. Log-in"}
 
       const reservationForDay = await prisma.reservation.findMany({
           where: {
-              businessId: businessData.id,
+              businessId: business.id,
               reservationYear:activeDateYear,
               reservationMonth: activeDateMonth,
           },
@@ -264,17 +236,9 @@ export const getActiveMonthAppointments = async(date:Date) => {
          },
       })
 
-      // const daysToUTC = reservationForDay.map((item) => {
-      //     return {
-      //         duration: item.duration,
-      //         reservationStart : subHours(item.reservationStart, 2),
-      //         reservationEnd: subHours(item.reservationEnd, 2)
-      //     }
-      // })
-
-      return reservationForDay
-  }catch(err){
-      console.log(err)
+      return {success: true, data: reservationForDay}
+  }catch(error){
+      return {success: false, message: "Server problem while getting data: " + error}
   }
 }
 
