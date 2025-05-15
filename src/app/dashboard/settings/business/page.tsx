@@ -22,12 +22,16 @@ export default function SettingsPage() {
     }
   }) 
 
-  if (openView === "details") setActiveHeaderContent({title: "Business details", subtitle: "Zarządzaj danymi swojego serwisu"})
-  else if (openView === "locations") setActiveHeaderContent({title: "Locations", subtitle: "Zarządzaj lokalizacją swojego serwisu"})
-  else if (openView === "links") setActiveHeaderContent({title: "Social links", subtitle: "Dodaj, usuń lub edytuj linki do swoich mediów społecznościowych"})
+  let headers = {title: "", subtitle:""}
+
+  if (openView === "details") headers = {title: "Business details", subtitle: "Zarządzaj danymi swojego serwisu"}
+  else if (openView === "locations") headers = {title: "Locations", subtitle: "Zarządzaj lokalizacją swojego serwisu"}
+  else if (openView === "links") headers = {title: "Social links", subtitle: "Dodaj, usuń lub edytuj linki do swoich mediów społecznościowych"}
 
   if(settingsStatus =="pending" || settings == undefined) return <p>Pending...</p>
   if(settingsStatus =="error") return <p>Error...</p>
+
+
 
   const settingsBusinessDetailsViewData = {businessName: settings.name, language: "Polski", country: "Polska", currency: "PLN" }
   const settingsBusinessLocationViewData = {town: settings.town, district: settings.district, street: settings.street, zipcode: settings.zipcode }
