@@ -4,7 +4,6 @@ import { useForm } from "react-hook-form";
 import { FormLabel } from "@/components/form-label";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { addNewReservationManually, getActiveMonthAppointments } from "@/app/dashboard/actions";
-import { FormInput } from "@/components/form-input";
 import { getWorkingTimeData } from "@/actions/actions";
 import { addMinutes, eachMinuteOfInterval, format, getMonth, getYear, set } from "date-fns";
 import { getServicesForBusiness } from "@/app/dashboard/services/actions";
@@ -109,6 +108,9 @@ export default function CalendarAddApppointmentModal({open, onClose}:ModalProps)
     mutate()
     onClose()
   } 
+
+  if(businessCategoriesStatus == "pending") return <p>PENDING</p>
+  if(businessCategoriesStatus == "error") return <p>ERROR</p>
 
   return (
     <ModalProvider open={open} onClose={onClose} title="Add appointment">

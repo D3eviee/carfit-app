@@ -1,5 +1,4 @@
 'use server'
-
 import { businessAuth } from "@/lib/auth";
 import prisma from "@/lib/db";
 
@@ -55,6 +54,6 @@ export const getAppointmentsForWeekInterval = async (weekInterval: Date[]) => {
 
         return {success: true, data: reservation}
     }catch(error){
-        return {success: false, message: "Server error while getting week reservations"}
+        return {success: false, message: "Server error while getting week reservations" + error}
     }
 };

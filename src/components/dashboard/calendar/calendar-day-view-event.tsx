@@ -1,5 +1,5 @@
 import client_profile_picture from "@/../public/client_profile_picture.jpg";
-import { CalendarDayViewEventProps, CalendarWeekViewEventProps } from "@/lib/types";
+import { CalendarDayViewEventProps } from "@/lib/types";
 import { addMinutes, format, getHours, getMinutes } from "date-fns";
 import Image from "next/image";
 

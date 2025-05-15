@@ -12,7 +12,6 @@ import { useState } from 'react';
 
 export default function SettingsPage() {
   const [openView, setOpenView] = useState<string>("details")
-  const [activeHeaderContent, setActiveHeaderContent] = useState({title: "Business details", subtitle: "Zarządzaj danymi swojego serwisu"})
 
   const {data: settings, status: settingsStatus} = useQuery({
     queryKey: ["settingsServiceData"],
@@ -22,11 +21,11 @@ export default function SettingsPage() {
     }
   }) 
 
-  let headers = {title: "", subtitle:""}
+  let header = {title: "", subtitle:""}
 
-  if (openView === "details") headers = {title: "Business details", subtitle: "Zarządzaj danymi swojego serwisu"}
-  else if (openView === "locations") headers = {title: "Locations", subtitle: "Zarządzaj lokalizacją swojego serwisu"}
-  else if (openView === "links") headers = {title: "Social links", subtitle: "Dodaj, usuń lub edytuj linki do swoich mediów społecznościowych"}
+  if (openView === "details") header = {title: "Business details", subtitle: "Zarządzaj danymi swojego serwisu"}
+  else if (openView === "locations") header = {title: "Locations", subtitle: "Zarządzaj lokalizacją swojego serwisu"}
+  else if (openView === "links") header = {title: "Social links", subtitle: "Dodaj, usuń lub edytuj linki do swoich mediów społecznościowych"}
 
   if(settingsStatus =="pending" || settings == undefined) return <p>Pending...</p>
   if(settingsStatus =="error") return <p>Error...</p>
@@ -77,8 +76,8 @@ export default function SettingsPage() {
         </div>
         <div className="flex flex-col gap-[20px] w-7/12">
           <div className="p-[20px] border-[0.5px] border-[#D4D4D4] rounded-[5px]">
-            <h2 className="m-0 p-0 mb-[5px] text-lg font-medium text-[#333333]">{activeHeaderContent.title}</h2>
-            <p className="m-0 p-0 text-[13px] font-light text-[#777777]">{activeHeaderContent.subtitle}</p>
+            <h2 className="m-0 p-0 mb-[5px] text-lg font-medium text-[#333333]">{header.title}</h2>
+            <p className="m-0 p-0 text-[13px] font-light text-[#777777]">{header.subtitle}</p>
           </div>
 
           {openView == "details" && <SettingsBusinessDetailsView settings={settingsBusinessDetailsViewData}/>}
