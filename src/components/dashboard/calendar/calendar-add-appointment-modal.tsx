@@ -3,10 +3,11 @@ import ModalProvider from "@/components/providers/modal-provider";
 import { useForm } from "react-hook-form";
 import { FormLabel } from "@/components/form-label";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { addNewReservationManually, getActiveMonthAppointments, getServicesForBusiness } from "@/app/dashboard/actions";
+import { addNewReservationManually, getActiveMonthAppointments } from "@/app/dashboard/actions";
 import { FormInput } from "@/components/form-input";
 import { getWorkingTimeData } from "@/actions/actions";
 import { addMinutes, eachMinuteOfInterval, format, getMonth, getYear, set } from "date-fns";
+import { getServicesForBusiness } from "@/app/dashboard/services/actions";
 
 type ModalProps = {
     open: boolean

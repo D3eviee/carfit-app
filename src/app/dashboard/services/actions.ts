@@ -2,7 +2,6 @@
 import { businessAuth } from "@/lib/auth";
 import prisma from "@/lib/db";
 
-
 // get categories and services data for business
 export const getServicesForBusiness = async () => {
   try {

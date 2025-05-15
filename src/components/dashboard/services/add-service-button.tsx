@@ -11,8 +11,6 @@ import ModalProvider from "@/components/providers/modal-provider";
 import { addNewService } from "@/app/dashboard/services/actions";
 import { AddServiceModalProps, ServicesCategory } from "@/lib/types";
 
-
-
 export function AddServiceButton({categories}:{categories: ServicesCategory[]}){
   const queryClient = useQueryClient();
 

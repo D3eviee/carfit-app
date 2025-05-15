@@ -2,24 +2,37 @@
 import { userAuth } from "@/lib/auth";
 import prisma from "@/lib/db";
 
-
+// getting all client appointments
 export const getClientAppointments = async () => {
-    const userData = await userAuth()
+    try {
+        const user = await userAuth()
 
-    if(userData.error) return 
+        if(!user.success) return {success: false, message: "No-authenticated user. Log in."}
 
-    return await prisma.reservation.findMany({
-        where: {
-            clientId: userData.id
-        },
-        include: {
+        const clientAppointments =  await prisma.reservation.findMany({
+        where: { clientId: user.id },
+        select: {
+            reservationStart: true,
+            status: true,
             services: {
                 select: {
                     serviceId: true
                 }
+            },
+            business: {
+                select: {
+                    name: true,
+                    street: true,
+                    district: true,
+                    town: true,
+                }
             }
         }
-    })
+        })
+        return {success: true, data: clientAppointments}
+    }catch(error){
+        return {success: false, message: "Server problem occured."}
+    }
 }
 
 //GETTING BUSINESS DATA FOR USER APPOINTMENT
