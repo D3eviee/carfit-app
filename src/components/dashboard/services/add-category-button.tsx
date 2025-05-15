@@ -4,8 +4,8 @@ import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { FormLabel } from "@/components/form-label";
 import { FormButton } from "@/components/form-button";
-import { addNewCategory } from "@/app/dashboard/actions";
 import ModalProvider from "@/components/providers/modal-provider";
+import { addNewCategory } from "@/app/dashboard/services/actions";
 
 export function AddCategoryButton() {
   const queryClient = useQueryClient();
@@ -30,7 +30,7 @@ export function AddCategoryButton() {
     onSuccess: (data) => {
       if (data.success) {
         setValue("name", "")
-        queryClient.invalidateQueries({ queryKey: ["category"] });
+        queryClient.invalidateQueries({ queryKey: ["getServicesForBusiness"] });
         setIsModalOpen(false)
       } else {
         setErr(data?.message || "Error occurred");

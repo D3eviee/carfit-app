@@ -97,3 +97,20 @@ export type DashboardReservationListReservations = {
     name: string}
   }[]
 }
+
+//DASHBOARD -> SERVICES
+export type ServicesCategory ={
+  id: string
+  name: string
+}
+
+export type AddServiceModalProps = {
+    name: string
+    category: string
+    price: string
+    description: string
+    durationType: string
+    from: number
+    to: number
+    duration: number
+}

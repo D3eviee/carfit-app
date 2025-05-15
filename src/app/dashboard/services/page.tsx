@@ -2,25 +2,25 @@
 import DashboardContentContainer from "@/components/dashboard/dashboard-content-container";
 import { AddServiceButton } from "@/components/dashboard/services/add-service-button";
 import { useQuery } from "@tanstack/react-query";
-import { getServicesForBusiness } from "../actions";
-import ServicesCategorySidebar from "@/components/dashboard/services/services-categories-sidebar";
+import ServicesCategorySidebar from "@/components/dashboard/services/services-sidebar";
 import ServicesServiceList from "@/components/dashboard/services/services-service-list";
 import ServicesServiceListItem from "@/components/dashboard/services/services-service-list-item";
+import { getServicesForBusiness } from "./actions";
 
 export default function ServicePage() {
-  const { data } = useQuery({
-    queryKey: ["category"],
+  const { data: servicesForBusinessData, status: servicesForBusinessStatus } = useQuery({
+    queryKey: ["getServicesForBusiness"],
     queryFn: async () => {
-      return await getServicesForBusiness()
+      const response =  await getServicesForBusiness()
+      if(!response.success) return null
+      return response.data
     } 
-  });
-
-  if(!data) return <p>There was a problem with your page</p>
-
-  const categoriesData : CategoriesData[] = data.map((item) => {
-    return {id: item.id, name: item.name}
   })
+  
+  const categories = servicesForBusinessData &&  servicesForBusinessData.map((item) => ({id: item.id, name: item.name}))
 
+  if(servicesForBusinessStatus == "pending") return <p>PENDING</p>
+  if(servicesForBusinessStatus == "error") return <p>ERROR</p>
   return (
     <DashboardContentContainer>
       <div className="flex flex-col gap-5">
@@ -33,19 +33,19 @@ export default function ServicePage() {
         {/*CONTENT*/}
         <div className="flex flex-row gap-[20px]">
           {/*LEFT MENU FOR CATEGORIES*/}
-          <ServicesCategorySidebar categories={categoriesData} />
+          <ServicesCategorySidebar categories={categories!} />
 
           {/*RIGHT PANEL WITH SERVICES*/}
           <div className="bg-[#FFFFFF] w-[647px] flex flex-col gap-5 px-4 py-10 border-[0.5px] border-[#D4D4D4] rounded-lg ">
             {/* ADD SERVIVCE BUTTON */}
             <div className="w-full flex flex-row justify-end">
-              <AddServiceButton categories={categoriesData}/>
+              <AddServiceButton categories={categories!}/>
             </div>
 
             {/*div for service items*/}
             <div className="mt-5 min-h-40 px-9 flex flex-col items-center justify-center gap-12" >
-              {data && data?.length > 0 ? (
-                data.map((category) => {
+              {servicesForBusinessData && servicesForBusinessData?.length > 0 ? (
+                servicesForBusinessData.map((category) => {
                   return (
                     <ServicesServiceList key={category.id} categoryName={category.name}>
                       {category.services && category.services.length > 0 ? (

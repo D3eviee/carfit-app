@@ -1,5 +1,5 @@
 'use client'
-import { editCategory } from "@/app/dashboard/actions";
+import { editCategory } from "@/app/dashboard/services/actions";
 import { FormButton } from "@/components/form-button";
 import { FormLabel } from "@/components/form-label";
 import ModalProvider from "@/components/providers/modal-provider";

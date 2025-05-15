@@ -35,7 +35,7 @@ export type BusinessOnboardingSchema = z.infer<typeof businessOnboardingSchema>
 
 export const categoryName = z.string().min(1)
 
-export const newServiceSchaema = z.object({
+export const newServiceSchema = z.object({
     name : z.string().min(1, "Service name needs to be provided").max(120),
     category: z.string().nonempty(),
     price: z.string().nonempty("Provide value"),

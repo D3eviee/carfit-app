@@ -1,7 +1,8 @@
 import { AddCategoryButton } from "@/components/dashboard/services/add-category-button";
 import ServicesCategorySidebarItem from "./services-categories-sidebar-item";
+import { ServicesCategory } from "@/lib/types";
 
-export default function ServicesCategorySidebar({categories}: {categories: CategoriesData[]}) {
+export default function ServicesSidebar({categories}: {categories: ServicesCategory[]}) {
   return (
     <div className="bg-[#FFFFFF] w-[215px] max-h-fit flex flex-col gap-5  px-4 py-5 border-[0.5px] border-[#D4D4D4] rounded-lg ">
       <h3 className="text-base text-[#333] font-semibold  px-2.5">Kategorie</h3>

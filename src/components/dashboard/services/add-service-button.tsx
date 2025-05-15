@@ -6,11 +6,14 @@ import { FormButton } from "@/components/form-button";
 import { FormLabel } from "@/components/form-label";
 import { FormInput } from "@/components/form-input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { newServiceSchaema } from "@/lib/schema";
+import { newServiceSchema } from "@/lib/schema";
 import ModalProvider from "@/components/providers/modal-provider";
-import { addNewService } from "@/app/dashboard/actions";
+import { addNewService } from "@/app/dashboard/services/actions";
+import { AddServiceModalProps, ServicesCategory } from "@/lib/types";
 
-export function AddServiceButton({categories}:{categories:CategoriesData[]}){
+
+
+export function AddServiceButton({categories}:{categories: ServicesCategory[]}){
   const queryClient = useQueryClient();
 
   // STATE FOR MANAGING OPENING MODAL
@@ -20,8 +23,8 @@ export function AddServiceButton({categories}:{categories:CategoriesData[]}){
   const timeOptions = [{time: "30min", value: 30}, {time: "45min", value: 45}, {time: "1h", value: 60}, {time: "1h 15min", value: 75},{time: "1h 30min", value: 90}, {time:  "1h 45min", value: 105}, {time: "2h", value: 120}, {time: "2h 15min", value: 135},{time: "2h 30min" , value: 150}, {time:"2h 45min" , value: 165}, {time: "3h", value: 180}, {time: "3h 15min", value: 195}, {time: "3h 30min", value: 210} , {time: "3h 30min", value: 225}, {time: "3h 45min", value: 240}, {time: "4h", value: 255}, {time: "4h 15min", value: 270},{time: "4h 30min" , value: 285}, {time:"4h 45min" , value: 300}, {time: "5h", value: 315}, {time: "5h 15min", value: 330}, {time: "5h 30min" , value: 345}, {time:"5h 45min" , value: 360}, {time:"6h" , value: 375}]
 
     const [choosenDurationType, setChoosenDurationType] = useState<string>("precise")
-    const { register, handleSubmit, getValues, setValue, reset, formState, watch} = useForm<serviceModalProps>({
-        resolver: zodResolver(newServiceSchaema),
+    const { register, handleSubmit, getValues, setValue, reset, formState, watch} = useForm<AddServiceModalProps>({
+        resolver: zodResolver(newServiceSchema),
         defaultValues: {
             name: "",
             category: "",
@@ -45,7 +48,7 @@ export function AddServiceButton({categories}:{categories:CategoriesData[]}){
         }, 
         onSuccess: (data) => {
           if (data) {
-            queryClient.invalidateQueries({ queryKey: ["category"] });
+            queryClient.invalidateQueries({ queryKey: ["getServicesForBusiness"] });
           }
           setIsModalOpen(false);
           reset()

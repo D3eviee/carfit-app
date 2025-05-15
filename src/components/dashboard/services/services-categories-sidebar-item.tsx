@@ -2,11 +2,12 @@
 import { MoreVertical, Pen, TrashIcon } from "lucide-react";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteCategory } from "@/app/dashboard/actions";
 import { useState } from "react";
 import ServiecEditCategoryModal from "./services-edit-category-modal";
+import { deleteCategory } from "@/app/dashboard/services/actions";
+import { ServicesCategory } from "@/lib/types";
 
-export default function ServicesCategorySidebarItem({category}: {category: CategoriesData}) {
+export default function ServicesCategorySidebarItem({category}: {category: ServicesCategory}) {
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   const queryClient = useQueryClient();

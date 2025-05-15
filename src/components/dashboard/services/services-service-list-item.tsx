@@ -1,4 +1,4 @@
-import { deleteService } from "@/app/dashboard/actions";
+import { deleteService } from "@/app/dashboard/services/actions";
 import { displayVisitTime } from "@/utils";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -22,7 +22,7 @@ export default function ServicesServiceListItem({ service }: { service: Service 
           mutationFn: async (id: string) => await deleteService(id),
           onSuccess: (data) => {
               if (data?.success) {
-                  queryClient.invalidateQueries({ queryKey: ["category"] });
+                  queryClient.invalidateQueries({ queryKey: ["getServicesForBusiness"] });
               }
           },
       });
