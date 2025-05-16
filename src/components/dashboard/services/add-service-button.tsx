@@ -5,8 +5,6 @@ import { useForm } from "react-hook-form";
 import { FormButton } from "@/components/form-button";
 import { FormLabel } from "@/components/form-label";
 import { FormInput } from "@/components/form-input";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { newServiceSchema } from "@/lib/schema";
 import ModalProvider from "@/components/providers/modal-provider";
 import { addNewService } from "@/app/dashboard/services/actions";
 import { AddServiceModalProps, ServicesCategory } from "@/lib/types";
