@@ -5,7 +5,6 @@ import { z } from 'zod';
 import { FormLabel } from '../form-label';
 import { FormError } from '../form-error';
 import { FormButton } from '../form-button';
-import { FormInput } from '../form-input';
 import { useOnboardingStore } from '@/lib/store';
 
 export default function OnboardingAdress({ onClick = () => {} }){
@@ -17,7 +16,7 @@ export default function OnboardingAdress({ onClick = () => {} }){
     businessStreet: true
   });
 
-  type OnboardingAddress = z.infer<typeof onboardingAddress>;
+  type OnboardingAddress = z.infer<typeof onboardingAddress>
   const setData = useOnboardingStore((state)=>state.setData)
 
   //DEFINING USEFORM HOOK
@@ -44,25 +43,49 @@ export default function OnboardingAdress({ onClick = () => {} }){
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
         <div>
         <FormLabel text="Town" htmlFor="businessTown" />
-        <FormInput type="text" id="businessTown" placeholder="Warsaw" register={register}/>
+        <input 
+          type="text" 
+          id="businessTown"
+          placeholder="Warsaw"
+          {...register("businessTown")}
+          className="border-[0.5px] border-[#CCCCCC] w-full px-[7px] py-[5px] text-[#111] text-sm rounded-md mb-2 focus:outline-[#333333]"
+        />
         <FormError>{formState.errors.businessTown?.message}</FormError>
         </div>
 
         <div>
           <FormLabel text="Zip code" htmlFor="businessZipcode" />
-          <FormInput type="text" id="businessZipcode" placeholder="61-131" register={register}/>
+          <input 
+            type="text" 
+            id="businessZipcode" 
+            placeholder="61-131" 
+            {...register("businessZipcode")}
+            className="border-[0.5px] border-[#CCCCCC] w-full px-[7px] py-[5px] text-[#111] text-sm rounded-md mb-2 focus:outline-[#333333]"
+          />
           <FormError>{formState.errors.businessZipcode?.message}</FormError>
         </div>
 
         <div>
         <FormLabel text="District" htmlFor="businessDistrict" />
-        <FormInput type="text" id="businessDistrict" placeholder="Nowe Miasto" register={register}/>
+        <input 
+          type="text" 
+          id="businessDistrict" 
+          placeholder="Nowe Miasto" 
+          {...register("businessDistrict")}
+          className="border-[0.5px] border-[#CCCCCC] w-full px-[7px] py-[5px] text-[#111] text-sm rounded-md mb-2 focus:outline-[#333333]"
+        />
         <FormError>{formState.errors.businessDistrict?.message}</FormError>
         </div>
 
         <div>
         <FormLabel text="Street" htmlFor="businessStreet" />
-        <FormInput type="text" id="businessStreet" placeholder="Milczańska 5/161" register={register}/>
+        <input 
+          type="text" 
+          id="businessStreet" 
+          placeholder="Milczańska 5/161" 
+          {...register("businessStreet")}
+          className="border-[0.5px] border-[#CCCCCC] w-full px-[7px] py-[5px] text-[#111] text-sm rounded-md mb-2 focus:outline-[#333333]"
+        />
         <FormError>{formState.errors.businessStreet?.message}</FormError>
         </div>
 

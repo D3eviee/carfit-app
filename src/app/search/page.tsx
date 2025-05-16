@@ -7,25 +7,26 @@ import { getSearchedBusinesses } from "./actions";
 export default function Search() {
   const location = useSearchParams().get("location")
 
-  const {data:searchResultBusinesses, status} = useQuery({
+  const {data:searchResultData, status: searchResultStatus} = useQuery({
     queryKey: ["searchForBusinesses"],
     queryFn: async () => {
-      if (!location) return []
+      if (!location) return null
       const result =  await getSearchedBusinesses(location)
-      return result
+      if(!result.success) return null
+      return result.data
     },
     enabled: !!location
   })
 
-  if(status == "pending") return <p>LOADING...</p>
-  if(status == "error") return <p>ERROR...</p>
+  if(searchResultStatus == "pending") return <p>LOADING...</p>
+  if(searchResultStatus == "error") return <p>ERROR...</p>
 
   return (
     <div className="mt-20 px-64"> 
       <h3 className="font-md text-[#111] text-2xl">{`Warszataty dla: ${location}`}</h3>
       <div className="mt-[30px] flex flex-row gap-8 overflow-scroll">
-      {searchResultBusinesses ?
-        searchResultBusinesses.map((service) => (
+      {searchResultData ?
+        searchResultData.map((service) => (
           <BusinessCard key={service.id} serviceData={service}/>
         ))
         : "No data"

@@ -2,7 +2,6 @@ import { useForm } from "react-hook-form";
 import { businessOnboardingSchema } from "@/lib/schema";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FormInput } from "../form-input";
 import { FormError } from "../form-error";
 import { FormLabel } from "../form-label";
 import { FormButton } from "../form-button";
@@ -53,13 +52,25 @@ export default function OnboardingEmail({ onClick = () => {} }) {
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
         <div>
           <FormLabel text="Email" htmlFor="email" />
-          <FormInput id="email" type="text" placeholder="carfit@gmail.com" register={register}/>
+          <input 
+            id="email"
+            type="text" 
+            placeholder="carfit@gmail.com" 
+            {...register("email")}
+          className="border-[0.5px] border-[#CCCCCC] w-full px-[7px] py-[5px] text-[#111] text-sm rounded-md mb-2 focus:outline-[#333333]"
+            />
           <FormError>{formState.errors.email?.message}</FormError>
         </div>
 
         <div>
           <FormLabel text="Password" htmlFor="password" />
-          <FormInput type="password" id="password" placeholder="***********" register={register}/>
+          <input 
+            type="password" 
+            id="password" 
+            placeholder="***********" 
+              {...register("password")}
+            className="border-[0.5px] border-[#CCCCCC] w-full px-[7px] py-[5px] text-[#111] text-sm rounded-md mb-2 focus:outline-[#333333]"
+          />
           <FormError>{formState.errors.password?.message}</FormError>
         </div>
 

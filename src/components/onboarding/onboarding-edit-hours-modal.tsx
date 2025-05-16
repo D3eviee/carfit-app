@@ -1,4 +1,5 @@
 import useWorkingDays from "@/lib/store";
+import { WorkingDay } from "@/lib/types";
 
 export const OnboardingEditHoursModal = ({ day, close = () => {} }: { day: WorkingDay, close: () => void; }) => {
   const updateOpenHour = useWorkingDays((state) => state.updateOpenHour);
@@ -6,8 +7,8 @@ export const OnboardingEditHoursModal = ({ day, close = () => {} }: { day: Worki
   const inputsValues = {open: day.open, close: day.close}
 
     const handleSave = () => {
-        updateOpenHour(day.day, inputsValues.open);
-        updateCloseHour(day.day, inputsValues.close);
+        updateOpenHour(day.dayOfWeek, inputsValues.open);
+        updateCloseHour(day.dayOfWeek, inputsValues.close);
         close()
     }
 
@@ -17,7 +18,7 @@ export const OnboardingEditHoursModal = ({ day, close = () => {} }: { day: Worki
       <div className="absolute w-[384px] bg-[#FFF] rounded-lg top-[50%] left-[25%] translate-y-[-50%] translate-x-[-50%]">
         {/*HEADER*/}
         <div className="flex justify-center items-center border-b-[0.5px] border-b-[#CCC] py-2">
-          <h3 className="text-[#111] text-xs/3 font-normal mt-1 ">{day.day}</h3>
+          <h3 className="text-[#111] text-xs/3 font-normal mt-1 ">{day.dayOfWeek}</h3>
         </div>
         {/*INPUTS*/}
         <div className="px-5 py-6 flex justify-between items-center">

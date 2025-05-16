@@ -4,7 +4,7 @@ import prisma from "@/lib/db"
 // function for requesting search results 
 export const getSearchedBusinesses = async (town:string) =>{
     try {
-        const searchedBusinesses = prisma.business.findMany({
+        const searchResult = prisma.business.findMany({
             where:{
                 town: town
             },
@@ -24,8 +24,10 @@ export const getSearchedBusinesses = async (town:string) =>{
                 }
             }
         })
-        return searchedBusinesses
+
+        if(!searchResult) return {success: false, message: "There was a problem with getting results"}
+        return {success: true, data: searchResult}
     } catch (error) {
-        return {error}
+         return {success: false, message: "There was a server problem while getting data: " + error}
     }
 }

@@ -418,17 +418,17 @@ export const setWorkingTimeData = async (daysData:SetWorkingTimeDataDaysDataProp
 
 // getting user images on gallery page
 export const getBusinessImages = async () => {
-  const businessData = await businessAuth()
+  try{
+    const business = await businessAuth()
 
-  try {
-      const businessImages = await prisma.image.findMany({
-          where: {
-              businessId: businessData.id
-          }
-      })
+    if(!business.success) return {success: false, message: "No-authenticated. Log in!"}
+    
+    const businessImages = await prisma.image.findMany({
+          where: {businessId: business.id}
+    })
 
-      return businessImages
-  } catch (error) {
-      return error
+    return {success: true, data:businessImages }
+  }catch(error){
+    return {success: false, message: "Error while loading iamges: " + error}
   }
 }

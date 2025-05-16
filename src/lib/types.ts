@@ -106,7 +106,6 @@ export type ServicesCategory ={
 
 export type AddServiceModalProps = {
     name: string
-    phone: string
     category: string
     price: string
     description: string
@@ -133,4 +132,29 @@ export type CalendarDayViewEventProps = {
   duration: number
   reservationStart: Date
   charge: number
+}
+
+// SETTINGS
+// export type UserGalleryImage = {
+//   id: string,
+//   businessId: string,
+//   photoUrl: string,
+//   priority: number | null
+// }
+
+
+//ONBOARDING
+export type OnboardingBusinessProps = {
+    email: string
+    password: string
+    businessCategory: string
+    businessName: string
+    businessOwner: string
+    businessPhone: number
+    policyAcceptance: boolean
+    businessTown: string
+    businessZipcode: string
+    businessDistrict: string
+    businessStreet: string
+    businessDescription: string
 }

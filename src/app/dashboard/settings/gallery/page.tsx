@@ -6,7 +6,7 @@ import { ArrowLeft } from "lucide-react";
 import { useState } from 'react';
 import Image from 'next/image';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { getBusinessImages } from '../../actions';
+import { getBusinessImages } from '../../actions';    
 
 export default function SettingsPage() {
   const queryClient = useQueryClient()
@@ -16,7 +16,9 @@ export default function SettingsPage() {
   const {data: userImages, status: userImagesStatus} = useQuery({
     queryKey: ["getUserImages"],
     queryFn: async () => {
-      return await getBusinessImages()
+      const respose =  await getBusinessImages()
+      if(!respose.success) return null
+      return respose.data
     }
   })
 
@@ -93,7 +95,7 @@ export default function SettingsPage() {
             <input id="imageInput" type="file" name="imageInput" hidden disabled={isPending} onChange={handleUpload}/>   
 
             {error && <p className="mt-5 text-red-600 text-sm font-extralight">{error}</p>}
-            {userImages.length == 0 && <p>No images added. Add some photos.</p>}
+            {(userImages && userImages.length == 0)&& <p>No images added. Add some photos.</p>}
 
             <div className='mt-7 flex flex-col gap-4'>
               {(userImages && userImages.length > 0) && userImages.map(photo => (
