@@ -72,8 +72,8 @@ export default function Profile(){
 
     const {register, getValues} = useForm<UpdateProfileProps>()
 
-    const userVisits:number = userProfileData!.Reservation.length
-    const userSpendings = userVisits ? (userProfileData!.Reservation.reduce((sum, item) => sum + item.charge, 0)) : 0
+    // const userVisits:number = userProfileData!.Reservation.length
+    // const userSpendings = userVisits ? (userProfileData!.Reservation.reduce((sum, item) => sum + item.charge, 0)) : 0
 
     if(userProfileDataStatus == "pending") return <p>Pending</p>
     if(userProfileDataStatus == "error") return <p>Error</p>
@@ -120,7 +120,7 @@ export default function Profile(){
           >Edytuj</div>
         </div>
         
-      <div className="flex flex-row cols-2 gap-5">
+      {/* <div className="flex flex-row cols-2 gap-5">
        <div className="w-full border p-3 rounded">
         <h1 className="text-md text-[#333] font-normal">Wizyty</h1>
         <h2 className="text-3xl text-[#333] font-semibold">{userVisits}</h2>
@@ -130,7 +130,7 @@ export default function Profile(){
         <h2 className="text-3xl text-[#333] font-semibold">{`${userSpendings} PLN`}</h2>
        </div>
        
-      </div>
+      </div> */}
       <ModalProvider open={open} onClose={() => setIsOpen(false)} title="Edit profile">
       <div className="flex gap-5 items-center rounded-full w-[75] h-[75px] shadow-md mb-7">
         { userProfileData?.image ? 
