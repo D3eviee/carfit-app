@@ -22,7 +22,6 @@ export function AddServiceButton({categories}:{categories: ServicesCategory[]}){
 
     const [choosenDurationType, setChoosenDurationType] = useState<string>("precise")
     const { register, handleSubmit, getValues, setValue, reset, formState, watch} = useForm<AddServiceModalProps>({
-        resolver: zodResolver(newServiceSchema),
         defaultValues: {
             name: "",
             category: "",
