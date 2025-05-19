@@ -4,22 +4,27 @@ import LandingTopServices from "@/components/landing/landing-top-services";
 
 export default function Landing() {
   return (
-    <div className="mt-64 mx-64 mb-64">
+    //<div className="mt-64 mx-64 mb-64"></div>
+    <div className="relative flex flex-col gap-32 mt-32 px-5 lg:px-60">
       {/* PAGE HEADER */}
-      <div className="mb-11">
-        <h1 className="w-full text-6xl font-semibold">Zarezerwuj wizytę</h1>
-        <h1 className="w-full text-6xl font-semibold">trzymaj auto w formie</h1>
-        {/* <h1 className="w-full text-6xl font-semibold">Book a visit</h1>
-        <h1 className="w-full text-6xl font-semibold">keep your car fit</h1> */}
+      <div className="flex flex-col gap-7">
+        <div className="flex flex-col gap-1 text-pretty text-3xl font-semibold lg:text-5xl tracking-tight">
+          <h1>Zarezerwuj lokalne</h1>
+          <h1>usługi samochodowe</h1>
+        </div>
+
+        {/* SEARCH FORM */}
+        <LandingSearchForm/>
       </div>
 
-      {/* SEARCH FORM */}
-      <LandingSearchForm/>
-
       {/* DIFFERENT TYPES OF SERVICES SECTION */}
-      <div className="mb-100 flex flex-col gap-32"> 
+      <div className="flex flex-col gap-20 md:gap-32"> 
           <LandingTopServices/>
           <LandingRecommendedServicesSection />
+      </div>
+
+      <div>
+        
       </div>
     </div>
   )

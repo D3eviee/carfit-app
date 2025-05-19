@@ -18,9 +18,9 @@ export default function LandingSearchForm() {
   return (
     <form
       onSubmit={handleSearch}
-      className="py-2.5 px-3.5 mb-56 flex flex-row border border-[#333333] rounded-md gap-[15px]"
+      className="py-2.5 px-3.5 flex flex-row border border-[#333333] rounded-md gap-[15px]"
     >
-      <div className="flex flex-row w-full gap-3">
+      <div className="flex flex-row items-center w-full gap-3">
         <label htmlFor="location" className="sr-only">Location</label>
         <MapPinned strokeWidth={1.5} className="pr-1" />
         <input
@@ -36,7 +36,7 @@ export default function LandingSearchForm() {
 
       <button
         type="submit"
-        className="h-7 font-semibold text-sm py-1 px-4 rounded-md bg-black text-white hover:bg-[#333333]"
+        className="font-semibold text-sm py-2 px-4 rounded-md bg-black text-white hover:bg-[#333333]"
       >
         Szukaj
       </button>

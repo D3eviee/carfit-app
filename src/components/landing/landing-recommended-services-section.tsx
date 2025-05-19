@@ -10,7 +10,7 @@ export default async function LandingRecommendedServicesSection() {
 
   return (
     <LandingSectionLayoutProvider sectionHeader="Wyróżnione">
-      <div className="flex gap-8 overflow-x-auto">
+      <div className="flex flex-row overflow-x-scroll">
         {services && services.length > 0 ? (
           services.map((service) => (
             <BusinessCard key={service.id} serviceData={service} />
