@@ -7,6 +7,7 @@ import FormHeader from "@/components/form-header";
 import {useForm} from 'react-hook-form'
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { cn } from "@/utils";
 
 export default function Onboardoarding() {
   const [error, setError] = useState<string>('')
@@ -19,7 +20,7 @@ export default function Onboardoarding() {
     phone: string
   }
 
-  const {register, handleSubmit} = useForm<ClientOnboadringData>({
+  const {register, handleSubmit, formState} = useForm<ClientOnboadringData>({
     defaultValues: {
       name: '',
       email: '',
@@ -56,74 +57,81 @@ export default function Onboardoarding() {
     }
   };
   
-
   return (
-    <div className="w-full h-screen flex">
-      <Link href="/" className="absolute left-[80px] top-[40px]">
-        <div className=" bg-[#111] rounded-md hover:bg-[#222222] border p-1">
-          <ArrowLeft color="#FFFFFF" className="size-7" />
+    <div className="w-full min-h-svh flex lg:flex-row">
+      <Link href="/">
+        <div className="hidden w-fit absolute bg-[#111] rounded-md hover:bg-[#222222] border p-1 xl:block xl:left-[80px] xl:top-[40px]">
+          <ArrowLeft color="#FFFFFF" className="size-7"/>
         </div>
       </Link>
 
-      <div className="w-1/2 bg-[#FDFCFF] text-white flex flex-col items-center justify-center">
-        <div className="w-[380px] bg-[#FFFFFF] flex flex-col px-[45px] py-[75px] gap-[30px] rounded-xl shadow-[0px_0px_35px_5px_#D4D4D4]">
+      <div className="w-full bg-[#FDFCFF] flex flex-col items-center justify-center lg:w-1/2">
+        <div className="w-full flex flex-col gap-5 md:border-[0.5px] md:border-[#D1D5D4] px-10 md:px-5 md:py-14 md:rounded-md sm:w-1/2">
+          <FormHeader title="Witamy w Carfit" subtitle="Załóż konto"/>
+          
+          <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5 w-full">
+            <div className="flex flex-col gap-1">
+              <label htmlFor="name" className="text-[#333] text-xs">Full name</label>
+              <input
+                {...register('name')}
+                type="text"
+                id="name"
+                placeholder="Jacky Macky"
+                className="border border-[#CCCCCC] w-full px-2 py-2 text-[#111] text-sm rounded-md focus:outline-none focus:border-[#007AFF]"
+              />
+            </div>
 
-          <FormHeader title="Wellcome to CarFit" subtitle="Create an account"/>
+            <div className="flex flex-col gap-1">
+              <label htmlFor="phone" className="text-[#333] text-xs">Phone</label>
+              <input
+                type="string"
+                {...register('phone')}
+                id="email"
+                placeholder="111111222"
+                className="border border-[#CCCCCC] w-full px-2 py-2 text-[#111] text-sm rounded-md focus:outline-none focus:border-[#007AFF]"
+              />
+            </div>
+          
+            <div className="flex flex-col gap-1">
+              <label htmlFor="email" className="text-[#333] text-xs">Email</label>
+              <input
+                type="email"
+                {...register('email')}
+                id="email"
+                placeholder="carfit@gmail.com"
+                className="border border-[#CCCCCC] w-full px-2 py-2 text-[#111] text-sm rounded-md focus:outline-none focus:border-[#007AFF]"
+              />
+            </div>
+            
+            <div className="flex flex-col gap-1">
+              <label htmlFor="password" className="text-[#333] text-xs">Password</label>
+              <input
+                {...register('password')}
+                type="password"
+                id="password"
+                placeholder="***********"
+                className="border border-[#CCCCCC] w-full px-2 py-2 text-[#111] text-sm rounded-md focus:outline-none focus:border-[#007AFF]"
+              />
+            </div>
 
-          <form onSubmit={handleSubmit(onSubmit)}>
-          <label htmlFor="name" className="inline-block text-[#333] text-[14px] mb-[5px]">Full name</label>
-            <input
-              {...register('name')}
-              type="text"
-              id="name"
-              placeholder="Jacky Macky"
-              className="border-[0.5px] border-[#CCCCCC] w-full px-[7px] py-[5px] text-[#111] text-sm rounded-md mb-[15px] focus:outline-[#333333]"
-            />
-
-          <label htmlFor="phone" className="inline-block text-[#333] text-[14px] mb-[5px]">Phone</label>
-            <input
-              type="string"
-              {...register('phone')}
-              id="email"
-              placeholder="111111222"
-              className="border-[0.5px] border-[#CCCCCC] w-full px-[7px] py-[5px] text-[#111] text-sm rounded-md mb-[15px] focus:outline-[#333333]"
-            />
-
-            <label htmlFor="email" className="inline-block text-[#333] text-[14px] mb-[5px]">Email</label>
-            <input
-              type="email"
-              {...register('email')}
-              id="email"
-              placeholder="carfit@gmail.com"
-              className="border-[0.5px] border-[#CCCCCC] w-full px-[7px] py-[5px] text-[#111] text-sm rounded-md mb-[15px] focus:outline-[#333333]"
-            />
-
-            <label htmlFor="password" className="inline-block text-[#333] text-[14px] mb-[5px]">Password</label>
-            <input
-              {...register('password')}
-              type="password"
-              id="password"
-              placeholder="***********"
-              className="border-[0.5px] border-[#CCCCCC] w-full px-[7px] py-[5px] text-[#111] text-sm rounded-md focus:outline-[#333333]"
-            />
-
-          <button className="w-full flex bg-[#111111] py-2 justify-center items-center gap-3 rounded-[7px] font-medium text-sm mt-[25px]">Create an account</button>  
+            <button className={cn("w-full bg-[#111] text-white flex py-3 justify-center items-center rounded-md font-medium text-xs mt-2", formState.isSubmitting && "bg-[#333]")}>Utwórz konto</button> 
+          
+            <p className="text-red-500 text-xs">{error}</p>
           </form>
-
-          <p className="text-red-600 text-sm">{error}</p>
-        
-          <div>
+          
+          <div className="flex flex-col gap-10">
             <p className="text-xs text-[#333] text-pretty font-extralight tracking-wide">By clicking <b>Log in</b> you acknowledge you have read, understood and agree for our 
-              <span className="text-xs font-normal text-[#333]"> Policy and Terms
-            </span></p>
-              <p className="mt-[25px] text-center text-[#333333] text-xs font-light">Already have an account? 
-                <Link href='/sign-in'><span className="text-blue-900 font-semibold"> Login</span></Link>
-              </p>
+            <span className="text-xs font-normal text-[#333]"> Polityka i regulamin</span></p>
+            <p className="text-center text-[#333] text-sm font-light">Masz już konto?
+              <Link href='/sign-in'><span className="text-[#007AFF] font-semibold"> Zaloguj</span></Link>
+            </p>
           </div>
     </div>
+
     </div>
-      <div className="w-1/2 text-white"> 
-      <Image src={login_image} alt="login image" className="h-full object-cover"/>
+      {/* IMAGES FOR BIG SCREEN SIZES */}
+      <div className="w-1/2 text-white  hidden lg:block"> 
+        <Image src={login_image} alt="login image" className="h-full object-cover"/>
       </div>
     </div>
   );

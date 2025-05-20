@@ -42,7 +42,7 @@ export default async function Service({ params }: { params: Promise<{ business: 
 
 
   return (
-    <div className="mt-10 px-3 md:mt-[52px]">
+    <div className="mt-10 px-3 md:mt-[52px] lg:mx-60">
       <div className="flex flex-col gap-8">
         {/*SERVICE TITLE*/}
         <ServiceHeader data={serviceTitleData}/>
@@ -54,7 +54,7 @@ export default async function Service({ params }: { params: Promise<{ business: 
         <div className="flex flex-row gap-8">
           {/* LEFT ROW */}
           <div className="w-full flex flex-col gap-8 px-1  
-          md:w-3/4 md:p-8 md:bg-[#FAFAFA] md:shadow-[0px_0px_6px_2px_#7777771A] md:border md:rounded-[10px]">
+          lg:w-3/4 md:p-8 lg:bg-[#FAFAFA] lg:shadow-[0px_0px_6px_2px_#7777771A] lg:border lg:rounded-[10px]">
             {/*SERVICES*/}
             <ServiceServicesList categoriesData={categories}/>
 
@@ -75,7 +75,7 @@ export default async function Service({ params }: { params: Promise<{ business: 
           </div>
 
           {/*RIGHT ROW*/}
-          <div className="hidden">
+          <div className="hidden lg:flex">
             <ServiceSummary serviceSummaryData={serviceTitleData}/>
           </div>
           

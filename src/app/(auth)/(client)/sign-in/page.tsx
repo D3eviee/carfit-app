@@ -48,23 +48,23 @@ export default function SignIn() {
 
 
   return (
-    <div className="w-full min-h-svh flex lg:flex-row">
+    <div className="w-full min-h-svh flex xl:flex-row">
       <Link href="/">
-          <div className="hidden w-fit absolute bg-[#111] rounded-md hover:bg-[#222222] border p-1 md:block md:left-[80px] md:top-[40px]">
-            <ArrowLeft color="#FFFFFF" className="size-7"/>
-          </div>
+        <div className="hidden w-fit absolute bg-[#111] rounded-md hover:bg-[#222222] border p-1 xl:block xl:left-[80px] xl:top-[40px]">
+          <ArrowLeft color="#FFFFFF" className="size-7"/>
+        </div>
       </Link>
       
       <div className="w-full bg-[#FDFCFF] flex flex-col items-center justify-center lg:w-1/2">
-        <div className="flex flex-col gap-5 md:border-[0.5px] md:border-[#D1D5D4] md:px-5 md:py-14 md:rounded-md">
+        <div className="w-full flex flex-col gap-5 md:border-[0.5px] md:border-[#D1D5D4] px-10 md:px-5 md:py-14 md:rounded-md sm:w-1/2">
           <FormHeader title="Witaj ponownie" subtitle="Zaloguj się do swojego do konta"/>
           
-          <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
+          <form onSubmit={handleSubmit(onSubmit)} className="w-full flex flex-col gap-5">
             <div className="flex flex-col gap-1">
               <label htmlFor="email" className="text-[#333] text-xs">Email</label>
               <input
                 {...register('email')}
-                type="text"
+                type="email"
                 id="email"
                 placeholder="carfit@gmail.com"
                 className="border border-[#CCCCCC] w-full px-2 py-2 text-[#111] text-sm rounded-md focus:outline-none focus:border-[#007AFF] "
