@@ -6,6 +6,7 @@ export default  function RootLayout({children}: Readonly<{children: React.ReactN
     <>
       <Navbar/>
       {children}
+      <div className="h-24"></div>
     </>
   );
 }

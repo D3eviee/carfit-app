@@ -53,15 +53,15 @@ export default async function Service({ params }: { params: Promise<{ business: 
         {/*BOTTOM SECTION*/}
         <div className="flex flex-row gap-8">
           {/* LEFT ROW */}
-          <div className="w-full flex flex-col gap-4 bg-[#FAFAFA] border p-4 md:shadow-[0px_0px_6px_2px_#7777771A] rounded-[10px] 
-          md:w-3/4 md:gap-8 md:p-8">
+          <div className="w-full flex flex-col gap-8 px-1  
+          md:w-3/4 md:p-8 md:bg-[#FAFAFA] md:shadow-[0px_0px_6px_2px_#7777771A] md:border md:rounded-[10px]">
             {/*SERVICES*/}
             <ServiceServicesList categoriesData={categories}/>
 
             {/*INFO*/}
             <div className="flex flex-col gap-2">
-              <h1 className="text-[27px] text-[#111] font-medium md:text-3xl">O nas</h1>
-              <p className="text-[#333333] text-[15px] text-pretty font-normal leading-5">{serviceData?.description || "No description"} </p>
+              <h1 className="text-2xl text-[#000000] font-medium md:text-3xl">O nas</h1>
+              <p className="text-[#333333] text-[15px] text-pretty font-normal md:leading-5">{serviceData?.description || "No description"} </p>
             </div>
 
             {/*LOCATION*/}
