@@ -7,12 +7,12 @@ type ServiceHeaderRatingData = {
   client: Client
 }
 
-export const ServiceHeaderRating = ({reviewsData}:{reviewsData: ServiceHeaderRatingData[]}) => {
+export const ServiceHeaderRating = ({reviewsData, className}:{reviewsData: ServiceHeaderRatingData[], className:string}) => {
     const numberOfReviews = reviewsData.length
     const averageRating = Number(reviewsData.reduce((sum, item) => sum + item.rate , 0) / numberOfReviews)
 
     return (
-      <div className="flex flex-row gap-2 items-center">
+      <div className={`bg-[#F2F2F2] rounded-sm px-1 py-1 flex flex-row gap-2 items-center ${className}`}>
         <p className="text-[15px] font-bold text-[111111]">{averageRating != 0.0 ? `${averageRating}.0` : "No reviews"}</p>
           {averageRating != 0.0 && (
             <div className="flex flex-row gap-[3px]">

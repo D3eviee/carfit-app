@@ -8,11 +8,11 @@ export const  ServiceServicesList = ({categoriesData}:{categoriesData: Category[
   const [selectedCategory, setSelectedCategory] = useState<string>(categoriesData[0].id);
 
   return (
-    <div className="w-full flex flex-row gap-[10px] p-[5px] mb-[15px]">
+    <div className="w-full flex flex-row gap-2.5 md:p-[5px] md:mb-[15px]">
       <div className="w-full flex flex-col gap-8">
           {/*SERVICES*/}
           <div className="flex flex-col gap-2">
-            <h1 className="text-[30px] text-[#000000] font-medium">Usługi</h1>
+            <h1 className="text-[27px] text-[#000000] font-medium md:text-3xl">Usługi</h1>
             <div className="flex flex-row gap-[13px] overflow-scroll rounded-[5px] pr-[5px] mb-[15px]">
 
               {categoriesData && categoriesData.length > 0 ? (

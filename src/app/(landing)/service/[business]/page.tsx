@@ -42,8 +42,8 @@ export default async function Service({ params }: { params: Promise<{ business: 
 
 
   return (
-    <div className="mt-[52px] box-border mx-[236px]">
-      <div className="flex flex-col gap-1">
+    <div className="mt-10 px-3 md:mt-[52px]">
+      <div className="flex flex-col gap-8">
         {/*SERVICE TITLE*/}
         <ServiceHeader data={serviceTitleData}/>
         
@@ -53,13 +53,14 @@ export default async function Service({ params }: { params: Promise<{ business: 
         {/*BOTTOM SECTION*/}
         <div className="flex flex-row gap-8">
           {/* LEFT ROW */}
-          <div className="flex flex-col gap-8 bg-[#FFFFFF] w-[743px] p-[30px] shadow-[0px_0px_6px_2px_#7777771A] rounded-[10px]">
+          <div className="w-full flex flex-col gap-4 bg-[#FAFAFA] border p-4 md:shadow-[0px_0px_6px_2px_#7777771A] rounded-[10px] 
+          md:w-3/4 md:gap-8 md:p-8">
             {/*SERVICES*/}
             <ServiceServicesList categoriesData={categories}/>
 
             {/*INFO*/}
             <div className="flex flex-col gap-2">
-              <h1 className="text-[30px] text-[#000000] font-medium">O nas</h1>
+              <h1 className="text-[27px] text-[#111] font-medium md:text-3xl">O nas</h1>
               <p className="text-[#333333] text-[15px] text-pretty font-normal leading-5">{serviceData?.description || "No description"} </p>
             </div>
 
@@ -74,7 +75,10 @@ export default async function Service({ params }: { params: Promise<{ business: 
           </div>
 
           {/*RIGHT ROW*/}
-          <ServiceSummary serviceSummaryData={serviceTitleData}/>
+          <div className="hidden">
+            <ServiceSummary serviceSummaryData={serviceTitleData}/>
+          </div>
+          
         </div>
         
         <div className="h-[50px]">

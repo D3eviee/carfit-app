@@ -12,14 +12,15 @@ export default function BusinessCard({serviceData}:{serviceData:BusinessCardProp
 
   return (
     <Link href={createLinkFormat(id, name)} key={id}>
-      <div className="flex flex-col h-[280px] w-[200px] border-[0.5px] border-[#D4D4D4] rounded-xl overflow-hidden shadow-[0px_1px_4px_1px_#ACACAC40]">
+      <div className="flex flex-col h-[280px] w-[200px] border-[0.5px] border-[#D4D4D4] rounded-xl overflow-hidden shadow-[0px_1px_4px_1px_#ACACAC40]
+      md:w-[324px] md:h-[340px]">
         {/* IMAGE BOX */}
-        <div className="relative h-1/2 w-full">
+        <div className="relative h-1/2 w-full md:h-4/6">
           <Image src={image} alt="service image" fill className="object-cover"/>
         </div>
         {/* CONTENT BOX */}
-        <div className="h-1/2 border relative flex flex-col gap-1 px-2 py-2 bg-white">
-          <h3 className="text-[#111] text-sm font-semibold">{name}</h3>
+        <div className="h-1/2 border relative flex flex-col gap-1 px-2 py-2 bg-white md:py-4 md:px-4 md:gap-1.5">
+          <h3 className="text-[#111] text-sm font-semibold md:text-base">{name}</h3>
           <p className="font-normal text-[#333] tracking-tight text-sm">{district} | {town}</p>
           {/* RAITING BOX */}
           <div className="flex flex-row gap-1 items-center">
@@ -34,12 +35,9 @@ export default function BusinessCard({serviceData}:{serviceData:BusinessCardProp
             <p className="font-normal text-[#333333] text-sm">{`(${numberOfReviews})`}</p>
           </div>
           {/* SERVICE CATEGORY */}   
-          <p className="absolute bottom-2 rounded-md font-semibold tracking-wider text-[10px] bg-[#111] text-white border-[#777777] py-[5px] px-[7px] shadow-[0px_1px_4px_1px_#ACACAC40]">{category}</p>
+          <p className="absolute bottom-2 rounded-md font-semibold tracking-wider text-[10px] bg-[#111] text-white border-[#777777] py-[5px] px-[7px] shadow-[0px_1px_4px_1px_#ACACAC40] md:bottom-2.5">{category}</p>
         </div>  
       </div>
     </Link>
   )
-}
-
-
-
+} 
