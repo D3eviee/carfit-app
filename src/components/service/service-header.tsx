@@ -1,6 +1,5 @@
 import { ServicePageTitleDataProps } from "@/lib/types"
 import { getISODay } from "date-fns"
-import { Dot } from "lucide-react"
 import { ServiceBreadcrumb } from "./service-breadcrumb"
 import { ServiceHeaderRating } from "./service-header-rating"
 import { ServiceHeaderRatingMobile } from "./service-header-rating-mobile"

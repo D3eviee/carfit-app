@@ -5,7 +5,7 @@ import { Star } from "lucide-react"
 import { BusinessCardProps } from "@/lib/types"
 
 export default function BusinessCard({serviceData}:{serviceData:BusinessCardProps}){
-  const {id, name, image, category, town, street, district, reviews} = serviceData
+  const {id, name, image, category, town, district, reviews} = serviceData
 
   const numberOfReviews = reviews.length
   const averageRating = numberOfReviews ? (reviews.reduce((sum, r) => sum + r.rate, 0) / numberOfReviews).toFixed(1) : 0;
