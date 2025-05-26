@@ -1,0 +1,159 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum ReservationStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+}
+
+enum DurationType {
+  MINUTES
+  HOURS
+}
+
+model Client {
+  id        String    @id @default(uuid())
+  name      String
+  email     String    @unique
+  phone     String    @unique
+  password  String
+  image     String?
+  provider  String?   @default("Email")
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+
+  Reservation Reservation[]
+  reviews Review[]
+}
+
+model Business {
+  id          String   @id @default(uuid())
+  email       String   @unique
+  password    String
+  phone       String
+  name        String
+  owner       String
+  category    String
+  image       String  @default("")
+  provider    String  @default("Email")
+  town        String
+  zipcode     String
+  district    String
+  street      String
+  description String   @default("")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  workingDays WorkingDay[]
+  services    Service[]
+  categories  Categories[]
+
+  reservations Reservation[]
+
+  reviews Review[]
+
+  images Image[]
+}
+
+model Image {
+  id        String   @id @default(uuid())
+  photoUrl String 
+  priority Int?
+
+  businessId String
+  business   Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+}
+
+model WorkingDay {
+  id        String   @id @default(uuid())
+  dayOfWeek String
+  open      String
+  close     String
+  isOpen    Boolean
+  updatedAt DateTime @updatedAt
+
+  serviceId String
+  service   Business @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+
+  @@unique([serviceId, dayOfWeek], name: "serviceId_dayOfWeek")
+}
+
+model Review {
+  id        String   @id @default(uuid())
+  content   String
+  rate      Int
+  createdAt DateTime @default(now())
+
+  service   Business @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  serviceId String
+  client    Client   @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  clientId  String
+}
+
+model Service {
+  id           String @id @default(uuid())
+  name         String
+  description  String
+  price        String
+  durationType String
+  from         Int
+  to           Int
+  duration     Int
+
+  serviceId String
+  service   Business @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+
+  categoryId String
+  category   Categories @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  reservations ReservationServices[]
+}
+
+model Categories {
+  id        String   @id @default(uuid())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  serviceId String
+  service   Business @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+
+  services Service[]
+}
+
+model Reservation {
+  id                Int      @id @default(autoincrement())
+  businessId        String
+  reservationYear   Int
+  reservationMonth  Int
+  reservationStart  DateTime
+  reservationEnd    DateTime
+  duration          Int
+  charge            Float
+  status            String
+  clientName        String?
+  clientPhone       String?
+  isAddedByBusiness Boolean  @default(false)
+
+  clientId String?
+  client   Client?  @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  business Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+
+  services ReservationServices[]
+}
+
+model ReservationServices {
+  reservation   Reservation @relation(fields: [reservationId], references: [id], onDelete: Cascade)
+  reservationId Int
+  service       Service     @relation(fields: [serviceId], references: [id])
+  serviceId     String
+
+  @@id([reservationId, serviceId])
+}

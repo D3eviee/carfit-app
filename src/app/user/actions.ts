@@ -1,0 +1,86 @@
+'use server'
+import { userAuth } from "@/lib/auth";
+import prisma from "@/lib/db";
+
+// getting all client appointments
+export const getClientAppointments = async () => {
+    try {
+        const user = await userAuth()
+
+        if(!user.success) return {success: false, message: "No-authenticated user. Log in."}
+
+        const clientAppointments =  await prisma.reservation.findMany({
+        where: { clientId: user.id },
+        select: {
+            reservationStart: true,
+            status: true,
+            services: {
+                select: {
+                    serviceId: true
+                }
+            },
+            business: {
+                select: {
+                    name: true,
+                    street: true,
+                    district: true,
+                    town: true,
+                }
+            }
+        }
+        })
+        return {success: true, data: clientAppointments}
+    }catch(error){
+        return {success: false, message: "Server problem occured." + error}
+    }
+}
+
+//getting user profile information 
+export const getUserProfileData = async () => {
+    try {
+        const user = await userAuth()
+        if(!user.success) return {success: false, message: "No-authenticated user. Log in"}
+        
+        const userData = await prisma.client.findUnique({
+            where: { id: user.id },
+            select: {
+                id: true,
+                email: true,
+                image: true,
+                name: true,
+                phone: true,
+                Reservation:{
+                    select: {
+                        charge: true
+                    }
+                }
+            }
+        })
+
+         return {success: true, data: userData}
+    }catch(error){
+        return {success: false, message: "Server error occured while getting data: " + error}
+    }
+}
+
+//updating user profile information 
+export const updateUserData = async (data) => {
+    try {
+        const user = await userAuth()
+        if(!user.success) return {success: false, message: "No-authenticated user. Log in"}
+
+        const userData = await prisma.client.update({
+            where: {
+                id: user.id
+            },
+            data: {
+                name: data.name,
+                phone: data.phone,
+            }
+        })
+
+        return {success: true, data: userData}
+    } catch (error) {
+        return {success: false, message: "There was a server problem while updating profile data " + error}
+    }
+}
