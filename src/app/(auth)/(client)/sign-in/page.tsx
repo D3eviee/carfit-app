@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form"
 import { cn } from "@/utils"
 
-type FormData = {
+type LoginData = {
   email: string
   password: string
 }
@@ -17,14 +17,14 @@ type FormData = {
 export default function SignIn() {
   const [error, setError] = useState<string>('')
   const router = useRouter()
-  const {register, handleSubmit, formState} = useForm<FormData>({
+  const {register, handleSubmit, formState} = useForm<LoginData>({
     defaultValues: {
       email: '',
       password: ''
     }
   })
   
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async (data: LoginData) => {
     try {
       const response = await fetch("/api/user-sign-in", {
         method: "POST",
@@ -56,7 +56,7 @@ export default function SignIn() {
       </Link>
       
       <div className="w-full bg-[#FDFCFF] flex flex-col items-center justify-center lg:w-1/2">
-        <div className="w-full flex flex-col gap-5 md:border-[0.5px] md:border-[#D1D5D4] px-10 md:px-5 md:py-14 md:rounded-md sm:w-1/2">
+        <div className="w-full flex flex-col gap-5 sm:w-[320px] sm:rounded-lg md:border-[0.5px] md:border-[#D1D5D4] px-10 md:px-5 md:py-14">
           <FormHeader title="Witaj ponownie" subtitle="Zaloguj się do swojego do konta"/>
           
           <form onSubmit={handleSubmit(onSubmit)} className="w-full flex flex-col gap-5">

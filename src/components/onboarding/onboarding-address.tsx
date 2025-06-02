@@ -2,10 +2,9 @@ import { businessOnboardingSchema } from '@/lib/schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { FormLabel } from '../form-label';
-import { FormError } from '../form-error';
 import { FormButton } from '../form-button';
 import { useOnboardingStore } from '@/lib/store';
+import { AuthFormLabel } from '../auth-form-input';
 
 export default function OnboardingAdress({ onClick = () => {} }){
   //DEFINING FORM TYPES
@@ -41,55 +40,47 @@ export default function OnboardingAdress({ onClick = () => {} }){
 
   return(
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
-        <div>
-        <FormLabel text="Town" htmlFor="businessTown" />
-        <input 
-          type="text" 
-          id="businessTown"
-          placeholder="Warsaw"
-          {...register("businessTown")}
-          className="border-[0.5px] border-[#CCCCCC] w-full px-[7px] py-[5px] text-[#111] text-sm rounded-md mb-2 focus:outline-[#333333]"
-        />
-        <FormError>{formState.errors.businessTown?.message}</FormError>
-        </div>
+      <AuthFormLabel
+        inputId="businessTown" 
+        htmlFor="businessTown" 
+        inputType="text"  
+        inputPlaceholder="Poznań" 
+        label="Miasto" 
+        error={formState.errors.businessTown?.message}
+        register={register("businessTown")}
+      />
 
-        <div>
-          <FormLabel text="Zip code" htmlFor="businessZipcode" />
-          <input 
-            type="text" 
-            id="businessZipcode" 
-            placeholder="61-131" 
-            {...register("businessZipcode")}
-            className="border-[0.5px] border-[#CCCCCC] w-full px-[7px] py-[5px] text-[#111] text-sm rounded-md mb-2 focus:outline-[#333333]"
-          />
-          <FormError>{formState.errors.businessZipcode?.message}</FormError>
-        </div>
+      <AuthFormLabel
+        inputId="businessZipcode" 
+        htmlFor="businessZipcode" 
+        inputType="text"  
+        inputPlaceholder="61-131" 
+        label="Kod pocztowy" 
+        error={formState.errors.businessZipcode?.message}
+        register={register("businessZipcode")}
+      />
 
-        <div>
-        <FormLabel text="District" htmlFor="businessDistrict" />
-        <input 
-          type="text" 
-          id="businessDistrict" 
-          placeholder="Nowe Miasto" 
-          {...register("businessDistrict")}
-          className="border-[0.5px] border-[#CCCCCC] w-full px-[7px] py-[5px] text-[#111] text-sm rounded-md mb-2 focus:outline-[#333333]"
-        />
-        <FormError>{formState.errors.businessDistrict?.message}</FormError>
-        </div>
+      <AuthFormLabel
+        inputId="businessDistrict" 
+        htmlFor="businessDistrict" 
+        inputType="text"  
+        inputPlaceholder="Poznań" 
+        label="Dzielnica" 
+        error={formState.errors.businessDistrict?.message}
+        register={register("businessDistrict")}
+      />
 
-        <div>
-        <FormLabel text="Street" htmlFor="businessStreet" />
-        <input 
-          type="text" 
-          id="businessStreet" 
-          placeholder="Milczańska 5/161" 
-          {...register("businessStreet")}
-          className="border-[0.5px] border-[#CCCCCC] w-full px-[7px] py-[5px] text-[#111] text-sm rounded-md mb-2 focus:outline-[#333333]"
-        />
-        <FormError>{formState.errors.businessStreet?.message}</FormError>
-        </div>
+      <AuthFormLabel
+        inputId="businessStreet" 
+        htmlFor="businessStreet" 
+        inputType="text"  
+        inputPlaceholder="Milczańska" 
+        label="Ulica" 
+        error={formState.errors.businessStreet?.message}
+        register={register("businessStreet")}
+      />
 
-        <FormButton label="Continue" disabled={formState.isValidating}/>
-      </form>    
+      <FormButton label="Continue" disabled={formState.isValidating}/>
+    </form>    
   )
 }

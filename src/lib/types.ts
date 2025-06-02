@@ -158,3 +158,25 @@ export type OnboardingBusinessProps = {
     businessStreet: string
     businessDescription: string
 }
+
+
+// USER APPOINTMENTS
+export type AppointmentDetails = {
+  id: string
+  business: {
+    name: string
+    street: string
+    district: string
+    town: string
+  },
+  reservationStart: Date,
+  duration: number,
+  status: string,
+  services: {
+    serviceId: string,
+    service: {
+      name: string
+      price: string
+    } 
+  }[] 
+}

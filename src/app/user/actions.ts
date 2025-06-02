@@ -1,6 +1,6 @@
 'use server'
 import { userAuth } from "@/lib/auth";
-import prisma from "@/lib/db";
+import prisma from "@/lib/db"
 
 // getting all client appointments
 export const getClientAppointments = async () => {
@@ -12,11 +12,19 @@ export const getClientAppointments = async () => {
         const clientAppointments =  await prisma.reservation.findMany({
         where: { clientId: user.id },
         select: {
+            id: true,
             reservationStart: true,
+            duration: true,
             status: true,
             services: {
                 select: {
-                    serviceId: true
+                    serviceId: true,
+                    service: {
+                        select: {
+                            name: true,
+                            price: true,
+                        }
+                    }
                 }
             },
             business: {
@@ -26,7 +34,7 @@ export const getClientAppointments = async () => {
                     district: true,
                     town: true,
                 }
-            }
+            },
         }
         })
         return {success: true, data: clientAppointments}
@@ -82,5 +90,25 @@ export const updateUserData = async (data) => {
         return {success: true, data: userData}
     } catch (error) {
         return {success: false, message: "There was a server problem while updating profile data " + error}
+    }
+}
+
+//deleting user appointment
+export const deleteAppointment = async (appointmentId:string) => {
+    try {
+        const user = await userAuth()
+        if(!user.success) return {success: false, message: "No-authenticated user. Log in"}
+
+        const deletedAppointment = await prisma.reservation.update({
+            where: {
+                id: appointmentId,
+                clientId : user.id
+            },
+            data: { status: "Odwołana" }
+        })
+
+        return {success: true, data: deletedAppointment}
+    } catch (error) {
+        return {success: false, message: "Error occured while trying to delete your visit" + error}
     }
 }

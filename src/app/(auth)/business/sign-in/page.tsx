@@ -1,13 +1,13 @@
 'use client'
 import Image from "next/image";
 import login_image from "../../../../../public/login_image.jpg"
-import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import FormHeader from "@/components/form-header";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { businessSignIn } from "@/lib/auth";
+import { AuthFormLabel } from "@/components/auth-form-input";
 
 export default function SignIn() {
   const [error, setError] = useState<string | undefined>("");
@@ -37,60 +37,60 @@ export default function SignIn() {
         setError(response.error)
       }
     }
+    
+    return (
+      <div className="w-full h-screen flex flex-row">
+        {/* LEFT SIDE */}
+        <div className="w-full flex flex-col items-center justify-center lg:px-20 lg:w-1/2">
+          <Link href="/">
+            <h1 className="w-full absolute text-xl font-medium top-10 left-10 hover:cursor-pointer">Carfit</h1>
+          </Link>
 
-  return (
-    <div className="w-full h-screen flex">
-      <Link href="/business" className="absolute left-[80px] top-[40px]">
-        <div className=" bg-[#111] rounded-md hover:bg-[#222222] border p-1">
-          <ArrowLeft color="#FFFFFF" className="size-7" />
-        </div>
-      </Link>
+          <form 
+            className="flex flex-col px-10 py-10 gap-5 rounded-lg
+            sm:w-[370px] sm:shadow-[0px_0px_35px_5px_#D4D4D4]"
+            onSubmit={handleSubmit(onSubmit)}
+          >
+            <FormHeader title="Witaj" subtitle="Zaloguj się do swojego konta biznesowego"/>
 
-      <div className="w-1/2 bg-[#FDFCFF] text-white flex flex-col items-center justify-center">
-        <div className="w-[380px] bg-[#FFFFFF] flex flex-col px-[45px] py-[75px] gap-[30px] rounded-xl shadow-[0px_0px_35px_5px_#D4D4D4]">
+            <div className="flex flex-col gap-1">
+              <AuthFormLabel
+                label="Email"
+                htmlFor="email"
+                inputPlaceholder="email@gmail.com"
+                inputId="email"
+                register={register('email')}
+                inputType="email"
+              />
 
-          <FormHeader title="Wellcome back" subtitle="Log in into your business account"/>
+              <p className="block text-red-500 text-xs">{error}</p>
 
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <label htmlFor="email" className="inline-block text-[#333] text-[14px] mb-[5px]">Email</label>
-            <input
-            {...register('email')}
-              type="text"
-              id="email"
-              placeholder="carfit@gmail.com"
-              className="border-[0.5px] border-[#CCCCCC] w-full px-[7px] py-[5px] text-[#111] text-sm rounded-md mb-[15px] focus:outline-[#333333]"
-              onFocus={()=>{setError("")}}
-            />
+              <AuthFormLabel
+                label="Hasło"
+                htmlFor="password"
+                inputPlaceholder="***********"
+                inputId="password"
+                register={register('password')}
+                inputType="password"
+              />
 
-            <label htmlFor="password" className="inline-block text-[#333] text-[14px] mb-[5px]">Password</label>
-            <input
-              {...register('password')}
-              type="password"
-              id="password"
-              placeholder="***********"
-              className="border-[0.5px] border-[#CCCCCC] w-full px-[7px] py-[5px] text-[#111] text-sm rounded-md focus:outline-[#333333]"
-              onFocus={()=>{setError("")}}
-            />
-
-          <button className="w-full flex bg-[#111111] py-2 justify-center items-center gap-3 rounded-[7px] font-medium text-sm mt-[25px]">Log in</button>  
-          </form>
-        
-          <p className="block text-red-500 text-xs">{error}</p>
-        
-          <div>
-            <p className="text-xs text-[#333] text-pretty font-extralight tracking-wide">By clicking <b>Log in</b> you acknowledge you have read, understood and agree for our 
-              <span className="text-xs font-normal text-[#333]"> Policy and Terms
-            </span></p>
-              <p className="mt-[25px] text-center text-[#333333] text-xs font-light">Do not have an account? 
-                <Link href='/business/onboarding'><span className="text-blue-900 font-semibold"> Create</span></Link>
+              <button className="text-white w-full flex bg-[#111111] py-2 justify-center items-center gap-3 rounded-[7px] font-medium text-sm mt-[25px]">Log in</button>  
+            </div>
+            
+            <div>
+              <p className="text-xs text-[#333] text-pretty font-extralight tracking-wide">Klikając <b>Zaloguj</b> potwierdzasz, że przeczytałeś, rozumiesz i zgadzasz się z naszą polityką i regulaminem.
+                <span className="text-xs font-normal text-[#333]"> Polityka prywatności i regulamin
+              </span></p>
+              <p className="mt-[25px] text-center text-[#333333] text-xs font-light">Nie masz konta?
+                <Link href='/business/onboarding'><span className="text-blue-900 font-semibold ml-1">Utwórz</span></Link>
               </p>
-          </div>
+            </div>
+          </form>
+        </div>
 
-        
-    </div>
-    </div>
-      <div className="w-1/2 text-white"> 
-      <Image src={login_image} alt="login image" className="h-full object-cover"/>
+      {/* IMAGES FOR BIG SCREEN SIZES */}
+      <div className="w-1/2 text-white  hidden lg:block"> 
+        <Image src={login_image} alt="login image" className="h-full object-cover"/>
       </div>
     </div>
   );

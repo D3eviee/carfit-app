@@ -44,13 +44,13 @@ interface WorkingDaysStore {
 
 const useWorkingDays = create<WorkingDaysStore>()((set) => ({
     days: [
-      { isOpen: true, dayOfWeek: "Monday", open: "07:00", close: "18:00" },
-      { isOpen: true, dayOfWeek: "Tuesday", open: "07:00", close: "18:00" },
-      { isOpen: true, dayOfWeek: "Wednesday", open: "07:00", close: "18:00" },
-      { isOpen: true, dayOfWeek: "Thursday", open: "07:00", close: "18:00" },
-      { isOpen: true, dayOfWeek: "Friday", open: "07:00", close: "18:00" },
-      { isOpen: false, dayOfWeek: "Saturday", open: "07:00", close: "18:00" },
-      { isOpen: false, dayOfWeek: "Sunday", open: "07:00", close: "18:00" }
+      { isOpen: true, dayOfWeek: "Poniedziałek", open: "07:00", close: "18:00" },
+      { isOpen: true, dayOfWeek: "Wtorek", open: "07:00", close: "18:00" },
+      { isOpen: true, dayOfWeek: "Środa", open: "07:00", close: "18:00" },
+      { isOpen: true, dayOfWeek: "Czwartek", open: "07:00", close: "18:00" },
+      { isOpen: true, dayOfWeek: "Piątek", open: "07:00", close: "18:00" },
+      { isOpen: false, dayOfWeek: "Sobota", open: "07:00", close: "18:00" },
+      { isOpen: false, dayOfWeek: "Niedziela", open: "07:00", close: "18:00" }
     ],
   
     updateIsOpen: (dayName, value) =>

@@ -14,15 +14,15 @@ export const OnboardingEditHoursModal = ({ day, close = () => {} }: { day: Worki
 
   return (
     <div>
-      <div className="absolute w-1/2 h-full bg-[#111] top-0 left-0 opacity-80" />
-      <div className="absolute w-[384px] bg-[#FFF] rounded-lg top-[50%] left-[25%] translate-y-[-50%] translate-x-[-50%]">
+      <div className="absolute w-full h-full bg-[#111] top-0 left-0 opacity-80" />
+      <div className="absolute w-[370px] bg-[#FFF] top-1/2 left-1/2 rounded-lg translate-y-[-50%] translate-x-[-50%] lg:left-[25%]">
         {/*HEADER*/}
         <div className="flex justify-center items-center border-b-[0.5px] border-b-[#CCC] py-2">
           <h3 className="text-[#111] text-xs/3 font-normal mt-1 ">{day.dayOfWeek}</h3>
         </div>
         {/*INPUTS*/}
         <div className="px-5 py-6 flex justify-between items-center">
-          <p className="text-sm text-[#333] font-medium ">Opening hours</p>
+          <p className="text-sm text-[#333] font-medium ">Godziny otwarcia</p>
           <div className="flex gap-3">
             <div className="before:content-['START'] before:absolute before:text-[9px] before:text-[#AAAAAA] before:font-normal before:p-[1px] before:bg-white before:z-10 before:translate-x-[5px] before:translate-y-[-8px]">
               <input
@@ -33,7 +33,7 @@ export const OnboardingEditHoursModal = ({ day, close = () => {} }: { day: Worki
                 onBlur={(e)=>{inputsValues.open = e.target.value}}
               />
             </div>
-            <div className="before:content-['END'] before:absolute before:text-[9px] before:text-[#AAAAAA] before:font-normal before:p-[1px] before:bg-white before:z-10 before:translate-x-[5px] before:translate-y-[-8px]">
+            <div className="before:content-['KONIEC'] before:absolute before:text-[9px] before:text-[#AAAAAA] before:font-normal before:p-[1px] before:bg-white before:z-10 before:translate-x-[5px] before:translate-y-[-8px]">
               <input
                 type="text"
                 placeholder="20:00"
@@ -49,12 +49,12 @@ export const OnboardingEditHoursModal = ({ day, close = () => {} }: { day: Worki
           <div
             className="bg-[#D05151] py-[5px] px-[10px] rounded-[5px] shadow-[0px_2px_4px_0px_#AAAAAA70] hover:cursor-pointer hover:bg-[#C04040]"
             onClick={close}
-          >CANCEL
+          >Anuluj
           </div>
           <div
             className="bg-[#111111] py-[5px] px-[10px] rounded-[5px] shadow-[0px_2px_4px_0px_#AAAAAA70] hover:cursor-pointer hover:bg-[#222222]"
             onClick={handleSave}
-          >SAVE
+          >Zapisz
           </div>
         </div>
       </div>

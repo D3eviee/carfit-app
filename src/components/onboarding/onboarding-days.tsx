@@ -56,7 +56,7 @@ export default function OnboardingWorkingDays() {
           )}
         </div>
 
-        <FormButton label="Create account" onClick={handleSubmit}/>
+        <FormButton label="Załóż konto" onClick={handleSubmit}/>
       </div>
     </>
   )

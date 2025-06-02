@@ -129,7 +129,7 @@ model Categories {
 }
 
 model Reservation {
-  id                Int      @id @default(autoincrement())
+  id                String      @id @default(uuid())
   businessId        String
   reservationYear   Int
   reservationMonth  Int
@@ -151,7 +151,7 @@ model Reservation {
 
 model ReservationServices {
   reservation   Reservation @relation(fields: [reservationId], references: [id], onDelete: Cascade)
-  reservationId Int
+  reservationId String
   service       Service     @relation(fields: [serviceId], references: [id])
   serviceId     String
 

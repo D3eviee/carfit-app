@@ -18,7 +18,7 @@ export default function NavbarProfile({userData}:{userData:NavbarProfileProps}) 
         onClick={() => setOpenMenu((prev) => !prev)}
       >
         {!userData.image ?
-         <Image src={profile_picture} width={35} height={35} alt="profile_pic"  className=" w-9 h-9 rounded-[50%] mr-4 shadow-[0px_0px_3px_1px_#00000030]" />
+         <Image src={profile_picture.src} width={35} height={35} alt="profile_pic"  className=" w-9 h-9 rounded-[50%] mr-4 shadow-[0px_0px_3px_1px_#00000030]" />
          :
          <Image src={userData.image} width={35} height={35} alt="profile_pic"  className=" w-9 h-9 rounded-[50%] mr-4 shadow-[0px_0px_3px_1px_#00000030]" />
         }

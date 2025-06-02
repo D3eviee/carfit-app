@@ -2,12 +2,11 @@ import { useForm } from "react-hook-form";
 import { businessOnboardingSchema } from "@/lib/schema";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FormError } from "../form-error";
-import { FormLabel } from "../form-label";
 import { FormButton } from "../form-button";
 import Link from "next/link";
 import { useOnboardingStore } from "@/lib/store";
 import { emailExists } from "@/app/(auth)/actions";
+import { AuthFormLabel } from "../auth-form-input";
 
 export default function OnboardingEmail({ onClick = () => {} }) {
   //DEFINING FORM TYPES
@@ -16,7 +15,7 @@ export default function OnboardingEmail({ onClick = () => {} }) {
     password: true,
   });
 
-  type OnboardingEmail = z.infer<typeof onboardingEmail>;
+  type OnboardingEmail = z.infer<typeof onboardingEmail>
   const setData = useOnboardingStore((state)=>state.setData)
 
 
@@ -48,38 +47,34 @@ export default function OnboardingEmail({ onClick = () => {} }) {
   };
 
   return (
-    <>
+    <div>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
-        <div>
-          <FormLabel text="Email" htmlFor="email" />
-          <input 
-            id="email"
-            type="text" 
-            placeholder="carfit@gmail.com" 
-            {...register("email")}
-          className="border-[0.5px] border-[#CCCCCC] w-full px-[7px] py-[5px] text-[#111] text-sm rounded-md mb-2 focus:outline-[#333333]"
-            />
-          <FormError>{formState.errors.email?.message}</FormError>
-        </div>
+        <AuthFormLabel 
+          inputId="email" 
+          htmlFor="email" 
+          inputType="email"  
+          inputPlaceholder="carfit@gmail.com" 
+          label="Email" 
+          error={formState.errors.email?.message}
+          register={register("email")}
+        />
 
-        <div>
-          <FormLabel text="Password" htmlFor="password" />
-          <input 
-            type="password" 
-            id="password" 
-            placeholder="***********" 
-              {...register("password")}
-            className="border-[0.5px] border-[#CCCCCC] w-full px-[7px] py-[5px] text-[#111] text-sm rounded-md mb-2 focus:outline-[#333333]"
-          />
-          <FormError>{formState.errors.password?.message}</FormError>
-        </div>
+        <AuthFormLabel 
+          inputId="password" 
+          htmlFor="password" 
+          inputType="password"  
+          inputPlaceholder="*********" 
+          label="Hasło" 
+          error={formState.errors.password?.message}
+          register={register("password")}
+        />
 
-        <FormButton label="Continue" disabled={formState.isValidating}/>
+        <FormButton label="Dalej" disabled={formState.isValidating}/>
       </form>
 
-      <p className="text-center text-[#333333] text-xs font-light pt-5">Already have an account? 
-        <Link href='/sign-in'><span className="text-blue-900 font-semibold"> Login</span></Link>
+      <p className="text-center text-[#333333] text-xs font-light pt-5">Masz już konto? 
+        <Link href='/business/sign-in'><span className="text-blue-900 font-semibold ml-1">Zaloguj</span></Link>
       </p>
-    </>
-  );
+    </div>
+  )
 }

@@ -6,6 +6,6 @@ interface LabelProps extends LabelHTMLAttributes<HTMLLabelElement> {
 
 export const FormLabel = ({text, htmlFor} : LabelProps) => {
     return (
-        <label htmlFor={htmlFor} className="inline-block text-[#333] text-[14px] mb-[5px]">{text}</label>
+        <label htmlFor={htmlFor} className="inline-block text-[#333] text-sm mb-[5px]">{text}</label>
     )
 }
