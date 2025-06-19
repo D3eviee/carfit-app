@@ -1,5 +1,4 @@
 'use client'
-import DashboardContentContainer from "@/components/dashboard/dashboard-content-container";
 import { useQuery } from "@tanstack/react-query";
 import { getTodayReservations, getLastWeekTopServicesNumbers, getLastWeekReservationsNumbers } from "./actions";
 import DashboardReservationList from "@/components/dashboard/main/dashboard-reservation-list";
@@ -42,16 +41,13 @@ export default function Dashboard() {
   if(getLastWeekTopServicesNumbersStatus == "error") return <p>ERROR</p>
 
   return (
-      <DashboardContentContainer>  
-        <div className="flex flex-row gap-8 w-full h-[800px]">
-          {todayReservationsData && <DashboardReservationList reservations={todayReservationsData}/>}
+    <div className="w-full flex flex-col gap-4 lg:flex-row border">
+      {todayReservationsData && <DashboardReservationList reservations={todayReservationsData}/>}
 
-          <div className="flex flex-col w-1/2 h-full gap-8">
-            {getLastWeekReservationsNumbersData && <DashboardVisitChart reservationData={getLastWeekReservationsNumbersData}/>}
-            {getLastWeekTopServicesNumbersData &&  <DashboardTopServicesChart topServicesData={getLastWeekTopServicesNumbersData}/>}
-            
-          </div>
-        </div>
-      </DashboardContentContainer>
+      <div className="w-full flex flex-col gap-4">
+        {getLastWeekReservationsNumbersData && <DashboardVisitChart reservationData={getLastWeekReservationsNumbersData}/>}
+        {getLastWeekTopServicesNumbersData &&  <DashboardTopServicesChart topServicesData={getLastWeekTopServicesNumbersData}/>}
+      </div>
+    </div>
   );
 }

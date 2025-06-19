@@ -2,30 +2,32 @@ import { X } from "lucide-react";
 import { createPortal } from "react-dom";
 import { ReactNode } from "react";
 
-type ModalProps = {
-  open: boolean;
-  onClose: () => void;
-  title: string;
-  children: ReactNode;
+type ModalProviderProps = {
+  open: boolean
+  title: string
+  children: ReactNode
+  onClose: () => void
 }
 
-export default function ModalProvider({ open, onClose, title, children}: ModalProps) {
+export default function ModalProvider({ open, onClose, title, children}: ModalProviderProps) {
   if (!open) return null;
 
   return createPortal(
-    <div>
+    <div className="fixed top-0 left-0 w-full h-lvh z-10">
     {/* OVERLAY  */}
       <div
-        className="absolute top-0 bg-black opacity-40 w-full h-full z-10"
+        className="bg-black opacity-65 w-full h-lvh"
         onClick={onClose}
       />
     {/* CONTENT  */}
-      <div className="absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] min-w-96 max-w-[550px] bg-[#FFF] z-20 rounded-lg">
-        <div className="px-3 py-2 flex items-center justify-center border-b-[0.5px] border-[#D4D4D4]">
-          <h1 className="font-base text-xs">{title}</h1>
-          <X  size={21} color="#111" className="ml-auto cursor-pointer" onClick={onClose} />
+      <div className="absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] w-full z-20 px-4 sm:w-[380px] xl:w-[450px]">
+        <div className="w-full bg-[#FFF] rounded-lg">
+          <div className="flex items-center justify-between p-3 border-b-[0.5px] border-[#D4D4D4]">
+            <h1 className="text-[#111] text-sm font-normal">{title}</h1>
+            <X size={20} color="#333" className="hover: cursor-pointer" onClick={onClose} />
+          </div>
+          <div className="px-3 py-4">{children}</div>
         </div>
-        <div className="px-8 py-5">{children}</div>
       </div>
     </div>,
     document.body

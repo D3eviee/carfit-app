@@ -100,9 +100,6 @@ export const getBusinessData = async (id: string) => {
                                 description: true,
                                 duration: true,
                                 price: true,
-                                durationType: true,
-                                from: true,
-                                to: true,
                             }
                         }
                     }

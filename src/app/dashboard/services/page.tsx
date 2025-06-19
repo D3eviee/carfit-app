@@ -1,11 +1,11 @@
 "use client";
-import DashboardContentContainer from "@/components/dashboard/dashboard-content-container";
 import { AddServiceButton } from "@/components/dashboard/services/add-service-button";
 import { useQuery } from "@tanstack/react-query";
 import ServicesCategorySidebar from "@/components/dashboard/services/services-sidebar";
 import ServicesServiceList from "@/components/dashboard/services/services-service-list";
 import ServicesServiceListItem from "@/components/dashboard/services/services-service-list-item";
 import { getServicesForBusiness } from "./actions";
+import DashboardPageHeader from "@/components/dashboard/dashboard-page-header";
 
 export default function ServicePage() {
   const { data: servicesForBusinessData, status: servicesForBusinessStatus } = useQuery({
@@ -21,29 +21,30 @@ export default function ServicePage() {
 
   if(servicesForBusinessStatus == "pending") return <p>PENDING</p>
   if(servicesForBusinessStatus == "error") return <p>ERROR</p>
+
   return (
-    <DashboardContentContainer>
       <div className="flex flex-col gap-5">
         {/*HEADINGS*/}
-        <div className="flex flex-col gap-4  py-5">
-          <h1 className="text-3xl leading-4 text-[#111111] font-medium">Usługi</h1>
-          <h2 className="text-sm text-[#555555] font-light">Dodawaj, zmieniaj i usuwaj oferowane przez Twój serwis usługi.</h2>
-        </div>
+        <DashboardPageHeader
+          title="Usługi"
+          subtitle="Dodawaj, zmieniaj i usuwaj oferowane przez Twój serwis usługi."
+        />
 
         {/*CONTENT*/}
-        <div className="flex flex-row gap-[20px]">
+        <div className="flex flex-col gap-4 md:flex-row">
           {/*LEFT MENU FOR CATEGORIES*/}
           <ServicesCategorySidebar categories={categories!} />
 
           {/*RIGHT PANEL WITH SERVICES*/}
-          <div className="bg-[#FFFFFF] w-[647px] flex flex-col gap-5 px-4 py-10 border-[0.5px] border-[#D4D4D4] rounded-lg ">
+          <div className="w-full flex flex-col gap-1 p-4 border border-[#D4D4D4] rounded-lg md:full lg:w-[647px]">
             {/* ADD SERVIVCE BUTTON */}
-            <div className="w-full flex flex-row justify-end">
+            <div className="w-full flex flex-row justify-between items-end">
+              <h3 className="text-[#111] text-md font-medium lg:text-xl lg:font-normal px-0.5">Usługi</h3>
               <AddServiceButton categories={categories!}/>
             </div>
 
             {/*div for service items*/}
-            <div className="mt-5 min-h-40 px-9 flex flex-col items-center justify-center gap-12" >
+            <div className="mt-5 min-h-40  flex flex-col items-center justify-center gap-12" >
               {servicesForBusinessData && servicesForBusinessData?.length > 0 ? (
                 servicesForBusinessData.map((category) => {
                   return (
@@ -63,6 +64,5 @@ export default function ServicePage() {
           </div>
         </div>
       </div>
-    </DashboardContentContainer>
   );
 }

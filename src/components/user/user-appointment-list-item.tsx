@@ -12,7 +12,7 @@ export default function UserAppointmentListItem({ details }: { details: Appointm
   const appointmentDayOfWeek = format(details.reservationStart, "EEEE")
 
   return (
-    <div className="w-full flex flex-col h-[360px] rounded-lg overflow-clip bg-[#F2F4F8] border md:w-fit">
+    <div className="w-full sm:w-[360px] flex flex-col h-[360px] rounded-lg overflow-clip bg-[#F2F4F8] border">
       {/* SERVICE IMAGE */} 
       <div className='relative w-full h-[160px] overflow-hidden'>
         <Image src={service_image} className='w-full h-full object-cover' alt="Service image" />

@@ -3,10 +3,13 @@ import prisma from "@/lib/db"
 
 // function for requesting search results 
 export const getCategoryBusinesses = async (category:string) =>{
+
+    const categoryToUppercase = category[0].toUpperCase() + category.slice(1)
+
     try {
         const searchResult = prisma.business.findMany({
             where:{
-                category: category
+                category: categoryToUppercase
             },
             select:{
                 id: true,

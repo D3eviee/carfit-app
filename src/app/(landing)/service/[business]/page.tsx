@@ -15,14 +15,14 @@ export default async function Service({ params }: { params: Promise<{ business: 
   const id = business.slice(-36)  
 
   // days in correct order for filtering results from db
-  const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" , "Sunday"];
+  const days = ["Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota" , "Niedziela"];
 
   //getting business data
   const response = await getBusinessData(id)
   if(!response.data) return <p>ERROR</p>
 
   const serviceData = response.data
-  const {workingDays, reviews, images, categories} = serviceData
+  const {workingDays, reviews, images, categories } = serviceData
 
   // sorting days in correct order
   workingDays!.sort(

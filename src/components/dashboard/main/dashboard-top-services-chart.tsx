@@ -1,4 +1,4 @@
-import { Bar, BarChart, Tooltip, XAxis, YAxis } from 'recharts';
+import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
 type DashboardTopServicesChartProps = {
   name: string
@@ -7,16 +7,17 @@ type DashboardTopServicesChartProps = {
 
 export default function DashboardTopServicesChart({topServicesData}: {topServicesData:DashboardTopServicesChartProps[]}){
   return (
-    <div className="border-2 flex flex-col w-full h-1/2 p-8 rounded-[10px] justify-between gap-8">
-      <h1 className="font-semibold text-[#111] text-md">Najczęściej wybierane usługi</h1>
-        <div>
-          <BarChart width={500} height={250} data={topServicesData} layout="vertical" margin={{left: 10 }}>
-            <XAxis type="number" className="text-sm" allowDecimals={false} />
-            <YAxis type="category" dataKey="name" className="text-xs" tick={{ fontSize: 14 }} />
-            <Tooltip />
-            <Bar dataKey="count" fill="#1674F0" barSize={20} />
-          </BarChart>
-        </div>
+    <div className="w-full p-4 flex flex-col gap-4 border rounded-lg">
+      <h1 className="text-[#111] text-md font-normal">Popularne usługi</h1>
+      {/* CHART */}
+      <ResponsiveContainer width="100%" height={220} className="border p-1 rounded-md">
+        <BarChart data={topServicesData}>
+          <XAxis type="number" className="text-sm" allowDecimals={false} scale="auto" padding={{ left: 10, right: 10 }} />
+          <YAxis type="category" dataKey="name" className="text-xs" tick={{ fontSize: 14 }} />
+          <Tooltip />
+          <Bar dataKey="count" fill="#1674F0" barSize={15} />
+        </BarChart>
+      </ResponsiveContainer>
     </div>
   )
 }

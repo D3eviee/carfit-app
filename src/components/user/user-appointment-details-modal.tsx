@@ -2,7 +2,7 @@ import { AppointmentDetails} from "@/lib/types";
 import Image from "next/image";
 import { createPortal } from "react-dom";
 import service_image from '@/../public/car_service.jpg'
-import { Calendar, Clock4Icon, MapPin, Wrench, X } from "lucide-react";
+import { Calendar, Clock4Icon, MapPin, X } from "lucide-react";
 import UserAppointmenetDetailsDeleteButton from "./user-appointment-details-delete-button";
 import { format } from "date-fns";
 import UserAppointmenetDetailsRescheduleButton from "./user-appointment-details-reschedule-button";

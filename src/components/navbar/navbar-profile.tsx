@@ -12,7 +12,7 @@ export default function NavbarProfile({userData}:{userData:NavbarProfileProps}) 
   const [openMenu, setOpenMenu] = useState<boolean>(false);
 
   return (
-    <div>
+    <div className="hidden md:block">
       <div 
         className="flex items-center justify-center box-border p-[5px] rounded-[7px] hover:cursor-pointer hover:bg-[#E8E8E8]" 
         onClick={() => setOpenMenu((prev) => !prev)}

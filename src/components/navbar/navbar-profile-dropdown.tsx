@@ -8,7 +8,7 @@ import { NavbarProfileProps } from "@/lib/types";
 
 export default function NavbarProfileDropdown({name, phone, image, role}:NavbarProfileProps) {
   return (
-    <div className="absolute box-border p-[5px] min-w-[200px] max-w-[250px] bg-[#F6F5F2] right-[80px] top-[95px] shadow-[0px_0px_2px_1px_#33333333] rounded-[7px] z-[1]">
+    <div className="absolute box-border p-[5px] min-w-[200px] max-w-[250px] bg-[#F6F5F2] right-7 top-[70px] shadow-[0px_0px_2px_1px_#33333333] rounded-[7px] z-[1]">
       <div className="flex box-border p-[7px] items-center bg-[#E8E8E8] rounded-[5px] mb-[10px] border border-[#EEEEEE]">
         {!image ?
          <Image src={profile_picture} width={35} height={35} alt="profile_pic"  className=" w-9 h-9 rounded-[50%] mr-4 shadow-[0px_0px_3px_1px_#00000030]" />

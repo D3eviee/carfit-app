@@ -12,7 +12,6 @@ type SettingsBusinessDetailsViewProps = {
 
 export function SettingsBusinessDetailsView({settings}:{settings: SettingsBusinessDetailsViewProps}){
     const queryClient = useQueryClient()
-
     const {mutate} = useMutation<unknown, unknown, Record<string, string>>({
         mutationKey: ["changeSetting"],
         mutationFn: async (data) => {   
@@ -22,12 +21,12 @@ export function SettingsBusinessDetailsView({settings}:{settings: SettingsBusine
       })
 
     return(
-      <div className="py-[30px] px-[50px] border-[0.5px] border-[#D4D4D4] rounded-[10px] shadow-[0px_1px_2px_0px_#ACACAC30]">
-        <div className="mt-[30px] grid grid-cols-2 grid-rows-2 gap-[40px]">
-          <SettingEditableField label="Nazwa firmy" value={settings.businessName} dbKey="name" isEditable={true} onSave={(data) => mutate(data)}/>
-          <SettingEditableField label="Język" value={settings.language} dbKey="" isEditable={false} onSave={() => mutate}/>
-          <SettingEditableField label="Kraj" value={settings.country} dbKey="" isEditable={false } onSave={() => mutate}/>
-          <SettingEditableField label="Waluta" value={settings.currency} dbKey=""  isEditable={false} onSave={() => mutate}/>
+      <div className="w-full p-4 bg-white border-[0.5px] border-[#D4D4D4] rounded-md shadow-[0px_0px_2px_3px_#233038] ring-4 ring-[#F9F9F9]">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-x-20 ">
+          <SettingEditableField fieldName="Nazwa firmy" fieldValue={settings.businessName} dbKey="name" isEditable={true} onSave={(data) => mutate(data)}/>
+          <SettingEditableField fieldName="Język" fieldValue={settings.language} dbKey="" isEditable={false} onSave={() => mutate}/>
+          <SettingEditableField fieldName="Kraj" fieldValue={settings.country} dbKey="" isEditable={false } onSave={() => mutate}/>
+          <SettingEditableField fieldName="Waluta" fieldValue={settings.currency} dbKey=""  isEditable={false} onSave={() => mutate}/>
         </div>
       </div>
     )

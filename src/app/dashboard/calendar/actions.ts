@@ -23,32 +23,52 @@ export const getAppointmentsForWeekInterval = async (weekInterval: Date[]) => {
                 reservationStart: true,
                 charge: true,
                 clientId:true,
+                status: true,
                 client:{
                     select: {
                         name:true,
                         phone: true,
-                        image: true
+                        image: true,
+                        email: true,
+                    }
+                },
+                services: {
+                    select: {
+                        service: {
+                            select: {
+                                name:true,
+                                price: true,
+                            }
+                        }
                     }
                 }
             }
         })
 
         const reservation = weekReservations.map((item) => {
+            const servicesData = item.services.map((service) => ({name:service.service.name, price: service.service.price}))
+
             if(!item.client) return {
+                status: item.status,
                 clientPhone: item.clientPhone, 
+                clientEmail: "hipolitroszkowski@protonmail.ch",
                 clientName: item.clientName, 
                 clientImage: null,
                 duration : item.duration,
                 reservationStart: item.reservationStart,
                 charge: item.charge,
+                service: servicesData
             }
             else return {
+                status: item.status,
                 clientPhone: item.client.phone, 
+                clientEmail: item.client.email,
                 clientName: item.client.name, 
                 clientImage: item.client.image,
                 duration : item.duration,
                 reservationStart: item.reservationStart,
                 charge: item.charge,
+                service: servicesData
             }
         })
 

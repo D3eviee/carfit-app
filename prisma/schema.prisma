@@ -102,9 +102,6 @@ model Service {
   name         String
   description  String
   price        String
-  durationType String
-  from         Int
-  to           Int
   duration     Int
 
   serviceId String

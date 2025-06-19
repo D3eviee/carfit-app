@@ -36,17 +36,6 @@ export type BusinessOnboardingSchema = z.infer<typeof businessOnboardingSchema>
 
 export const categoryName = z.string().min(1)
 
-export const newServiceSchema = z.object({
-    name : z.string().min(1, "Service name needs to be provided").max(120),
-    category: z.string().nonempty(),
-    price: z.string().nonempty("Provide value"),
-    description: z.string().max(400),
-    durationType: z.string().nonempty("Provide value"),
-    from: z.number(),
-    to:  z.number(),
-    duration: z.number(),
-})
-
 export const supportFormSchema = z.object({
   name: z
     .string()
@@ -71,3 +60,19 @@ export const supportFormSchema = z.object({
 });
 
 export type SupportFormSchema = z.infer<typeof supportFormSchema>;
+
+export const addCategorySchema = z.object({
+    categoryName: z.string().min(1, {message: "Podaj nazwę"})
+})
+
+export type AddCategorySchema = z.infer<typeof addCategorySchema>
+
+export const addServiceSchema = z.object({
+    name: z.string().min(1),
+    category: z.string().min(1),
+    price: z.string().min(1),
+    description: z.string().min(1),
+    duration: z.number(),    
+})
+
+export type AddServiceSchema = z.infer<typeof addServiceSchema>;

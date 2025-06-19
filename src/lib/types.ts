@@ -104,12 +104,11 @@ export type ServicesCategory ={
   name: string
 }
 
-export type AddServiceModalProps = {
+export type AddService = {
     name: string
     category: string
     price: string
     description: string
-    durationType: string
     from: number
     to: number
     duration: number
@@ -132,6 +131,21 @@ export type CalendarDayViewEventProps = {
   duration: number
   reservationStart: Date
   charge: number
+}
+
+export type CalendarAppointmentOverviewProps = {
+  status: string,
+  clientPhone: string
+  clientEmail: string
+  clientName: string
+  clientImage: string
+  duration: number
+  reservationStart: Date
+  charge: number
+  service: {
+    name: string
+    price: string
+  }[]
 }
 
 // SETTINGS

@@ -1,6 +1,5 @@
 'use client'
 import { deleteAppointment } from "@/app/user/actions";
-import { useRouter } from "next/navigation";
 import { createPortal } from "react-dom";
 
 type UserAppointmentDeleteModalProps = {

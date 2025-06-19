@@ -31,9 +31,9 @@ export default function SettingsBusinessWorkHoursItemEditSelector({day, open, cl
 
 
   return (
-    <div className="flex flex-row justify-between gap-10">
+    <div className="w-full flex flex-row gap-5">
       <select 
-        className="border w-24 text-center" 
+        className="border w-24 text-center text-sm" 
         defaultValue={String(open)}
         onChange={(e) => handleOpenSelectOnChange(e.target.value)}
         >
@@ -43,7 +43,7 @@ export default function SettingsBusinessWorkHoursItemEditSelector({day, open, cl
       </select>
 
       <select 
-        className="border w-24 text-center" 
+        className="border w-24 text-center text-sm" 
         defaultValue={close}
         onChange={(e) => handleCloseSelectOnChange(e.target.value)}
       >

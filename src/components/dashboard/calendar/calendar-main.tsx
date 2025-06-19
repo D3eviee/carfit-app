@@ -1,33 +1,35 @@
 'use client'
-import CalendarTypeBar from "./calendar-type-bar";
-import CalendarWeekView from "./calendar-week-view";
-import { useBusinessCalendarNavigationStore } from "@/lib/store";
-import CalendarDayView from "./calendar-day-view";
+import { useBusinessCalendarNavigationStore, useDashboardMobileCalendarTypeStore } from "@/lib/store";
 import { useState } from "react";
 import CalendarAddApppointmentModal from "./calendar-add-appointment-modal";
+import CalendarTypeSelector from "./calendar-type-bar";
+import CalendarDay from "./calendar-day";
+import CalendarWeek from "./calendar-week";
 
 export default function CalendarMain() {
   //ZUSTAND STORE FOR MANAGING TYPE OF CALENDAR
-  const openCalendarType = useBusinessCalendarNavigationStore(store => store.openCalendarType)
+  const calendarType = useBusinessCalendarNavigationStore(store => store.calendarType)
   const [openModal, setOpenModal] = useState(false)
 
   return (
-    <div className="w-[1100px]">
+    <div className="w-full h-full flex-col gap-3 overflow-hidden md:flex">
       {/* TOP MENU */}
-      <div className="flex flex-row items-center justify-between mb-7">
-        <CalendarTypeBar />
+      <div className="w-full flex flex-row items-center justify-between">
+        <CalendarTypeSelector/>
         <button 
-          className="outline-none p-2 text-sm font-medium text-white bg-[#F25287] rounded-md shadow-[0px_1px_1px_0px_#00000040] hover:cursor-pointer hover:bg-[#F36398]"
+          className="py-2 px-3 text-sm font-medium text-[#EEE] bg-[#111] rounded-xl  shadow-[0px_1px_1px_0px_#00000040] outline-none hover:cursor-pointer hover:bg-[#000]"
           onClick={()=>{setOpenModal(true)}}
-          >
-          + Add appointment
+        >
+          + Add event
         </button>
       </div>
 
-     {openModal && <CalendarAddApppointmentModal  open={openModal} onClose={() => setOpenModal(false)}/>}
-
-      {openCalendarType == "week" && <CalendarWeekView/>}
-      {openCalendarType == "day" && <CalendarDayView/>}
+      {/* CALENDAR */}
+      <div className="w-full h-full min-h-0 overflow-hidden">
+        {calendarType == "week" &&  <CalendarWeek/>}
+        {calendarType == "day" && <CalendarDay/> }
+      </div>
+      {openModal && <CalendarAddApppointmentModal  open={openModal} onClose={() => setOpenModal(false)}/>}
     </div>
   );
 }

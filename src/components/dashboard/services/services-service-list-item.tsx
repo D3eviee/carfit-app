@@ -1,5 +1,5 @@
 import { deleteService } from "@/app/dashboard/services/actions";
-import { displayVisitTime } from "@/utils";
+import { displayAppointmentTime } from "@/utils";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { MoreVertical, Pen, TrashIcon } from "lucide-react";
@@ -9,9 +9,6 @@ type Service = {
   id: string;
   description: string;
   price: string;
-  durationType: string;
-  from: number;
-  to: number;
   duration: number;
 };
 
@@ -28,20 +25,13 @@ export default function ServicesServiceListItem({ service }: { service: Service 
       });
 
   return (
-    <div className="w-full flex flex-row bg-[#F9FAFC] border-[0.5px] border-[#D4D4D4] rounded-[10px] overflow-hidden py-3">
-      <div className="w-[6px] bg-purple-600 h-full opacity-45" />
-      {/* content */}
-      <div className="w-full px-3 py-2 pr-2 flex flex-row justify-between">
-        {/* right headings */}
-        <div className="flex flex-col gap-2">
+    <div className="relative w-full flex flex-row bg-[#F9FAFC] border-[0.5px] border-[#D4D4D4] rounded-[10px] overflow-hidden">
+      <div className="absolute w-1.5 h-full bg-purple-600 opacity-45" />
+      {/* CONTENT */}
+      <div className="w-full flex flex-col gap-3 justify-between pl-4 pr-3 py-2">
+        {/* TOP */}
+        <div className="flex flex-row justify-between items-center">
           <h1 className="text-[#111] text-base font-medium">{service.name}</h1>
-          <h2 className="text-[#333] text-sm font-normal">{displayVisitTime(service.from, service.to, service.durationType , service.duration)}</h2>
-        </div>
-        {/* left details */}
-        <div className="flex flex-row gap-3">
-          <p className="h-full flex flex-col justify-end text-[#111] text-sm font-normal">
-            {service.price} PLN
-          </p>
           <DropdownMenu.Root>
             <DropdownMenu.Trigger asChild>
               <MoreVertical
@@ -69,6 +59,11 @@ export default function ServicesServiceListItem({ service }: { service: Service 
               </DropdownMenu.Content>
             </DropdownMenu.Portal>
           </DropdownMenu.Root>
+        </div>
+        {/* BOTTOM */}
+        <div className="w-full flex flex-row gap-3">
+          <p className="text-center text-white text-sm font-normal px-2 py-1 bg-[#5D44F8] rounded-md my-auto leading-none">{displayAppointmentTime(service.duration)}</p>
+          <p className="text-center text-white text-sm font-normal px-2 py-1 bg-[#F25287] rounded-md my-auto leading-none">{service.price}PLN</p>
         </div>
       </div>
     </div>

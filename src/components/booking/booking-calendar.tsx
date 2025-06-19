@@ -8,6 +8,8 @@ import { BookingEventTime } from "./booking-event-time";
 import { useQuery } from "@tanstack/react-query";
 import { getActiveMonthAppointments, getBusinessWorkingHours } from "@/app/(landing)/actions";
 import { Service } from "@/lib/types";
+import { Spinner } from "../spinner";
+import { Error } from "../error";
 
 export const BookingCalendar = ({servicesData}:{servicesData:Service[]}) => {
     const serviceId = useServiceIdFromParams()
@@ -65,11 +67,11 @@ export const BookingCalendar = ({servicesData}:{servicesData:Service[]}) => {
             },
         });
 
-    if(getActiveMonthAppointmentsStatus == "pending") return "PENDING"
-    if(getActiveMonthAppointmentsStatus == "error") return "ERROR"
+    if(getActiveMonthAppointmentsStatus == "pending") return <Spinner/>
+    if(getActiveMonthAppointmentsStatus == "error") return <Error/>
 
-    if(businessWorkingHoursStatus == "pending") return "PENDING"
-    if(businessWorkingHoursStatus == "error") return "ERROR"
+    if(businessWorkingHoursStatus == "pending") return <Spinner/>
+    if(businessWorkingHoursStatus == "error") return <Error/>
 
 
     return (

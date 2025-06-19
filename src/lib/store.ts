@@ -8,16 +8,6 @@ export type OnboardingState = Partial<BusinessOnboardingSchema> & {
     resetData: () => void
 }
 
-export type ContainerError = {
-  errorMessage: string
-  setContainerError: (error: string) => void
-}
-
-export const useContainerErrorStore = create<ContainerError>()((set) => ({
-  errorMessage: "",
-  setContainerError: (error) => set(() => ({ errorMessage: error}))
-}))
-
 export const useOnboardingStore = create<OnboardingState>()((set) => ({
     setData: (data) => set(data),
     resetData: () => set({
@@ -128,16 +118,28 @@ export const useAppointmentStore = create<AppointmentStoreProps>((set) => ({
     resetSelectedServices: () => set(()=>({selectedServices : []})),
 }));
 
-
-
-type BusinessCalendarNavigationStore = {
-  openCalendarType: string,
-  setOpenCalendar: (calendarType:string) => void
+//REFACTORED
+// store for desktop type of calendar
+type DashboardCalendarTypeStore = {
+  calendarType: string,
+  setCalendarType: (calendarType:string) => void
 }
 
-export const useBusinessCalendarNavigationStore = create<BusinessCalendarNavigationStore>((set) => ({
-  openCalendarType: "week",
-  setOpenCalendar : (calendarType) => set(()=>({openCalendarType : calendarType})),
+export const useBusinessCalendarNavigationStore = create<DashboardCalendarTypeStore>((set) => ({
+  calendarType: "week",
+  setCalendarType : (selectedCalendarType) => set(()=>({calendarType : selectedCalendarType})),
+}));
+
+//REFACTORED
+// store for mobile type of calendar
+type DashboardMobileCalendarTypeStore = {
+  mobileCalendarType: string,
+  setMobileCalendarType: (calendarType:string) => void
+}
+
+export const useDashboardMobileCalendarTypeStore = create<DashboardMobileCalendarTypeStore>((set) => ({
+  mobileCalendarType: "list",
+  setMobileCalendarType : (selectedCalendarType) => set(()=>({mobileCalendarType : selectedCalendarType})),
 }));
 
 

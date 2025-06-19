@@ -1,6 +1,7 @@
 'use server'
 import { businessAuth } from "@/lib/auth";
 import prisma from "@/lib/db";
+import { AddServiceSchema } from "@/lib/schema";
 
 // get categories and services data for business
 export const getServicesForBusiness = async () => {
@@ -19,9 +20,6 @@ export const getServicesForBusiness = async () => {
                   select: {
                       id: true,
                       name: true,
-                      durationType: true,
-                      from: true,
-                      to: true,
                       duration: true,
                       price: true,
                       description: true
@@ -105,7 +103,7 @@ export type AddNewServiceProps = {
 }
 
 // add service for business
-export const addNewService = async (serviceData:AddNewServiceProps ) => {
+export const addNewService = async (serviceData:AddServiceSchema) => {
   try {
       const businessId = await businessAuth()
 
@@ -116,10 +114,7 @@ export const addNewService = async (serviceData:AddNewServiceProps ) => {
               name: serviceData.name,
               price: serviceData.price,
               description: serviceData.description,
-              durationType: serviceData.durationType,
               duration: serviceData.duration,
-              from: serviceData.from,
-              to: serviceData.to
           },
       });
 

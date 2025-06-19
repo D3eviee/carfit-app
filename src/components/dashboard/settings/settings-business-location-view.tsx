@@ -24,12 +24,12 @@ export function SettingsBusinessLocationView({settings}:{settings: SettingsBusin
       })
 
     return(
-      <div className="py-[30px] px-[50px] border-[0.5px] border-[#D4D4D4] rounded-[10px] shadow-[0px_1px_2px_0px_#ACACAC30]">
-        <div className="mt-[30px] grid grid-cols-2 grid-rows-2 gap-[40px]">
-          <SettingEditableField label="Miasto" value={settings.town} dbKey="name"onSave={(data) => mutate(data)}/>
-          <SettingEditableField label="Dzielnica" value={settings.district} dbKey="" onSave={() => mutate}/>
-          <SettingEditableField label="Ulica" value={settings.street} dbKey="" onSave={() => mutate}/>
-          <SettingEditableField label="Kod pocztowy" value={settings.zipcode} dbKey=""  onSave={() => mutate}/>
+      <div className="w-full bg-white p-4 border-[0.5px] border-[#D4D4D4] rounded-md shadow-[0px_0px_2px_3px_#233038] ring-4 ring-[#F9F9F9]">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <SettingEditableField fieldName="Miasto" fieldValue={settings.town} dbKey="name"onSave={(data) => mutate(data)}/>
+          <SettingEditableField fieldName="Dzielnica" fieldValue={settings.district} dbKey="" onSave={() => mutate}/>
+          <SettingEditableField fieldName="Ulica" fieldValue={settings.street} dbKey="" onSave={() => mutate}/>
+          <SettingEditableField fieldName="Kod pocztowy" fieldValue={settings.zipcode} dbKey=""  onSave={() => mutate}/>
         </div>
       </div>
     )

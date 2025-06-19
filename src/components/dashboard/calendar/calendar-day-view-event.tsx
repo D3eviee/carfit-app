@@ -1,56 +1,39 @@
-import client_profile_picture from "@/../public/client_profile_picture.jpg";
-import { CalendarDayViewEventProps } from "@/lib/types";
+import { CalendarAppointmentOverviewProps, CalendarDayViewEventProps } from "@/lib/types";
 import { addMinutes, format, getHours, getMinutes } from "date-fns";
-import Image from "next/image";
 
-export default function CalendarDayViewEvent({event}:{event:CalendarDayViewEventProps}) {
-  const startHour = getHours(event.reservationStart) - 6;
-  const startMinutes = getMinutes(event.reservationStart);
-  const blockHeight = Math.round(event.duration * 1.33);
-  const top = (startHour * 80 + startMinutes * 1.33)
 
-  const appointmentStartHour = format(event.reservationStart, "H")
-  const appointmentStartMinute = format(event.reservationStart, "mm")
-  const appointmentFinishHour = format(addMinutes(event.reservationStart, event.duration), "H")
-  const appointmentFinishMinute = format(addMinutes(event.reservationStart, event.duration), "mm")
+type CalendarDayViewEvent = {
+  openModal: () => void
+  appointmentData : CalendarAppointmentOverviewProps
+}
+
+
+export default function CalendarDayViewEvent({openModal, appointmentData}:CalendarDayViewEvent) {
+  const startHour = getHours(appointmentData.reservationStart) - 6;
+  const startMinutes = getMinutes(appointmentData.reservationStart);
+  const blockHeight = Math.round(appointmentData.duration * 1.3);
+  const top = (startHour * 81.25 + startMinutes * 1.33)
+
+  const appointmentStartHour = format(appointmentData.reservationStart, "H")
+  const appointmentStartMinute = format(appointmentData.reservationStart, "mm")
+  const appointmentFinishHour = format(addMinutes(appointmentData.reservationStart, appointmentData.duration), "H")
+  const appointmentFinishMinute = format(addMinutes(appointmentData.reservationStart, appointmentData.duration), "mm")
 
   return (
     <div
-      className="absolute left-1/2 -translate-x-1/2 trans w-[98%] bg-[#9088D4] text-white text-sm  rounded-md p-2"
+      onClick={openModal}
+      className="absolute left-1/2 -translate-x-1/2 trans w-[95%] bg-[#9088D4] text-white text-sm rounded-md p-2"
       style={{
         top: `${top}px`,
         height: `${blockHeight}px`,
       }}
     >
-      <div className="h-full flex flex-row justify-between">
-        <div className="flex flex-col ">
-          <p className="font-medium text-xs">Wymaian opon</p>
-          <p className="font-light text-xs">{`${appointmentStartHour}:${appointmentStartMinute} - ${appointmentFinishHour}:${appointmentFinishMinute}`}</p>
-        </div>
-        <div className="flex flex-row  items-center gap-1 mr-2">
-          <div>
-            {event.clientImage ?
-            (<Image
-              src={event.clientImage}
-              alt="client picture"
-              className="rounded-full  h-[35px] w-[35px] mt-1"
-              width={35}
-              height={35}
-            />)
-             : (
-             <Image
-              src={client_profile_picture}
-              alt="client picture"
-              className="rounded-full  h-[35px] w-[35px] mt-1"
-              width={35}
-              height={35}
-            />)
-            }
+      <div className="h-full w-full flex flex-row justify-between p-1">
+        <div className="flex flex-col">
+          <div className="w-full flex flex-col">
+            {appointmentData.service.map((item, index) => <p key={index} className="font-normal text-xs">{item.name}</p>)}
           </div>
-          <div className="flex flex-col">
-            <p className="font-normal text-xs">{event.clientName }</p>
-            <p className="font-light text-xs">{event.clientPhone }</p>
-          </div>
+          <p className="w-full font-light text-xs">{`${appointmentStartHour}:${appointmentStartMinute} - ${appointmentFinishHour}:${appointmentFinishMinute}`}</p>
         </div>
       </div>
     </div>

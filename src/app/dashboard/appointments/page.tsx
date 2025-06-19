@@ -1,5 +1,4 @@
 "use client"
-import DashboardContentContainer from "@/components/dashboard/dashboard-content-container";
 import { useQuery } from "@tanstack/react-query";
 import { useReactTable, getCoreRowModel, getSortedRowModel, flexRender, getFilteredRowModel, ColumnFiltersState } from "@tanstack/react-table";
 import AppointmenDateCell from "@/components/dashboard/appointments/appointments-date-cell"
@@ -10,6 +9,8 @@ import AppointmentPhoneCell from "@/components/dashboard/appointments/appointmen
 import { ArrowDown, ArrowDownUp, ArrowUp, Filter, Search, X, } from "lucide-react";
 import { useState } from "react";
 import { getAppointmentsTableData } from "./actions";
+import { Spinner } from "@/components/spinner";
+import { Error } from "@/components/error";
 
 
 export default function Appointments() {
@@ -67,11 +68,11 @@ export default function Appointments() {
   });
   
 
-  if (appointmentsStatus === "pending") return <p>Loading...</p>
-  if (appointmentsStatus === "error") return <p>Error</p>
+  if (appointmentsStatus === "pending") return <Spinner/>
+  if (appointmentsStatus === "error") return <Error/>
 
   return (
-    <DashboardContentContainer>
+    <>
       <div className="mb-[50px]">
         <h1 className="m-0 p-0 text-[27px] font-semibold text-black">
           Appointments
@@ -163,6 +164,6 @@ export default function Appointments() {
           {table.getPageCount()}
         </div>
       </div>
-    </DashboardContentContainer>
+    </>
   );
 }

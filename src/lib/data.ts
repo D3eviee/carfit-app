@@ -1,9 +1,9 @@
 export const SERVICES_CATEGORIES = [
-    {name: "Serwis", url:"Serwis"},
-    {name: "Wulkanizacja", url:"Wulkanizacja"},
-    {name: "Klimatyzacja", url:"Klimatyzacja"},
-    {name: "Elektryka", url:"Elektryka"},
-    {name: "Blacharz", url:"Blacharz"},
-    {name: "Lakiernik", url:"Lakiernik"},
-    {name: "Diagnostyka", url:"Diagnostyka"},
+    {name: "Serwis", url:"serwis"},
+    {name: "Wulkanizacja", url:"wulkanizacja"},
+    {name: "Klimatyzacja", url:"klimatyzacja"},
+    {name: "Elektryka", url:"elektryka"},
+    {name: "Blacharz", url:"blacharz"},
+    {name: "Lakiernik", url:"lakiernik"},
+    {name: "Diagnostyka", url:"diagnostyka"},
 ]

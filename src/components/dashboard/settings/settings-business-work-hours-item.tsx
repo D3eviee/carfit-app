@@ -1,8 +1,8 @@
 export default function SettingsBusinessWorkHoursItem({ day }) {
     return (
-      <div className="flex justify-between items-center py-4 px-4 border bg-[#F2F4F8] rounded">
-        <h3 className="text-sm font-medium text-[#000] ">{day.dayOfWeek}</h3>
-        <p className="text-right text-sm m-0 text-[#333] font-semibold ">{day.isOpen ? `${day.open} - ${day.close}` : "Zamknięte"}</p>
+      <div className="flex justify-between items-center p-4 rounded ring-1 ring-[#D4D4D4]">
+        <p className="text-sm text-[#333] font-normal">{day.dayOfWeek}</p>
+        <p className="text-sm text-[#111] font-light">{day.isOpen ? `${day.open} - ${day.close}` : "Zamknięte"}</p>
       </div>
     );
 }

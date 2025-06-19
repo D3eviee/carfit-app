@@ -2,16 +2,16 @@ import { useState } from "react";
 import { Pencil } from "lucide-react";
 
 type EditableFieldProps = {
-  label: string;
-  value: string;
+  fieldName: string;
+  fieldValue: string;
   dbKey: string
   isEditable?: boolean
   onSave: (newValue: { [key: string]: string }) => void;
 };
 
-export default function SettingEditableField({ label, value, onSave, dbKey, isEditable = true }: EditableFieldProps) {
+export default function SettingEditableField({ fieldName, fieldValue, onSave, dbKey, isEditable = true }: EditableFieldProps) {
   const [editing, setEditing] = useState(false);
-  const [tempValue, setTempValue] = useState(value);
+  const [tempValue, setTempValue] = useState(fieldValue);
 
   const handleSave = () => {
     onSave({[dbKey]: tempValue});
@@ -19,48 +19,45 @@ export default function SettingEditableField({ label, value, onSave, dbKey, isEd
   };
 
   const handleCancel = () => {
-    setTempValue(value)
+    setTempValue(fieldValue)
     setEditing(false);
   };
 
   return (
-    <div className="flex flex-col gap-[2px]">
-        <h3 className="p-0 m-0 text-[#333333] text-[13px] font-semibold">{label}</h3>
-          
-      {!editing ? (
-        <div className="flex items-start justify-between">
-          <p className="max-w-[230px] p-0 m-0 text-[#777777] text-[13px] font-normal">{value}</p>
-          {isEditable && 
-            <Pencil
-            size={16}
-            className="text-gray-500 cursor-pointer"
-            onClick={() => setEditing(true)}
-          />
-          }
+    <div className="flex flex-col gap-1">
+      <h1 className="text-[#111] text-sm font-normal">{fieldName}</h1>
+      
+      {!editing ? 
+        (
+        <div className="flex items-start justify-between py-1">
+          <p className="text-[#555] text-sm font-light">{fieldValue}</p>
+          {isEditable && <Pencil size={16} strokeWidth={2} className="text-[#111] cursor-pointer" onClick={() => setEditing(true)}/>}
         </div>
-      ) : (
-        <div className="flex flex-row gap-2 justify-between border-[1px] border-[#777] rounded px-1 ">
+        ) 
+        : 
+        (
+        <div className="flex flex-col gap-2 border border-[#D4D4D4] rounded-md p-2">
           <input
             value={tempValue}
             onChange={(e) => setTempValue(e.target.value)}
-            className="w-full py-2 text-gray-900 text-xs focus:outline-none"
+            className="w-full px-2 py-2.5 text-[#111] text-sm font-normal focus:outline-none border"
           />
-          <div className="flex flex-row items-center gap-4">
-            <button
-              onClick={handleCancel}
-              className="text-sm text-gray-500 px-1.5 py-1  hover:bg-[#F2F2F2] hover:text-black"
-            >
-              Cancel
-            </button>
-            <button
-              onClick={handleSave}
-              className="text-sm bg-[#111] px-1.5 py-1 rounded-sm text-white font-semibold hover:underline"
-            >
-              Save
-            </button>
+          {/* BUTTONS */}
+          <div className="w-full flex flex-row items-center gap-3">
+            {/* CANCEL BUTTON */}
+            <button 
+              onClick={handleCancel} 
+              className="w-full py-1.5 text-sm  font-normal rounded-md text-[#333] bg-[#F2F4F8] border border-[#D4D4D4] hover:cursor-pointer hover:bg-[#F1F3F7]"
+            >Anuluj</button>
+            {/* SAVE BUTTON */}
+            <button 
+              onClick={handleSave} 
+              className="w-full py-1.5 text-sm rounded-md text-white bg-[#111] border border-[#111] hover:cursor-pointer hover:bg-[#000]"
+            >Zapisz</button>
           </div>
         </div>
-      )}
+        )}
     </div>
   );
 }
+

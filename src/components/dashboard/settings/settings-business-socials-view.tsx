@@ -23,11 +23,11 @@ export function SettingsBusinessSocialsView({settings}:{settings: SettingsBusine
       })
 
     return(
-      <div className="py-[30px] px-[50px] border-[0.5px] border-[#D4D4D4] rounded-[10px] shadow-[0px_1px_2px_0px_#ACACAC30]">
-        <div className="mt-[30px] grid grid-cols-2 grid-rows-2 gap-[40px]">
-          <SettingEditableField label="Facebook" value={settings.fb} dbKey="name" onSave={(data) => mutate(data)}/>
-          <SettingEditableField label="Instagram" value={settings.ig} dbKey="" onSave={() => mutate}/>
-          <SettingEditableField label="Strona internetowa" value={settings.website} dbKey="" onSave={() => mutate}/>
+      <div className="w-full p-4 bg-white border-[0.5px] border-[#D4D4D4] rounded-md shadow-[0px_0px_2px_3px_#233038] ring-4 ring-[#F9F9F9]">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <SettingEditableField fieldName="Facebook" fieldValue={settings.fb} dbKey="name" onSave={(data) => mutate(data)}/>
+          <SettingEditableField fieldName="Instagram" fieldValue={settings.ig} dbKey="" onSave={() => mutate}/>
+          <SettingEditableField fieldName="Strona internetowa" fieldValue={settings.website} dbKey="" onSave={() => mutate}/>
         </div>
       </div>
     )

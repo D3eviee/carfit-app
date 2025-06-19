@@ -8,8 +8,8 @@ export const SidebarNavigation = () => {
   const path = usePathname()
   const activePath = path.slice(11, path.length)
 
-    return (
-    <aside className="h-svh fixed w-[70px] top-[70px] p-0 m-0 flex flex-col gap-[30px] bg-[#252525] items-center pt-[30px] shadow-[1px_0px_2px_0px_#8C8C8C]">
+  return (
+    <aside className="hidden left-0 top-12 py-7 px-2 h-full flex-col gap-[30px] bg-[#252525] items-center shadow-[1px_0px_2px_0px_#8C8C8C] lg:flex lg:fixed ">
       <Link href="/dashboard">
         <div className={cn("w-[40px] h-[40px] flex justify-center items-center box-border rounded-[10px] hover:cursor-pointer hover:bg-[#323232] :bg-[#F25287]", path == "/dashboard" ? "bg-[#F25287] hover:bg-[#F25287]" : "")}>
           <Home size={25} color="#FFFFFF"/>
@@ -42,5 +42,5 @@ export const SidebarNavigation = () => {
         </div>
       </Link>
     </aside>
-    )
+  )
 }

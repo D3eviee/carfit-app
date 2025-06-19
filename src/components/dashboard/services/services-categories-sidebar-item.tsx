@@ -3,14 +3,14 @@ import { MoreVertical, Pen, TrashIcon } from "lucide-react";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-import ServiecEditCategoryModal from "./services-edit-category-modal";
+import ServiecEditCategoryModal from "./services-add-service-modal";
 import { deleteCategory } from "@/app/dashboard/services/actions";
 import { ServicesCategory } from "@/lib/types";
 
 export default function ServicesCategorySidebarItem({category}: {category: ServicesCategory}) {
   const [isModalOpen, setIsModalOpen] = useState(false)
-
   const queryClient = useQueryClient();
+  
   const { mutate } = useMutation({
     mutationFn: async (id: string) => await deleteCategory(id),
     onSuccess: (data) => {
@@ -22,8 +22,8 @@ export default function ServicesCategorySidebarItem({category}: {category: Servi
 
   return (
     <>
-    <li key={category.id} className="w-full leading-3 text-sm text-[#111] font-base flex flex-row justify-between items-center">
-      {category.name}
+    <li key={category.id} className="w-full flex flex-row justify-between items-center p-2 rounded border-[0.5px] border-[#D4D4D4]">
+      <p className="text-sm text-[#111] font-normal">{category.name}</p>
 
       <DropdownMenu.Root>
         <DropdownMenu.Trigger asChild>

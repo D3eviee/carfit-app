@@ -20,7 +20,7 @@ export default function UserAppointmentList(){
 
 
   return (
-    <div className="w-full flex flex-col justify-between gap-5 lg:flex-row md:flex-wrap">
+    <div className="border w-full flex flex-col justify-between gap-5 lg:flex-row md:flex-wrap md:flex-row">
       {clientAppointmentsData?.length == 0 && <p className="flex items-center justify-center text-[#333] font-normal">Brak wizyt</p>}
 
       {clientAppointmentsData && clientAppointmentsData.map((item, i) => {

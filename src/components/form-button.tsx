@@ -10,7 +10,7 @@ export const FormButton = ({label, disabled, className, onClick }: FormButtonPro
         <button 
             type="submit" 
             disabled={disabled}
-            className={cn("w-full flex text-white bg-[#111111] py-2 justify-center items-center rounded-[7px] font-medium text-sm mt-[20px]", className)}
+            className={cn("w-full flex text-white bg-[#111111] py-2 justify-center items-center rounded-[7px] font-medium text-sm", className)}
             onClick={onClick}
         >{label}</button>
     )

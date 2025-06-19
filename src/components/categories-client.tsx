@@ -5,31 +5,32 @@ import BusinessCard from "@/components/business-card";
 import { getCategoryBusinesses } from "@/app/categories/actions";
 
 export default function CategoriesClient() {
-  const category = useSearchParams().get("category")
+  const category = useSearchParams().get("topCategory")
 
   const {data:categoryResultData, status: categoryResultStatus} = useQuery({
     queryKey: ["searchForCategory"],
     queryFn: async () => {
-      if (!location) return null
+      if (!category) return null
       const result =  await getCategoryBusinesses(category)
       if(!result.success) return null
       return result.data
     },
-    enabled: !!location
   })
+
+  console.log(categoryResultData)
 
   if(categoryResultStatus == "pending") return <p>LOADING...</p>
   if(categoryResultStatus == "error") return <p>ERROR...</p>
 
   return (
-    <div className="mt-20 px-64"> 
-      <h3 className="font-md text-[#111] text-2xl">{`Warszataty dla: ${location}`}</h3>
+    <div className="mt-20 w-3/4 mx-auto"> 
+      <h3 className="font-md text-[#111] text-2xl">{`Kategoria: ${category[0].toUpperCase() + category.slice(1)}`}</h3>
       <div className="mt-[30px] flex flex-row gap-8 overflow-scroll">
-      {categoryResultData ?
+      {categoryResultData && category.length != 0 ?
         categoryResultData.map((service) => (
           <BusinessCard key={service.id} serviceData={service}/>
         ))
-        : "No data"
+        : <p className="w-full text-center py-10">Brak warsztatów w wybranej kategorii</p>
       }
       </div>
   </div>

@@ -2,24 +2,24 @@
 import { useBusinessCalendarNavigationStore } from "@/lib/store"
 import { cn } from "@/utils"
 
-export default function CalendarTypeBar() {
-  const openCalendarType = useBusinessCalendarNavigationStore(store => store.openCalendarType)
-  const setOpenCalendar = useBusinessCalendarNavigationStore(store => store.setOpenCalendar)
+export default function CalendarTypeSelector() {
+  const options =  [{type: "week", dispalyType: "Week"}, {type: "day", dispalyType: "Day"}]
+
+  const calendarType = useBusinessCalendarNavigationStore(store => store.calendarType)
+  const setCalendarType = useBusinessCalendarNavigationStore(store => store.setCalendarType)
 
   return (
-    <div className="flex bg-[#F6F5F2] border-1 border-[#EEE] rounded-md w-[158px] p-0.5">
-      <p 
-        onClick={()=>setOpenCalendar("week")} 
-        className={cn("m-0 w-[78px] py-1 font-medium rounded-sm text-center border-1 border-[#F6F5F2] hover:cursor-pointer", openCalendarType == "week" ? "bg-[#E8E8E8] border-[#D4D4D4]" : "")}
+    <div className="box-border flex bg-[#E4E5E7] border-black rounded-xl p-1">
+      {options.map((option, index) => (
+        <p 
+          key={index}
+          onClick={()=>setCalendarType(option.type)} 
+          className={cn("w-20 flex justify-center items-center rounded-lg text-sm px-3 py-1  hover:cursor-pointer",  
+          calendarType == option.type && "bg-[#F5F6F8]")}
         >
-          Week
+          {option.dispalyType}
         </p>
-       <p 
-        onClick={()=>setOpenCalendar("day")} 
-        className={cn("m-0 w-[78px] py-1 font-medium rounded-sm text-center border-1 border-[#F6F5F2] hover:cursor-pointer", openCalendarType == "day" ? "bg-[#E8E8E8] border-1 border-[#D4D4D4]" : "")}
-        >
-          Day
-        </p>
+      ))}
     </div>
-  );
+  )
 }
