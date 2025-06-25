@@ -5,8 +5,10 @@ import { FormLabel } from "@/components/form-label";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { addNewReservationManually, getActiveMonthAppointments } from "@/app/dashboard/actions";
 import { getWorkingTimeData } from "@/actions/actions";
-import { addMinutes, eachMinuteOfInterval, format, getMonth, getYear, set } from "date-fns";
+import { addMinutes, eachMinuteOfInterval, format, set } from "date-fns";
 import { getServicesForBusiness } from "@/app/dashboard/services/actions";
+import { Spinner } from "@/components/spinner";
+import { Error } from "@/components/error";
 
 type ModalProps = {
     open: boolean
@@ -73,51 +75,42 @@ export default function CalendarAddApppointmentModal({open, onClose}:ModalProps)
   const hours = eachMinuteOfInterval({start: openingServiceTime, end: closingServiceTime}, {step:15})
 
   const {mutate} = useMutation({
-    mutationKey: ["addReservationManual", selectedDate, selectedServiceData],
+    mutationKey: ["addAppointmentManual", selectedDate, selectedServiceData],
     mutationFn: async () => {    
       const selectedAppointmentTime = getValues("time")
 
-      const data = {
-        clientId: "walk-in",
+      const appointmentData = {
         servicesIds: [getValues("service")],
-        reservationYear: getYear(new Date(selectedDate)),
-        reservationMonth: getMonth(new Date(selectedDate)),
         reservationStart: new Date(selectedAppointmentTime),
-        reservationEnd: new Date(addMinutes(selectedAppointmentTime, selectedServiceData!.duration)),
         duration: selectedServiceData!.duration,
-        charge: Number(selectedServiceData!.price),
+        charge: Number(selectedServiceData.price),
         clientName: getValues("clientName"),
         clientPhone: getValues("clientPhone"),
-        status: "Zarezerwowana",
-        isAddedByBusiness: true,
       }
-  
-      return await addNewReservationManually(data)
+      
+      return await addNewReservationManually(appointmentData)
     }
   })
 
-  if (workingDaysDataStatus === "pending" || status === "pending" || appointmentsStatus === "pending") {
-    return <p>Ładowanie danych...</p>;
-  }
-  
-  if (workingDaysDataStatus === "error" || status === "error" || appointmentsStatus === "error") {
-    return <p>Wystąpił błąd ładowania danych</p>;
-  }
 
   const handleAddingAppointment = () => {
     mutate()
     onClose()
   } 
 
-  if(businessCategoriesStatus == "pending") return <p>PENDING</p>
-  if(businessCategoriesStatus == "error") return <p>ERROR</p>
+  if (workingDaysDataStatus === "pending"  || appointmentsStatus === "pending") return <Spinner/>
+  if (workingDaysDataStatus === "error" || appointmentsStatus === "error") return <Error/>
+
+  if(businessCategoriesStatus == "pending") return <Spinner/>
+  if(businessCategoriesStatus == "error") return <Error/>
 
   return (
-    <ModalProvider open={open} onClose={onClose} title="Add appointment">
+    <ModalProvider open={open} onClose={onClose} title="Nowa wizyta">
       <form onSubmit={handleSubmit(handleAddingAppointment)} className="flex flex-col gap-4">
-        <div className="flex flex-col w-full">
-          <FormLabel text="Rodzaj" />
-          <select className="border-[0.5px] border-[#E8E8E8] w-3/5 p-2" id="category" {...register('category')} required>
+        {/* Category */}
+        <div className="flex flex-col w-full gap-1">
+          <FormLabel text="Kategoria" />
+          <select className="px-2 py-2 border border-[#e5e7eb] text-sm w-3/4" id="category" {...register('category')} required>
             <option key="0" value="select" disabled>Wybierz</option>
               {businessCategoriesData?.map((category)=>{
                 return (<option key={category.id} value={category.id}>{category.name}</option>)
@@ -125,78 +118,73 @@ export default function CalendarAddApppointmentModal({open, onClose}:ModalProps)
           </select>
         </div>
 
-            <div className="flex flex-col">
-              <FormLabel text="Usługa" />
-              <select className="border-[0.5px] border-[#E8E8E8] w-full p-2" id="service" {...register('service')} required>
-                <option value="select" disabled>Wybierz</option>
-                  { selectedCategory && businessCategoriesData?.map((category)=>(
-                      selectedCategory == category.id && category.services.map((service) => {
-                          return (<option className="flex flex-row justify-between" key={service.id} value={service.id}>{service.name} {service.duration}</option>)
-                      })
-                  ))}
-              </select>
-            </div>
+        {/* Service type */}
+        <div className="flex flex-col gap-1">
+          <FormLabel text="Usługa"/>
+          <select className="px-2 py-2 border border-[#e5e7eb] text-sm" id="service" {...register('service')} required>
+            <option value="select" disabled>Wybierz</option>
+              {selectedCategory && businessCategoriesData?.map((category)=>(
+                selectedCategory == category.id && category.services.map((service) => (
+                  <option className="flex flex-row justify-between" key={service.id} value={service.id}>{service.name} {service.duration}</option>
+                ))
+              ))}
+          </select>
+        </div>
 
 
-          <div className="flex flex-row gap-10 justify-between">
-            <div className="flex flex-col w-3/5">
-              <FormLabel text="Dzień" />
-              <input type="date" id="date" {...register('date')} required className="border px-1 py-2 rounded" />
-            </div>
+        {/* Appointmet data and time */}
+        <div className="flex flex-row gap-10 justify-between">
+          {/* Date */}
+          <div className="flex flex-col w-3/5">
+            <FormLabel text="Dzień" />
+            <input type="date" id="date" {...register('date')} required className="border px-1 py-2 rounded" />
+          </div>
 
-            {(selectedDate && selectedService && selectedServiceData) &&  <div className="flex flex-col w-2/5">
-                <FormLabel text="Godzina" />
-                <select className="border-[0.5px] border-[#E8E8E8] px-2 py-2.5" id="time" {...register('time')} required>
-                  <option value="" disabled hidden>Godzina</option>
-
+          {/* Time */}
+          {(selectedDate && selectedService && selectedServiceData) &&  <div className="flex flex-col w-2/5">
+            <FormLabel text="Godzina" />
+              <select className="border-[0.5px] border-[#E8E8E8] px-2 py-2.5" id="time" {...register('time')} required>
+                <option value="" disabled hidden>Godzina</option>
                   {hours.map((time, index) => {
-                      const isReserved = appointments?.some((item) => (
-                          time >= item.reservationStart && time < item.reservationEnd
-                      ))
-
-                      if (isReserved) return null
-                      else{
-                          const serviceEnd = addMinutes(time, Number(selectedServiceData.duration))
-                              
-                          const isBetween = appointments!.some((item) =>(
-                              time < item.reservationEnd && serviceEnd > item.reservationStart
-                          ))
-
-                          if(isBetween) return null
-
-                          const afterWorkingHours = addMinutes(time, serviceDuration) > closingServiceTime
-                          if(afterWorkingHours) return null
-                          
-                          return <option key={index} value={String(time)}>{`${format(time, "HH")}:${format(time, "mm")}`}</option>
-                      }
+                    const isReserved = appointments?.some((item) => time >= item.reservationStart && time < item.reservationEnd)
                     
-                  })
-                  }
-                </select>
+                    if (isReserved) return null
+                    else{
+                      const serviceEnd = addMinutes(time, Number(selectedServiceData.duration))
+                      const isBetween = appointments!.some((item) =>time < item.reservationEnd && serviceEnd > item.reservationStart)
+                      
+                      if(isBetween) return null
+                      const afterWorkingHours = addMinutes(time, serviceDuration) > closingServiceTime
+                      
+                      if(afterWorkingHours) return null
+                      return <option key={index} value={String(time)}>{`${format(time, "HH")}:${format(time, "mm")}`}</option>
+                    }
+                  })}
+              </select>
+          </div>
+          }
+        </div>
+
+        {/* Client name */}
+        <div className="flex flex-col gap-1">
+          <FormLabel text="Client name"/>
+          <input className="px-2 py-2 border border-[#e5e7eb] text-sm" type="text" id="clientName" {...register("clientName")} /> 
+        </div>
+
+        {/* Client phone */}
+        <div className="flex flex-col gap-1">
+          <FormLabel text="Client phone"/>
+          <div className="w-fit flex flex-row h-full gap-1 border border-[#e5e7eb]">
+            <div className="flex justify-center items-center h-full py-2 px-0.5">
+              <p className="text-sm text-[#777] leading-0">+48</p>
             </div>
-            }
+            <input className="w-full px-2 py-2  text-sm" type="text" id="clientPhone" {...register("clientPhone")}/> 
           </div>
+        </div>
 
-          <div>
-              <FormLabel text="Client name"/>
-              <input type="text" id="clientName" {...register} /> 
-          </div>
-
-          <div>
-              <FormLabel text="Client phone"/>
-              <input type="text" id="clientPhone" {...register}/> 
-          </div>
-
-        <button 
-          type="submit" 
-          className="flex justify-center border w-1/2 py-1.5 rounded bg-[#111] text-[#FFF]"
-        >
-          Add
-        </button>   
+        {/* Add button */}
+        <button type="submit" className="flex justify-center border w-full py-1.5 rounded bg-[#111] text-[#FFF]">Dodaj</button>   
       </form>
     </ModalProvider>
   )
 }
-
-
-  

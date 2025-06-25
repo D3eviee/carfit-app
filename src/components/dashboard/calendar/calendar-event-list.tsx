@@ -5,17 +5,17 @@ import CalendarEventListItem from "./calendar-event-list-item";
 import { eachDayOfInterval, isSameDay, lastDayOfISOWeek, startOfISOWeek } from "date-fns";
 import { useQuery } from "@tanstack/react-query";
 import { getAppointmentsForWeekInterval } from "@/app/dashboard/calendar/actions";
-import CalendarEventOverviewModal from "./calendar-event-overview-modal";
 import { useState } from "react";
 import { Spinner } from "@/components/spinner";
 import { Error } from "@/components/error";
 import { CalendarAppointmentOverviewProps } from "@/lib/types";
+import CalendarEventModal from "./calendar-event-modal";
 
 export default function CalendarEventList() {
   //state for opening overview modal 
   const [isOpen, setIsOpen] = useState(false)
   const [overviewData, setOverviewData] = useState<CalendarAppointmentOverviewProps>({
-    clientEmail: "",
+    appointmentId: "",
     clientPhone: "",
     clientName: "",
     clientImage: "",
@@ -66,12 +66,12 @@ export default function CalendarEventList() {
             key={index} 
             appointmentData={appointment}
           />
-        )
-        : <p className="py-5 text-sm text-[#333] text-center font-normal">Brak wizyt</p>
-      }
-    </div>
+        ) : <p className="py-5 text-sm text-[#333] text-center font-normal">Brak wizyt</p>
+        }
+      </div>
 
-    <CalendarEventOverviewModal onClose={() => {setIsOpen(false)}} open={isOpen} appointmentData={overviewData}/>
+      {/* MODAL FOR EVENT OVERVIEW */}
+      <CalendarEventModal appointmentData={overviewData} onClose={() => {setIsOpen(false)}} open={isOpen}/>
     </div>
   );
 }

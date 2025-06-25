@@ -2,15 +2,14 @@
 import {addDays, eachDayOfInterval, eachHourOfInterval, format,getDate,getDay,isSameDay,lastDayOfISOWeek,set, startOfISOWeek, subDays } from "date-fns";
 import { useQuery } from "@tanstack/react-query";
 import { useBusinessSmallCallendarStore } from "@/lib/store";
-import CalendarDayViewEvent from "./calendar-day-view-event";
 import { getAppointmentsForWeekInterval } from "@/app/dashboard/calendar/actions";
 import { Spinner } from "@/components/spinner";
 import { Error } from "@/components/error";
 import { pl } from "date-fns/locale";
 import { cn } from "@/utils";
-import CalendarEventOverviewModal from "./calendar-event-overview-modal";
 import { useState } from "react";
 import { CalendarAppointmentOverviewProps } from "@/lib/types";
+import CalendarMobileDayEvent from "./calendar-mobile-day-event";
 
 export default function CalendarMobileDayView() {
   const activeDay = useBusinessSmallCallendarStore(store => store.activeDay)
@@ -19,7 +18,7 @@ export default function CalendarMobileDayView() {
   //overview state
   const [isOpen, setIsOpen] = useState(false)
   const [overviewData, setOverviewData] = useState<CalendarAppointmentOverviewProps>({
-    clientEmail: "",
+    appointmentId: "",
     clientPhone: "",
     clientName: "",
     clientImage: "",
@@ -97,7 +96,6 @@ export default function CalendarMobileDayView() {
   const endOfNextWeekFormatted = endOfNextWeek.charAt(0).toUpperCase() + endOfNextWeek.slice(1)
 
   return (
-    <>
       <div className="w-full h-full flex flex-col rounded-lg border py-2">
         {/* CALENDAR NAVIGATION */}
         <div className="w-full flex flex-col  gap-3">
@@ -156,19 +154,14 @@ export default function CalendarMobileDayView() {
                   ))}
                   {reservationsForWeekData?.map((item, index)=>(
                     isSameDay(activeDay, item.reservationStart) && 
-                      <CalendarDayViewEvent 
-                        openModal={() => openOverview(item)}
-                        appointmentData={item} 
+                      <CalendarMobileDayEvent 
+                        event={item}
                         key={index}
                       />
                   ))}
               </div>
           </div>
-        </div>
-        
-        </div>
-        <CalendarEventOverviewModal onClose={() => {setIsOpen(false)}} open={isOpen} appointmentData={overviewData}/>
-        </>
-        
+        </div>  
+      </div>
   );
 }

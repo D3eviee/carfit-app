@@ -3,19 +3,19 @@ import {addDays, eachDayOfInterval, eachHourOfInterval, format,isSameDay,lastDay
 import { useQuery } from "@tanstack/react-query";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useBusinessSmallCallendarStore } from "@/lib/store";
-import CalendarDayViewEvent from "./calendar-day-view-event";
 import { getAppointmentsForWeekInterval } from "@/app/dashboard/calendar/actions";
 import { Spinner } from "@/components/spinner";
 import { Error } from "@/components/error";
 import { pl } from "date-fns/locale";
+import CalendarDayEvent from "./calendar-day-event";
 
 export default function CalendarDayView() {
   const activeDay = useBusinessSmallCallendarStore(store => store.activeDay)
   const setActiveDay = useBusinessSmallCallendarStore(store => store.setActiveDay)
 
   //Formatting dates for buttons
-  const nextDay =  `${format(addDays(activeDay, 1), "LLL", { locale: pl })} ${format(addDays(activeDay, 1), "d", { locale: pl })}`;
-  const previousDay = `${format(subDays(activeDay, 1), "LLL", { locale: pl })} ${format(subDays(activeDay, 1), "d", { locale: pl })}`;;
+  const nextDay =  `${format(addDays(activeDay, 1), "EEEEEE", { locale: pl })} ${format(addDays(activeDay, 1), "d", { locale: pl })}`;
+  const previousDay = `${format(subDays(activeDay, 1), "EEEEEE", { locale: pl })} ${format(subDays(activeDay, 1), "d", { locale: pl })}`;;
   const nextDayFormatted = `${nextDay.charAt(0).toUpperCase() + nextDay.slice(1)}`
   const previousDayFormatted = `${previousDay.charAt(0).toUpperCase() + previousDay.slice(1)}`
   
@@ -67,7 +67,8 @@ export default function CalendarDayView() {
 
   const handleToday = () => {
     const today = new Date()
-    setActiveDay(today)
+    if(isSameDay(activeDay, today)) return 
+    else setActiveDay(today)
   }
 
   if(reservationsForWeekStatus == "pending") return <Spinner/>
@@ -115,7 +116,7 @@ export default function CalendarDayView() {
             <div className="relative w-full">
               {hours.map((_, i) => <div key={i} className="border-t h-20"></div>)}
               {reservationsForWeekData?.map((item, i)=> (
-                isSameDay(activeDay, item.reservationStart) && <CalendarDayViewEvent key={i} appointmentData={item} openModal={() => {}}/>
+                isSameDay(activeDay, item.reservationStart) && <CalendarDayEvent key={i} event={item} />
               ))}
             </div>
           </div>

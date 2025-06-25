@@ -115,15 +115,6 @@ export type AddService = {
 }
 
 //CALENDAR TYPES
-export type CalendarWeekViewEventProps = {
-  clientPhone: string | null
-  clientName: string | null
-  clientImage: string | null
-  duration: number
-  reservationStart: Date
-  charge: number,
-}
-
 export type CalendarDayViewEventProps = {
   clientPhone: string | null
   clientName: string | null
@@ -134,9 +125,9 @@ export type CalendarDayViewEventProps = {
 }
 
 export type CalendarAppointmentOverviewProps = {
+  appointmentId: string,
   status: string,
   clientPhone: string
-  clientEmail: string
   clientName: string
   clientImage: string
   duration: number
@@ -147,15 +138,6 @@ export type CalendarAppointmentOverviewProps = {
     price: string
   }[]
 }
-
-// SETTINGS
-// export type UserGalleryImage = {
-//   id: string,
-//   businessId: string,
-//   photoUrl: string,
-//   priority: number | null
-// }
-
 
 //ONBOARDING
 export type OnboardingBusinessProps = {

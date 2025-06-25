@@ -1,4 +1,3 @@
-
 'use client'
 import { useBusinessSmallCallendarStore } from "@/lib/store";
 import CalendarEventListItem from "./calendar-event-list-item";
@@ -15,7 +14,7 @@ export default function CalendarMobileEventList() {
   //state for opening overview modal 
   const [isOpen, setIsOpen] = useState(false)
   const [overviewData, setOverviewData] = useState<CalendarAppointmentOverviewProps>({
-    clientEmail: "",
+    appointmentId: "",
     clientPhone: "",
     clientName: "",
     clientImage: "",
@@ -44,20 +43,17 @@ export default function CalendarMobileEventList() {
     }
   })
 
-  if(weeklyAppointmentsStatus == "pending") return <Spinner/>
-  if(weeklyAppointmentsStatus == "error") return <Error/>
-  
-
-  console.log(weeklyAppointmentsData)
-
-  const activeDayAppointments = weeklyAppointmentsData
-    .filter(day => isSameDay(day.reservationStart, activeDay))
-    .sort((a, b) => a.reservationStart.getTime() - b.reservationStart.getTime())
-
   const openOverview = (data:CalendarAppointmentOverviewProps) => {
     setOverviewData(data)
     setIsOpen(true)
   }
+
+  if(weeklyAppointmentsStatus == "pending") return <Spinner/>
+  if(weeklyAppointmentsStatus == "error") return <Error/>
+
+  const activeDayAppointments = weeklyAppointmentsData
+  .filter(day => isSameDay(day.reservationStart, activeDay))
+  .sort((a, b) => a.reservationStart.getTime() - b.reservationStart.getTime())
 
   return (
     <div className="w-full overflox-x-hidden">

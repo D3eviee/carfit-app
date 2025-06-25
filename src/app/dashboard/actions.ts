@@ -1,7 +1,7 @@
 'use server'
-import { businessAuth } from "@/lib/auth";
+import { businessAuth, businessSignIn } from "@/lib/auth";
 import prisma from "@/lib/db"
-import { format, getDate, getMonth, getYear, isSameDay, set, subDays } from "date-fns";
+import { addMinutes, format, getDate, getMonth, getYear, isSameDay, set, subDays } from "date-fns";
 
 
 //get reservations for current day
@@ -200,6 +200,7 @@ export const getAppointmentsForCurrentDay = async (nowDate:Date) => {
       }
     },
     select: {
+      id: true,
       reservationStart:true,
       reservationEnd: true,
       charge: true,
@@ -243,56 +244,53 @@ export const getActiveMonthAppointments = async(date:Date) => {
 }
 
 
-type AddNewReservationManuallyProps =  {
-  businessId?: string
-  servicesIds: string[]
-  reservationStart: Date 
-  reservationYear: number
-  reservationMonth: number
-  reservationEnd: Date
-  duration: number
-  charge: number
-  status: string
+type ManualReservationProps =  {
   clientName: string
   clientPhone: string
-  isAddedByBusiness: boolean
+  reservationStart: Date 
+  duration: number
+  charge: number
+  servicesIds: string[]
 }
 
-//FUNCTIO FOR ADDING RESERVATION MANUALLY
-export const addNewReservationManually = async (reservation:AddNewReservationManuallyProps) => {
+//FUNCTION FOR ADDING RESERVATION MANUALLY
+export const addNewReservationManually = async (reservation:ManualReservationProps) => {
+  const {clientName, clientPhone, reservationStart, duration, charge, servicesIds } = reservation
+
   try{
       const businessData = await businessAuth()
 
+      if(!businessData.success) return {success: false, message: "Non-authorized user. Log in"}
+
       const newReservation = await prisma.reservation.create({
           data: {
-            businessId: reservation.businessId ?? businessData.id,
-            reservationYear: reservation.reservationYear,
-            reservationMonth: reservation.reservationMonth + 1,
-            reservationStart: reservation.reservationStart,
-            reservationEnd:reservation.reservationEnd,
-            duration: reservation.duration,
-            charge: reservation.charge,
-            status: reservation.status,
-            clientName: reservation.clientName,
-            clientPhone: reservation.clientPhone,
-            isAddedByBusiness: reservation.isAddedByBusiness
+            businessId: businessData.id,
+            reservationYear: getYear(reservationStart),
+            reservationMonth: getMonth(reservationStart) + 1,
+            reservationStart: reservationStart,
+            reservationEnd: addMinutes(reservationStart, duration),
+            duration: duration,
+            charge: charge,
+            status: "Zarezerwowana",
+            clientName: clientName,
+            clientPhone: clientPhone,
+            isAddedByBusiness: true,
           }
         });
         
         await Promise.all(
-          reservation.servicesIds.map((serviceId) =>
+          servicesIds.map((serviceId) =>
             prisma.reservationServices.create({
               data: {
                 reservationId: newReservation.id,
                 serviceId: serviceId
               }
-            })
-          )
-        );
-
-      return newReservation
-  }catch(err){
-      console.log(err)
+          }))
+        )
+        
+      return {success: true, data: newReservation}
+  }catch(error){
+      return {success: false, message: "There was a server error with adding appointment" + error}
   }
 }
 

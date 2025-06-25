@@ -11,5 +11,5 @@ export default function Calendar() {
           <CalendarList/>
         </div>
       </div>
-  );
+  )
 }

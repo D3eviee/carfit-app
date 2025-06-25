@@ -1,12 +1,12 @@
 'use client'
 import { createPortal } from "react-dom";
-import { useEffect } from "react";
 import { cn } from "@/utils";
 import { CalendarAppointmentOverviewProps } from "@/lib/types";
 import { addMinutes, format } from "date-fns";
 import { pl } from "date-fns/locale";
 import { ChevronLeft } from "lucide-react";
 import Image from "next/image";
+import CalendarEventOverviewCancelButton from "./calendar-event-overview-cancel-button";
 
 type ModalProviderProps = {
   open: boolean
@@ -92,11 +92,6 @@ export default function CalendarEventOverviewModal({ open, onClose, appointmentD
               <p className="text-sm text-[#111] font-normal">Phone</p>
               <p className="text-sm text-[#111] font-light">+48 {appointmentData.clientPhone}</p>
           </div>
-          {/* email */}
-          <div className="px-1 flex flex-row justify-between">
-              <p className="text-sm text-[#111] font-normal">Email</p>
-              <p className="text-sm text-[#111] font-light">{appointmentData.clientEmail}</p>
-          </div>
         </div>
 
         {/* SERVICES DATA*/}
@@ -117,11 +112,7 @@ export default function CalendarEventOverviewModal({ open, onClose, appointmentD
       </div>
 
       {/* DELETE BUTTON */}
-      <div className="absolute left-0 bottom-10  w-full flex flex-row justify-center">
-        <div className="px-4 py-2 rounded-full bg-[#F2F4F8] border border-[#D4D4D4]">
-          <p className="text-sm text-[#FF5F57] font-medium">Anuluj</p>
-        </div>
-      </div>
+      <CalendarEventOverviewCancelButton appointmentId={appointmentData.appointmentId} parentOnClose={onClose}/>
     </div>,
     document.body
   );

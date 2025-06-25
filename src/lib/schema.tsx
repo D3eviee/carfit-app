@@ -76,3 +76,27 @@ export const addServiceSchema = z.object({
 })
 
 export type AddServiceSchema = z.infer<typeof addServiceSchema>;
+
+
+// schema for changing password on profile page
+export const changePasswordSchema = z
+  .object({
+    currentPassword: z.string().min(1, "Wprowadź obecne hasło"),
+    newPassword: z.string().min(8, "Hasło musi mieć co najmniej 8 znaków"),
+    repeatNewPassword: z.string(),
+  })
+  .refine((data) => data.newPassword === data.repeatNewPassword, {
+    message: "Hasła muszą się zgadzać",
+    path: ["repeatNewPassword"],
+  })
+export type ChangePasswordInput = z.infer<typeof changePasswordSchema>
+
+
+// schema for changing personal information on profile page
+export const changePersonalDataSchema = z
+  .object({
+    name: z.string().min(1, "Wprowadź imię i nazwisko"),
+    email: z.string().min(1, "Wprowadź adres e-mail").email({message: "Nieprawidłowy adres email"}),
+    phone: z.string().regex(/^\d{9}$/, "Numer telefonu musi składać się z 9 cyfr")
+  })
+export type ChangePersonalDataInput= z.infer<typeof changePersonalDataSchema>

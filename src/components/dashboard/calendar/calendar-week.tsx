@@ -3,7 +3,7 @@ import {addDays, eachDayOfInterval, eachHourOfInterval, format,isSameDay,isToday
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import CalendarWeekViewEvent from "./calendar-week-view-event";
+import CalendarWeekViewEvent from "./calendar-week-event";
 import { getAppointmentsForWeekInterval } from "@/app/dashboard/calendar/actions";
 import { Error } from "@/components/error";
 import { Spinner } from "@/components/spinner";
@@ -75,11 +75,14 @@ export default function CalendarWeek() {
 
   const handleToday = () => {
     const today = new Date()
-    setActiveDay(today)
-    setCurrentWeek(eachDayOfInterval({
-        start: startOfISOWeek(today),
-        end: lastDayOfISOWeek(today)
-    }))
+    if(isSameDay(activeDay, today)) return 
+    else{
+      setActiveDay(today)
+      setCurrentWeek(eachDayOfInterval({
+          start: startOfISOWeek(today),
+          end: lastDayOfISOWeek(today)
+      }))
+    }
   }
 
   //Formatting dates for buttons
@@ -132,8 +135,12 @@ export default function CalendarWeek() {
         <div className="flex flex-row w-full  items-center justify-evenly py-1">
           {currentWeek.map((item, i) => (
             <div key={i} className="w-full flex flex-row items-center justify-center gap-1">
-              <p className="text-base text-[#111] font-normal">{`${format(item, "iii", {locale: pl}).slice(0,2)}`}</p>
-              <p className={cn("text-base text-[#111] font-normal px-1 rounded-md", isToday(item) && "bg-[#FF5F58] text-[#FFF] font-medium")}>
+              <p className="text-base text-[#111] font-normal hover:cursor-pointer" onClick={() => {setActiveDay(item)}}>{`${format(item, "iii", {locale: pl}).slice(0,2)}`}</p>
+              <p 
+                className={cn("text-base text-[#111] font-normal px-1 rounded-md hover:cursor-pointer",
+                isToday(item) && "bg-[#FF5F58] text-[#FFF] font-medium",
+                isSameDay(item, activeDay) && "bg-[#111] text-white")}
+                onClick={() => {setActiveDay(item)}}>
               {`${format(item, "d")}`}
               </p>
             </div>
@@ -159,5 +166,5 @@ export default function CalendarWeek() {
         </div> 
       </div>
     </div>
-  );
+  )
 }
