@@ -1,16 +1,19 @@
 'use client'
 import { getBusinessCategoriesAndServices } from "@/app/(landing)/actions";
 import { BookingCalendar } from "@/components/booking/booking-calendar";
-import BookingChoosingServices from "@/components/booking/booking-choosing-services";
-import { NavigationCloseBookingButton } from "@/components/navigation-close-booking-button";
+import { BookingCloseButton } from "@/components/booking/booking-close-button";
 import { useQuery } from "@tanstack/react-query";
-import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useState } from "react";
 import { Category } from "@/lib/types";
 import BookingSummary from "@/components/booking/booking-summary";
 import BookingStatusBarMobile from "@/components/booking/booking-status-bar-mobile";
 import BookingSummaryMobile from "@/components/booking/booking-summary-mobile";
+import { Spinner } from "@/components/spinner";
+import { Error } from "@/components/error";
+import BookingServices from "@/components/booking/booking-services";
+import BookingDetailsFromUser from "@/components/booking/booking-details-from-user";
+import { BookingBackButton } from "@/components/booking/booking-back-button";
 
 export default function Booking() {
   const [bookingStep, setBookingStep] = useState(1)
@@ -29,31 +32,37 @@ export default function Booking() {
       const response = getBusinessCategoriesAndServices(id);   
       return response
     },
-  });
+  })
 
   const services = businessCategoriesAndServicesData?.data?.map((item: Category) => {
     return item.services;
   }).flat();
 
 
-  if(businessCategoriesAndServicesStatus == "pending") return <p>PENDING</p>
-  if(businessCategoriesAndServicesStatus == "error") return <p>ERROR</p>
+  if(businessCategoriesAndServicesStatus == "pending") return <Spinner/>
+  if(businessCategoriesAndServicesStatus == "error") return <Error/>
 
   return (
-    <div className="absolute w-full h-full top-0 bg-white">
-      {/* NAVIGATION */}
-      <nav className="relative flex flex-row justify-between items-center px-2 pt-11">
-        <Link href="/"><h3 className="font-semibold text-2xl/7">CarFit</h3></Link>
-        <NavigationCloseBookingButton/>
+    <div className="absolute w-full h-full top-0 bg-white flex flex-col overflow-hidden">
+      {/* NAVBAR */}
+      <nav className="relative py-10 px-4">
+        <BookingBackButton 
+          bookingStep={bookingStep}
+          previouStepFn={() => {setBookingStep(prev => prev-1)}}
+        />
+        <BookingCloseButton/>
       </nav>
       
-      {/* CONTENT */}
-      <div className="px-2 mt-16 flex justify-between lg:mt-[100px] lg:mx-[285px]">
+      {/* SERVICES */}
+      <div className="h-full flex flex-col px-4 overflow-hidden">
         {/* CHOOSING SERVICE */}
-        {(businessCategoriesAndServicesData && bookingStep == 1) && <BookingChoosingServices categoriesData={businessCategoriesAndServicesData.data!}/>}
-        {bookingStep == 2 && <BookingCalendar servicesData={services!}/>}
+        {(businessCategoriesAndServicesData && bookingStep == 1) 
+        && <BookingServices categoriesData={businessCategoriesAndServicesData.data!}/>}
+        
+        {bookingStep == 2 && <BookingCalendar servicesData={services}/>}
+        {bookingStep == 3 && <BookingDetailsFromUser/>}
       
-        {/* APPOINTMENT SUMMARY */}
+        {/* APPOINTMENT SUMMARY FOR BIG DISPLAYS*/}
         <BookingSummary 
           bookingStep={bookingStep} 
           setNextBookingStep={() => {setBookingStep(prev => prev+1)}} 
@@ -62,7 +71,7 @@ export default function Booking() {
           businessId ={id!}
         />
 
-        {bookingStep == 3 && 
+        {bookingStep == 4 && 
         <BookingSummaryMobile 
           bookingStep={bookingStep} 
           setNextBookingStep={() => {setBookingStep(prev => prev+1)}} 
@@ -70,19 +79,17 @@ export default function Booking() {
           services={services!}
           businessId ={id!}
         />}
-        
-
-        {(bookingStep == 1 || bookingStep == 2) &&<BookingStatusBarMobile
-          bookingStep={bookingStep} 
-          setNextBookingStep={() => {setBookingStep(prev => prev+1)}} 
-          setPreviousBookingStep={() => {setBookingStep(prev => prev-1)}} 
-          services={services!}
-          businessId ={id!}
-        />}
       </div>
-    </div>
 
-     
+      {/* MOBILE SUMMARY BAR FOR SMALL SCREENS*/}
+        {(bookingStep == 1 || bookingStep == 2 || bookingStep == 3) &&
+          <BookingStatusBarMobile
+            bookingStep={bookingStep} 
+            setNextBookingStep={() => {setBookingStep(prev => prev+1)}} 
+            setPreviousBookingStep={() => {setBookingStep(prev => prev-1)}} 
+            services={services}
+          />}
+    </div>     
   )
 }
  

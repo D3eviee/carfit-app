@@ -13,6 +13,5 @@ export const ProfileDeleteAccountButton = () => {
             >Usuń konto</div>
             <ProfileDeleteAccountModal  open={isOpen} onClose={() => setIsOpen(false)} />
         </>
-        
     )
 }

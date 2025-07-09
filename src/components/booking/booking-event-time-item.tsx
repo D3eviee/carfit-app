@@ -1,26 +1,26 @@
-import { useEventTimeStore } from "@/lib/store"
+import { useAppointmentStore } from "@/lib/store"
 import { cn } from "@/utils"
-import { getHours, getMinutes, isEqual } from "date-fns"
+import { format, isEqual } from "date-fns"
 
 export const BookingEventTimeItem = ({time}:{time:Date}) => {
-    const hours = getHours(time)
-    const minutes = getMinutes(time)
+    //ZUSTAND STORE FOR SELETING TIME
+    const appointmentTime = useAppointmentStore((store) => store.appointmentTime)
+    const setAppointmentTime = useAppointmentStore((store) => store.setAppointmentTime)
 
-    const activeEventTime = useEventTimeStore((store) => store.activeEventTime)
-    const setActiveEventTime = useEventTimeStore((store) => store.setActiveEventTime)
+    const timeText = `${format(time, "hh")}:${format(time, "mm")}`
 
-    const handleChoosingTime = () => {
-        setActiveEventTime(time)
+    const handleTimeSelect = () => {
+        setAppointmentTime(time)
     }
 
     return (
         <p 
-            className={cn("h-fit text-center text-base text-[#111] font-medium py-1.5 rounded-md border-[0.5px] hover:cursor-pointer",
-                isEqual(activeEventTime!, time) ? "bg-[#222] text-white" : "bg-[#F2F4F8] hover:bg-[#EEE]"
+            className={cn("text-center text-sm text-[#191919] font-normal py-2 rounded-xl border-[0.5px] hover:cursor-pointer",
+                isEqual(appointmentTime, time) ? "bg-gradient-to-b from-[#141414] to-[#313131] text-[#F2F2F7]" : "bg-[#F2F2F7] hover:bg-[#EEE]"
             )}
-            onClick={handleChoosingTime}
+            onClick={handleTimeSelect}
         >
-            {`${hours}:${minutes == 0 ? minutes + "0" : minutes }`}
+            {timeText}
         </p>
     )
 }

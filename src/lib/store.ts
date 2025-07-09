@@ -88,35 +88,38 @@ export const useCalendarStore = create<CalendarStoreProps>((set) => ({
   resetCalendarStore: () => set(({activeDate : new Date(), selectedDate: new Date()}))
 }));
 
-type EventTimeStoreProps = {
-  activeEventTime: Date | null
-  setActiveEventTime: (time:Date | null) => void
-}
-
-export const useEventTimeStore = create<EventTimeStoreProps>((set) => ({
-  activeEventTime: null,
-  setActiveEventTime : (time) => set(()=>({activeEventTime : time})),
-}));
-
+// Booking appointmentState
 type AppointmentStoreProps = {
+  clientMessage: string | null
+  appointmentTime: Date | null
   selectedServices: string[]
+  setAppointmentTime: (time:Date | null) => void
+  setClientMessage: (text: string) => void
+  toggleSelectedService: (serviceId) => void
   resetSelectedServices: () => void
-  toggleSelectedService: (service: Service) => void
+  resetAppointmentTime: () => void
+  resetClientMessage: () => void
 }
 
 export const useAppointmentStore = create<AppointmentStoreProps>((set) => ({
   selectedServices: [],
-  toggleSelectedService: (service) => set((state) => {
-      const isSelected = state.selectedServices.includes(service.id);
-
-      return {
-        selectedServices: isSelected
-          ? state.selectedServices.filter((id) => id !== service.id) // Usuń jeśli istnieje
-          : [...state.selectedServices, service.id], // Dodaj jeśli nie ma
-      };
-    }),
-    resetSelectedServices: () => set(()=>({selectedServices : []})),
-}));
+  clientMessage: null,
+  appointmentTime: null,
+  toggleSelectedService: (serviceId) => set((state) => {
+    const isSelected = state.selectedServices.includes(serviceId);
+    
+    return {
+      selectedServices: isSelected
+        ? state.selectedServices.filter((id) => id !== serviceId) // delete if already selected
+        : [...state.selectedServices, serviceId], // add if not selected
+    }}
+  ),
+  resetSelectedServices: () => set(()=>({selectedServices : []})),
+  setAppointmentTime : (time) => set(()=>({appointmentTime : time})),
+  setClientMessage: (text) => set(() => ({clientMessage: text})),
+  resetAppointmentTime: () => set(() => ({appointmentTime: null})),
+  resetClientMessage: () => set(() => ({clientMessage: null}))
+}))
 
 //REFACTORED
 // store for desktop type of calendar

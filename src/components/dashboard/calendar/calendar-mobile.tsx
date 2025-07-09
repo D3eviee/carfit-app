@@ -1,6 +1,6 @@
 'use client'
 import { useDashboardMobileCalendarTypeStore } from "@/lib/store";
-import CalendarMobileType from "./calendar-type-mobile";
+import CalendarMobileType from "./calendar-mobile-type";
 import CalendarMobileListView from "./calendar-mobile-list-view";
 import CalendarMobileDayView from "./calendar-mobile-day-view";
 import CalendarAddApppointmentButton from "./calendar-add-appointment-button";

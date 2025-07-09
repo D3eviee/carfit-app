@@ -37,3 +37,9 @@ export function displayAppointmentTime(duration: number){
     else if(minutes == 0 )return `${hours}h` 
     else return `${hours}h ${minutes}min`
 }
+
+//function for displaying readable phone number
+export function formatPhoneNumber(rawPhoneNumber: string){
+    const phone = `+48 ${String(rawPhoneNumber).slice(0,3)} ${String(rawPhoneNumber).slice(3,6)} ${String(rawPhoneNumber).slice(6,9)}`
+    return phone
+} 

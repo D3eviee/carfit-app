@@ -87,6 +87,7 @@ model WorkingDay {
 
 model Review {
   id        String   @id @default(uuid())
+  title     String
   content   String
   rate      Int
   createdAt DateTime @default(now())
@@ -135,6 +136,7 @@ model Reservation {
   duration          Int
   charge            Float
   status            String
+  clientMessage     String?
   clientName        String?
   clientPhone       String?
   isAddedByBusiness Boolean  @default(false)

@@ -1,36 +1,46 @@
 'use client'
-import {eachDayOfInterval, format, getDate, getDaysInMonth, getISODay, getMonth, getYear, lastDayOfMonth, subMonths } from "date-fns"; 
+import {eachDayOfInterval, format, getDaysInMonth, getISODay, getMonth, isSameMonth, isSameYear, lastDayOfMonth, startOfMonth } from "date-fns"; 
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { BookingCalendarDay } from "./booking-calendar-day";
-import { useCalendarStore, useEventTimeStore } from "@/lib/store";
+import { useAppointmentStore, useCalendarStore } from "@/lib/store";
 import { cn, useServiceIdFromParams } from "@/utils";
-import { BookingEventTime } from "./booking-event-time";
+import { BookingAppointmentAvailableHours } from "./booking-calendar-available-hours";
 import { useQuery } from "@tanstack/react-query";
 import { getActiveMonthAppointments, getBusinessWorkingHours } from "@/app/(landing)/actions";
 import { Service } from "@/lib/types";
 import { Spinner } from "../spinner";
 import { Error } from "../error";
+import { pl } from "date-fns/locale";
 
 export const BookingCalendar = ({servicesData}:{servicesData:Service[]}) => {
-    const serviceId = useServiceIdFromParams()
+    const businessId = useServiceIdFromParams()
+    const namesOfDays = ["Pon", "Wto", "Śro", "Czw", "Pią", "Sob", "Nie"]
 
     //ZUSTAND STORE
     const todayDate = useCalendarStore((store) => store.todayDate)
     const activeDate = useCalendarStore((store) => store.activeDate)
     const selcetedDate = useCalendarStore((store) => store.selectedDate) //SELECTED CALENDAR DAY
-    const setActiveEventTime = useEventTimeStore(store => store.setActiveEventTime)
+    const setAppointmentTime = useAppointmentStore(store => store.setAppointmentTime)
     const setNextActiveMonth = useCalendarStore((store) => store.setNextActiveMonth)
     const setPreviousActiveMonth = useCalendarStore((store) => store.setPreviousActiveMonth)
 
+    // DATA FOR DISPLAYIG SELECTED DATE
+    const rawDayOfWeek = format(selcetedDate, "EEEE", {locale: pl})
+    const dayOfWeek = rawDayOfWeek.slice(0,1).toUpperCase() + rawDayOfWeek.slice(1)
+    const day = format(selcetedDate, "d")
+    const rawMonth = format(selcetedDate, "LLLL", {locale: pl})
+    const month = rawMonth.slice(0,1).toUpperCase() + rawMonth.slice(1)
+    const year = format(selcetedDate, "y")
+    const date = `${dayOfWeek}, ${day} ${month} ${year} `
+
+
+    // FORMATING DATE DATA FOR CALENDAR
     const activeMonth = getMonth(activeDate)
     const activeYear = activeDate.getFullYear()
     const daysInMonthActiveMonth = getDaysInMonth(activeDate)
-
-    const firstDayOfCurrentMonth = getISODay(new Date(activeYear, activeMonth))
+    const firstDayOfCurrentMonth = getISODay(startOfMonth(activeDate))
     const lastDayOfTheCurrentMonth = getISODay(lastDayOfMonth(activeDate))
 
-    const numberOfDaysInPreviousMonth = getDate(lastDayOfMonth(subMonths(activeDate, 1)))
-    
     const daysOfActiveMonth = eachDayOfInterval({
         start: new Date(activeYear, activeMonth, 1),
         end: new Date(activeYear, activeMonth, daysInMonthActiveMonth)
@@ -39,112 +49,96 @@ export const BookingCalendar = ({servicesData}:{servicesData:Service[]}) => {
     const {data: getActiveMonthAppointmentsData, status: getActiveMonthAppointmentsStatus} = useQuery({
         queryKey: ["getActiveMonthAppointments", activeDate],
         queryFn: async () => {
-            const response = await getActiveMonthAppointments(activeDate, serviceId)
-            return response
-        }
+            const response = await getActiveMonthAppointments(activeDate, businessId)
+            if (response.success) return response.data
+        },
+        enabled: !!businessId
     })
 
+    const { data: businessWorkingHoursData, status: businessWorkingHoursStatus} = useQuery({
+        queryKey: ["getWorkingHours"],
+        queryFn: async () => {
+            const response = await getBusinessWorkingHours(businessId)
+            if(response.success) return response.data
+        },
+        enabled: !!businessId
+    });
+
     const isPreviousMonthDisabled = () => {
-        if(getYear(todayDate) == getYear(activeDate) && getMonth(todayDate) == getMonth(activeDate)) return true
+        if(isSameMonth(todayDate, activeDate) && isSameYear(todayDate, activeDate)) return true
         else return  false
     }
     
     const handlePreviousMonth = () => {
         setPreviousActiveMonth(activeDate)
-        setActiveEventTime(null)
+        setAppointmentTime(null)
     }
 
     const handleNextMonth = () => {
         setNextActiveMonth(activeDate)
-        setActiveEventTime(null)
+        setAppointmentTime(null)
     }
-
-    const { data: businessWorkingHoursData, status: businessWorkingHoursStatus} = useQuery({
-            queryKey: ["getWorkingHours"],
-            queryFn: async () => {
-              const response = await getBusinessWorkingHours(serviceId)
-              return response
-            },
-        });
 
     if(getActiveMonthAppointmentsStatus == "pending") return <Spinner/>
     if(getActiveMonthAppointmentsStatus == "error") return <Error/>
-
     if(businessWorkingHoursStatus == "pending") return <Spinner/>
     if(businessWorkingHoursStatus == "error") return <Error/>
 
-
     return (
-        <div className="w-full flex flex-col gap-8 lg:w-7/12">
+        <div className="h-screen w-full flex flex-col gap-5 overflow-hidden">
+            <h1 className="text-[#191919] text-2xl leading-none font-semibold">Wybierz termin</h1>
+
             {/* CALENDAR HEADING AND CONTROLS */}
-            <div className=" flex flex-row justify-between items-center">
-                <h1 className="text-black text-xl font-medium tracking-normal">{`${format(activeDate, "MMMM")}, ${activeYear}`}</h1> 
+            <div className="flex flex-row justify-between items-center ">
+                <h1 className="text-black text-md font-medium tracking-normal">{`${month}, ${activeYear}`}</h1> 
                 <div className="flex flex-row gap-3" >
                     <button 
                         className={cn("p-1 bg-black rounded-md hover:bg-[#222]", isPreviousMonthDisabled() && "bg-[#333] hover:bg-[#333]")}
                         disabled={isPreviousMonthDisabled()}
                         onClick={handlePreviousMonth}
                     >
-                        <ChevronLeft color="#FFF"/>
+                        <ChevronLeft size={23} color="#FFF"/>
                     </button>
                     <button className="p-1 bg-black rounded-md hover:bg-[#222]" onClick={handleNextMonth}>
-                        <ChevronRight color="#FFF"/>
+                        <ChevronRight size={23} color="#FFF"/>
                     </button>
                 </div>
             </div>
                 
             {/* CALENDAR */}
-            <div className="flex flex-col min-h-[335px] lg:min-h-[375px]">
-                {/* CALENDAR DAYS */}
+            <div className="flex flex-col w-full">
+                {/* DAYS NAMES */}
                 <div className="w-full grid grid-cols-7">
-                    <div className="text-center py-1">Mon</div>
-                    <div className="text-center py-1">Tue</div>
-                    <div className="text-center py-1">Wed</div>
-                    <div className="text-center py-1">Thu</div>
-                    <div className="text-center py-1">Fri</div>
-                    <div className="text-center py-1">Sat</div>
-                    <div className="text-center py-1">Sun</div>
+                    {namesOfDays.map((day, i ) => <div key={i} className="text-xs text-center pb-0.5">{day}</div>) }
                 </div>
 
+                {/* DAYS FOR SELECTING */}
                 <div className="w-full grid grid-cols-7">
-                {Array.from({ length: firstDayOfCurrentMonth-1 }, (_, i) => i + 1).map((_ ,i) => (
-                    <div key={i} className="flex justify-center text-center py-1 my-1">
-                        <p className="w-10 h-10 flex items-center justify-center rounded-md text-base text-[#ACACAC] font-normal">
-                            {numberOfDaysInPreviousMonth-i}
-                        </p>
-                    </div>
-                )).reverse()}
+                    {Array.from({ length: firstDayOfCurrentMonth-1 }, (_, i) => i + 1).map((_ ,i) => (
+                        <div key={i} className="flex justify-center text-center border py-0.5 my-0.5"></div>
+                    ))}
 
-                {daysOfActiveMonth.map((day, index) => (
-                    <BookingCalendarDay key={index} date={day}/>
-                ))}
+                    {daysOfActiveMonth.map((day, index) => (
+                        <BookingCalendarDay key={index} date={day}/>
+                    ))}
 
-                {Array.from({ length: 7 - lastDayOfTheCurrentMonth }, (_, i) => i + 1).map((_ ,i) => (
-                    <div key={i} className="flex justify-center text-center py-1 my-1">
-                        <p className="w-10 h-10 flex items-center justify-center rounded-md text-base text-[#ACACAC] font-normal">
-                            {i+1}
-                        </p>
-                    </div>
-                ))}
+                    {Array.from({ length: 7 - lastDayOfTheCurrentMonth }, (_, i) => i + 1).map((_ ,i) => (
+                        <div key={i} className="flex justify-center text-center py-0.5 my-0.5"></div>
+                    ))}
                 </div>
-            </div>
-            {/* {AVAILABLE DATES} */}
+             </div>
 
-            <div className="flex flex-col  gap-3 md:gap-7">
-                {
-                    selcetedDate != undefined && 
-                    <h2 className="text-base text-black font-semibold ">
-                        {`${format(selcetedDate, "EEEE")}, ${format(selcetedDate, "do")} ${format(selcetedDate, "MMMM")} ${format(selcetedDate, "y") }`}
-                    </h2>
-                }
+            {/* AVAILABLE HOURS */}
+            <div className="w-full h-full flex flex-col gap-3 overflow-scroll max-h-44">
+                <h2 className="text-base font-medium text-[#191919]">{date}</h2>
                 
-                {/* LIST OF AVAILABLE HOURS*/}
-                {getActiveMonthAppointmentsData && selcetedDate ? 
-                    <BookingEventTime 
+                {selcetedDate && 
+                    <BookingAppointmentAvailableHours
                         services={servicesData} 
-                        reservations={getActiveMonthAppointmentsData.data!}
-                        workingHours={businessWorkingHoursData.data!}
-                    /> : null}
+                        reservations={getActiveMonthAppointmentsData}
+                        workingHours={businessWorkingHoursData}
+                    /> 
+                }
             </div>
         </div>
     )

@@ -56,7 +56,7 @@ export const authRole = async () => {
             id: business.id,
         }
     }
-    else return {id: "", role: "UNKNOWN"}
+    else return {id: "", role: "NONAUTHORIZED"}
 } 
 
 export const logout = async () => {

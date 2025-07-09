@@ -6,7 +6,7 @@ export default function ServicesSidebar({categories}: {categories: ServicesCateg
   return (
     // <div className="w-full flex flex-col bg-[#FFF] gap-4 p-4 border border-[#D4D4D4] rounded-lg  lg:gap-5 lg:px-4 lg:py-5">
     <div className="w-full flex flex-col bg-[#FFF] gap-4 p-4 border border-[#D4D4D4] rounded-lg md:w-1/3 lg:w-[215px]">
-      <div className="w-full flex flex-row justify-between items-end">
+      <div className="w-full flex flex-row justify-between items-center">
          <h3 className="text-[#111] text-md font-medium lg:text-xl lg:font-normal px-0.5">Kategorie</h3>
           <AddCategoryButton />
       </div>

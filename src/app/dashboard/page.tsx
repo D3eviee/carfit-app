@@ -1,9 +1,11 @@
 'use client'
 import { useQuery } from "@tanstack/react-query";
-import { getTodayReservations, getLastWeekTopServicesNumbers, getLastWeekReservationsNumbers } from "./actions";
+import { getTodayReservations } from "./actions";
 import DashboardReservationList from "@/components/dashboard/main/dashboard-reservation-list";
 import DashboardVisitChart from "@/components/dashboard/main/dashboard-visit-chart";
 import DashboardTopServicesChart from "@/components/dashboard/main/dashboard-top-services-chart";
+import { Spinner } from "@/components/spinner";
+import { Error } from "@/components/error";
 
 export default function Dashboard() {
   const {data: todayReservationsData, status:todayReservationsDataStatus} = useQuery({
@@ -15,38 +17,16 @@ export default function Dashboard() {
     }
   })
 
-  const {data: getLastWeekReservationsNumbersData, status: getLastWeekReservationsNumbersStatus} = useQuery({
-    queryKey: ["getLastWeekReservationsNumbers" ],
-    queryFn: async () => {
-      const response = await getLastWeekReservationsNumbers()
-      if(response.success) return response.data
-      return null
-    }
-  })
-
-  const {data: getLastWeekTopServicesNumbersData, status: getLastWeekTopServicesNumbersStatus} = useQuery({
-    queryKey: ["getLastWeekTopServicesNumbers"],
-    queryFn: async () => {
-      const response = await getLastWeekTopServicesNumbers()
-      if(response.success) return response.data
-      return null
-    }
-  })
-
-  if(todayReservationsDataStatus == "pending") return <p>PENDING</p>
-  if(todayReservationsDataStatus == "error") return <p>ERROR</p>
-  if(getLastWeekReservationsNumbersStatus == "pending") return <p>PENDING</p>
-  if(getLastWeekReservationsNumbersStatus == "error") return <p>ERROR</p>
-  if(getLastWeekTopServicesNumbersStatus == "pending") return <p>PENDING</p>
-  if(getLastWeekTopServicesNumbersStatus == "error") return <p>ERROR</p>
+  if(todayReservationsDataStatus == "pending") return <Spinner/>
+  if(todayReservationsDataStatus == "error") return <Error/>
 
   return (
-    <div className="w-full flex flex-col gap-4 lg:flex-row border">
+    <div className="w-full flex flex-col gap-4 lg:flex-row">
       {todayReservationsData && <DashboardReservationList reservations={todayReservationsData}/>}
 
       <div className="w-full flex flex-col gap-4">
-        {getLastWeekReservationsNumbersData && <DashboardVisitChart reservationData={getLastWeekReservationsNumbersData}/>}
-        {getLastWeekTopServicesNumbersData &&  <DashboardTopServicesChart topServicesData={getLastWeekTopServicesNumbersData}/>}
+        <DashboardVisitChart/>
+        <DashboardTopServicesChart/>
       </div>
     </div>
   );

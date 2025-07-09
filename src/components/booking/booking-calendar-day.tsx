@@ -22,8 +22,8 @@ export const BookingCalendarDay = ({date}:{date:Date}) => {
     }
 
     return (
-        <div className="flex justify-center text-center py-1 my-1">
-            <button className={cn("w-8 h-8 flex items-center justify-center rounded-md text-base text-[#333] font-normal hover:cursor-pointer", 
+        <div className="flex justify-center text-center p-1.5">
+            <button className={cn("w-8 h-8 flex items-center justify-center rounded-md text-base text-[#191919] font-normal hover:cursor-pointer", 
                 isToday(date) ? "border-[0.5px] border-[#333]":"border-none",
                 isDaySelected() ? "bg-[#000] text-white": "bg-none",
                 isPast() ? "hover:cursor-default line-through" : "no-underline",

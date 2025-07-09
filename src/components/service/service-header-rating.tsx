@@ -1,35 +1,44 @@
-import { Client } from "@/lib/types"
+import { Star } from "lucide-react";
 
-type ServiceHeaderRatingData = {
-  id: string
-  rate: number
-  content: string
-  client: Client
+type ServiceHeaderRatingProps = {
+  id: string;
+  rate: number;
+  content: string;
 }
 
-export const ServiceHeaderRating = ({reviewsData, className}:{reviewsData: ServiceHeaderRatingData[], className:string}) => {
-    const numberOfReviews = reviewsData.length
-    const averageRating = Number(reviewsData.reduce((sum, item) => sum + item.rate , 0) / numberOfReviews)
+export const ServiceHeaderRating = ({reviewsData}: {reviewsData: ServiceHeaderRatingProps[]}) => {
+  const numberOfReviews = reviewsData.length;
+  const averageRating = numberOfReviews > 0 ? reviewsData.reduce((sum, item) => sum + item.rate, 0) / numberOfReviews : 0
+  const starSize = 16;
 
-    return (
-      <div className={`bg-[#F2F2F2] rounded-sm px-1 py-1 flex flex-row gap-2 items-center ${className}`}>
-        <p className="text-[15px] font-bold text-[111111]">{averageRating != 0.0 ? `${averageRating}.0` : "No reviews"}</p>
-          {averageRating != 0.0 && (
-            <div className="flex flex-row gap-[3px]">
-              {Array.from({ length: Math.floor(averageRating) }, (_, index) => (
-                <svg key={index} xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#FFD700" viewBox="0 0 16 16">
-                  <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-                </svg>
-              ))}
-              {Array.from({ length: 5 - Math.floor(averageRating) }, (_, index) => (
-                <svg key={index} xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#F4F4F4" viewBox="0 0 16 16">
-                  <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-                </svg>
-              ))}
+  const stars = Array.from({ length: 5 }).map((_, i) => {
+    const starFill = Math.min(Math.max(averageRating - i, 0), 1);
+    return starFill;
+  });
+
+  return (
+    <div className="w-fit flex flex-row items-center gap-1.5">
+      {/* NUMBER RATING */}
+      <p className="font-bold text-[#8E8E92] leading-none text-base">{averageRating !== 0 ? averageRating.toFixed(1) : "Brak opinii"}</p>
+
+      {/* STAR RATING */}
+      {averageRating !== 0 && (
+        <div className="flex gap-[1px]">
+          {stars.map((fill, i) => (
+            <div key={i} className="relative" style={{ width: starSize, height: starSize }}>
+              {/* Empty stars */}
+              <Star className="absolute top-0 left-0" size={starSize} color="#8E8E92" fill="none" strokeWidth={1}/>
+              {/* Filled stars */}
+              <div className="absolute top-0 left-0 overflow-hidden" style={{ width: starSize * fill, height: starSize }} >
+                <Star size={starSize} color="#8E8E92" fill="#8E8E92"/>
+              </div>
             </div>
-          )}
-        {/* NUMBERS OF REVIEWS */}
-        {numberOfReviews != 0 && <p className="text-[15px] font-normal text-[111111] tracking-tighter">{`( ${numberOfReviews} )`}</p> }
-      </div>
-    )
-}
+          ))}
+        </div>
+      )}
+
+      {/* NUMBER OF REVIEWS */}
+      {numberOfReviews > 0 && <p className="text-base text-[#B1B1B4] font-normal leading-none">({numberOfReviews})</p>}
+    </div>
+  );
+};

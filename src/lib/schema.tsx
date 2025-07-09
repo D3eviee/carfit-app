@@ -1,5 +1,41 @@
 import z, { boolean, string } from 'zod'
 
+
+// CLIENT LOGIN FORM SCHEMA
+export const clientLoginSchema = z.object({
+  email: z
+        .string()
+        .email(({ message: "Niepoprawny format" }))
+        .min(1)
+        .max(40),
+    password: z
+        .string()
+        .min(8, ({ message: "Hasło jest za krótkie" })),
+})
+export type ClientLoginSchema = z.infer<typeof clientLoginSchema>
+
+
+/// CLIENT ONBOARDING FORM SCHEMA
+export const clientOnboardingSchema = z.object({
+  fullname: z.
+  string().
+  min(1, ({message: "Podane dane są nieodpowiednie"})),
+
+  email: z
+    .string()
+    .email(({ message: "Niepoprawny format" }))
+    .min(1)
+    .max(40),
+  password: z
+    .string()
+    .min(8, ({ message: "Hasło jest za krótkie" })),
+  phone: z
+  .string()
+  .regex(/^\d{9}$/, "Numer telefonu musi składać się z 9 cyfr")
+})
+export type ClientOnboardingSchema = z.infer<typeof clientOnboardingSchema>
+
+
 export const businessOnboardingSchema = z.object({
     email: z
         .string()

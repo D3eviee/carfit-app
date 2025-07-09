@@ -13,17 +13,12 @@ export const metadata: Metadata = {
 export default function RootLayout({children}: Readonly<{children: React.ReactNode}>) {
   return (
     <html lang="pl">
-      <body className={`${inter.className} antialiased bg-[#FDFCFF] overflow-x-hidden`}>
+      <body className={`${inter.className} antialiased bg-[#FFF] overflow-x-hidden`}>
         <QueryProvider>
         {/* <ReactQueryDevtools position="bottom" buttonPosition="bottom-right"/> */}
         {children}
         </QueryProvider>
-        {/* <footer className="flex justify-center items-center h-28">
-          <p className="font-light"> Carfit &copy;2025</p>
-        </footer> */}
       </body>
     </html>
   );
 }
-
-

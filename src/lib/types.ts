@@ -1,8 +1,8 @@
 // type for navbar profile menu
 export type NavbarProfileProps = {
-  name:string
-  phone: string
-  image:string | null
+  name?:string
+  phone?: string
+  image?:string | null
   role: string
 }
 
@@ -18,30 +18,24 @@ export type BusinessCardProps = {
   reviews: { rate: number}[]
 }
 
-export type Client = {
-  id: string
-  name: string,
-  image: string | null
-}
-
 export type Service = {
   id: string
   categoryId: string
   name: string
   description: string
   price: string,
-  from: number
-  to: number
-  duration: number                            
-  durationType: string                                
+  duration: number                                                         
 }
 
 export type Review = {
   id: string
+  title: string
   content: string
   rate: number
   createdAt: Date
-  client: Client
+  client: {
+    name: string
+  }
 }
 
 export type WorkingDay = {
@@ -59,6 +53,7 @@ export type Category = {
 
 export type ServicePageTitleDataProps = {
   name: string
+  phone: string
   category: string
   town: string
   zipcode: string
@@ -84,8 +79,7 @@ export type NewReservation = {
     duration: number
     charge: number
     status: string
-    clientName: string
-    clientPhone: string
+    clientMessage: string
 }
 
 export type DashboardReservationListReservations = {

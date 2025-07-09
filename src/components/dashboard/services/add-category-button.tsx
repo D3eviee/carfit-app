@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { ServicesAddCategoryModal } from "./services-add-category-modal";
+import { Plus } from "lucide-react";
 
 export function AddCategoryButton() {
   // STATE FOR MANAGING OPENING MODAL
@@ -19,10 +20,9 @@ export function AddCategoryButton() {
   return (
     <>
       {/* OPEN CATEGORY MODAL BUTTON */}
-      <p 
-        className="text-sm text-white font-medium py-1 px-2 rounded-[5px] bg-[#111] hover:cursor-pointer hover:bg-[#111]"  onClick={hanldeOpeningModal}>
-        Utwórz
-      </p>
+      <div className="font-medium p-0.5 rounded-md bg-[#111] hover:cursor-pointer hover:bg-[#333]"  onClick={hanldeOpeningModal}>
+        <Plus size={18} color="white" strokeWidth={2}/>
+      </div>
 
       {/* ADD CATEGORY MODAL */}
       <ServicesAddCategoryModal isOpen={isOpen} onClose={handleClosingModal}/>

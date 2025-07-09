@@ -1,8 +1,8 @@
 'use server'
-import { businessAuth, businessSignIn } from "@/lib/auth";
+import { businessAuth } from "@/lib/auth";
 import prisma from "@/lib/db"
-import { addMinutes, format, getDate, getMonth, getYear, isSameDay, set, subDays } from "date-fns";
-
+import { addDays, addMinutes, format, getDate, getDaysInMonth, getMonth, getYear, isSameDay, isThisWeek, lastDayOfMonth, set, startOfMonth, startOfWeek, } from "date-fns";
+import { pl } from "date-fns/locale";
 
 //get reservations for current day
 export const getTodayReservations = async () => {
@@ -50,20 +50,21 @@ export const getTodayReservations = async () => {
 }
 
 // get reservation number for chart
-export const getLastWeekReservationsNumbers = async () => {
-  const endDate = new Date()
-  const startDate = subDays(endDate, 6)
+export const getLastMonthReservationChartData = async () => {
+  const today = new Date()
+  const monthStart = startOfMonth(today)
+  const monthEnd = lastDayOfMonth(today)
 
   const business = await businessAuth()
   if(!business.success) return {success: false, message: "Non-authenticated user"}
 
   try {
-    const lastSevenDaysReservation = await prisma.reservation.findMany({
+    const lastMonthAppointments = await prisma.reservation.findMany({
       where: {
         businessId: business.id,
         reservationStart: {
-          gte: startDate,
-          lte: endDate,
+          gte: monthStart,
+          lte: monthEnd,
         }
       },
       select: {
@@ -82,31 +83,47 @@ export const getLastWeekReservationsNumbers = async () => {
         }
       },
     })
-  
-   const lastSevenDaysNumbers: { day: string; numberOfVisits: number }[] = [];
 
-    for (let i = 0; i < 7; i++) {
-      const currentDate = subDays(endDate, 6 - i)
+   const monthNumbers: { day: string; visits: number, cancelled: number  }[] = [];
+   const weekNumbers: { day: string; visits: number, cancelled: number }[] = [];
 
-      const visitsPerDay = lastSevenDaysReservation.filter(item =>
-        isSameDay(item.reservationStart, currentDate)
+    for (let i = 0; i < getDaysInMonth(monthStart) ; i++) {
+      const dayInMonth = addDays(startOfMonth(today), i)
+
+      const visitsPerDay = lastMonthAppointments.filter(item =>
+        isSameDay(item.reservationStart, dayInMonth)
       ).length
 
-      lastSevenDaysNumbers.push({
-        day: format(currentDate, 'EEE'), 
-        numberOfVisits: visitsPerDay
+      const canceledVisits = lastMonthAppointments.filter(item =>
+        isSameDay(item.reservationStart, dayInMonth) && item.status == "Odwołana"
+      ).length
+
+      monthNumbers.push({
+        day: format(dayInMonth, 'd', {locale: pl}), 
+        visits: visitsPerDay-canceledVisits,
+        cancelled: canceledVisits
       })
+      
+      if(isThisWeek(dayInMonth)){
+        weekNumbers.push({
+          day: format(dayInMonth, 'EEE', {locale: pl}), 
+          visits: visitsPerDay-canceledVisits,
+          cancelled: canceledVisits
+        })
+      }
     }
 
-    return {success: true, data: lastSevenDaysNumbers}
+    return {success: true, data: {month: monthNumbers, week:weekNumbers}}
   } catch (error) {
     return {success: false, message: "There was a server problem. Try later: " + error}
   }
 }
+
+
 //get top services for chart
-export const getLastWeekTopServicesNumbers = async () => {
-  const endDate = new Date()
-  const startDate = subDays(endDate, 6)
+export const getTopServicesChartData = async () => {
+  const today = new Date()
+  const weekStart = startOfWeek(today)
 
   const business = await businessAuth()
   if(!business.success) return { success: false, message: "Non-authenticated user"};
@@ -116,8 +133,8 @@ export const getLastWeekTopServicesNumbers = async () => {
       where: {
         businessId: business.id,
         reservationStart: {
-          gte: startDate,
-          lte: endDate,
+          gte: weekStart,
+          lte: today,
         }
       },
       select: {
@@ -137,23 +154,24 @@ export const getLastWeekTopServicesNumbers = async () => {
 
     topServicesData.forEach(res => {
       res.services.forEach(({ service }) => {
-        const name = service.name
-        serviceCount[name] = (serviceCount[name] || 0) + 1
+        const serviceName = service.name
+        serviceCount[serviceName] = (serviceCount[serviceName] || 0) + 1
       })
     })
 
     const topServices = Object.entries(serviceCount)
       .map(([name, count]) => ({ name, count }))
       .sort((a, b) => b.count - a.count)
-      .slice(0, 8) // top 8
+      .slice(0, 8)
 
       
+    console.log(topServices)
+
     return  {success: true, data: topServices}
   } catch (error) {
     return  {success: false, message: "There was an server problem while getting data: " + error}
   }
 }
-
 
 /////
 //BEFORE REFACTORING
@@ -188,32 +206,6 @@ export const getAppointmentsForMonthInterval = async ({monthInterval}: GetAppoin
   });
 };
 
-export const getAppointmentsForCurrentDay = async (nowDate:Date) => {
-  const start = set(nowDate, {hours:6, minutes:0})
-  const finish = set(nowDate, {hours:20, minutes:0})
-
-  return await prisma.reservation.findFirst({
-    where: {
-      reservationStart: {
-        gte: start,
-        lte: finish
-      }
-    },
-    select: {
-      id: true,
-      reservationStart:true,
-      reservationEnd: true,
-      charge: true,
-      client: {
-        select: {
-          email: true,
-          image: true,
-          name: true,
-        }
-      }
-    }
-  })
-}
 
 export const getActiveMonthAppointments = async(date:Date) => {
   const selectedDate = new Date(date)

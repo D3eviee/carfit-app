@@ -1,10 +1,11 @@
 'use client'
 import { BookingSummaryItem } from "@/components/booking/booking-summary-item";
-import {format, getHours, getMinutes } from "date-fns";
+import { format } from "date-fns";
 import { Calendar, Clock } from "lucide-react";
 import { Service } from "@/lib/types";
-import { useAppointmentStore, useCalendarStore, useEventTimeStore } from "@/lib/store";
-import BookingSummaryButton from "./booking-summary-button";
+import { useAppointmentStore, useCalendarStore } from "@/lib/store";
+import { pl } from "date-fns/locale";
+import BookingBookVisitButton from "./booking-book-visit-button";
 
 type BookingSummaryMobileProps = {
     services: Service[]
@@ -15,21 +16,29 @@ type BookingSummaryMobileProps = {
 }
 
 export default function BookingSummaryMobile({services, bookingStep, businessId, setNextBookingStep}:BookingSummaryMobileProps) {
-    // ZUSTAND STORE FOR SELECTED SERVICES, DATE AND TIME
-    const selectedServices = useAppointmentStore((store) => store.selectedServices)
-    const selectedDate = useCalendarStore(store => store.selectedDate)
-    const activeEventTime = useEventTimeStore((store) => store.activeEventTime)
-    
-    //calculating total services price
-    const calculateTotalPrice = () => {
-        let total = 0
-        services?.map((item:Service) => { 
-            if(selectedServices.includes(item.id)) total +=  Number(item.price)
-        })
-        return total
-    }
+  // ZUSTAND STORE FOR SELECTED SERVICES, DATE AND TIME
+  const selectedServices = useAppointmentStore((store) => store.selectedServices)
+  const selectedDate = useCalendarStore(store => store.selectedDate)
+  const appointmentTime = useAppointmentStore((store) => store.appointmentTime)
+  const clientMessage = useAppointmentStore((store) => store.clientMessage)
 
-  const calculateDuration = () => { 
+  // appointment date and time
+  const appointmentTimeFormatted = `${format(appointmentTime, "hh")}:${format(appointmentTime, "mm")}`
+  const rawDayOfweek = format(selectedDate, 'cccc', {locale: pl})
+  const dayOfweek = rawDayOfweek.slice(0,1).toUpperCase() + rawDayOfweek.slice(1)
+  const appointmentDay = format(selectedDate, 'd')
+  const appointmentMonth = format(selectedDate, 'MMMM', {locale: pl})
+  const appointmentFullDate = `${dayOfweek} ${appointmentDay} ${appointmentMonth}`
+    
+  //calculating total services price
+  const calcTotalPrice = () => {
+    let total = 0
+    services?.map((item:Service) => { if(selectedServices.includes(item.id)) total +=  Number(item.price)})
+    return total
+  }
+
+  // calculating total vistit duration
+  const calcDuration = () => { 
     let duration = 0
     
     services?.map((item:Service) => {
@@ -38,53 +47,57 @@ export default function BookingSummaryMobile({services, bookingStep, businessId,
 
     const hours = Math.floor(duration/60)
     const minutes = duration%60
-
-    if(hours == 0) return `(${minutes} min duration)`
-    if (minutes==0) return `(${hours} h duration)`
-    return `(${hours}h ${minutes} min duration)`
+    if(hours == 0) return `(${minutes} min)`
+    if (minutes==0) return `(${hours} h )`
+    return `(${hours}h ${minutes} min)`
   }
   
   return (
-    <div className="w-full flex flex-col gap-3 md:hidden">
-        <h1 className="text-black text-xl font-medium tracking-normal">Appointment Summary</h1>
-        <div className="flex flex-col gap-4 w-full px-5 py-7 border border-[#D4D4D4] rounded-md">
-            
-            {selectedDate && activeEventTime ? (
-                <div className="flex flex-col gap-4">
-                    <div className="flex flex-col gap-2 px-1">
-                        <div className="flex flex-row gap-2 items-center">
-                            <Calendar size={23} color="#555" strokeWidth={1.5}/> 
-                            <p className="font-normal text-[#555] text-sm">{`${format(selectedDate, 'cccc')} ${format(selectedDate, 'd')} ${format(selectedDate, 'MMMM')}`}</p>
-                        </div>
-                        <div className="flex flex-row gap-2 items-center">
-                            <Clock size={23} color="#555" strokeWidth={1.5}/> 
-                            <p className="font-normal text-[#555] text-sm">{`${getHours(activeEventTime)}:${getMinutes(activeEventTime) == 0 ? `${getMinutes(activeEventTime)}0` : getMinutes(activeEventTime)}`} {calculateDuration()}</p>
-                        </div>
-                    </div>
-                    <hr className="w-full bg-[#D4D4D4]"/>
-                </div>
-              ) : null }
-              
-              {(selectedServices.length > 0 && services)
-              ? services.map((item: Service, index) => (
-                selectedServices.includes(item.id) && <BookingSummaryItem key={index} serviceData={item} activeStep={bookingStep}/> 
-              ))
-              :  <p className="text-center font-normal text-base text-[#555555]">No services added</p>
-              }
+    <div className="w-full flex flex-col gap-5 md:hidden">
+      <h1 className="text-[#191919] text-2xl leading-none font-semibold">Podsumowanie wizyty</h1>
 
-              {selectedServices.length > 0 && (
-                <>
-                  <hr className="w-full bg-[#D4D4D4]"/>
-                  <div className="w-full flex flex-row justify-between px-1">
-                    <p className="text-sm text-[#111111] font-semibold">Total</p>
-                    <p className="text-sm text-[#111111] font-semibold">{calculateTotalPrice()} PLN</p>
-                  </div>
-                </>
-              )}
-
-            </div>
-            <BookingSummaryButton services={services} bookingStep={bookingStep} businessId={businessId} setNextBookingStep={setNextBookingStep}/>
+      <div className="w-full flex flex-col px-5 py-8 gap-3 ring-2 ring-[#F2F2F2] rounded-xl">
+        {/* APPOINTMENT DATE AND TIME */}
+        <div className="flex flex-col gap-3">
+          <div className="flex flex-row gap-2 items-center">
+            <Calendar size={23} color="#555" strokeWidth={1.5}/> 
+            <p className="font-normal text-[#555] text-sm">{appointmentFullDate}</p>
           </div>
+          <div className="flex flex-row gap-2 items-center">
+            <Clock size={23} color="#555" strokeWidth={1.5}/> 
+            <p className="font-normal text-[#555] text-sm">{`${appointmentTimeFormatted} ${calcDuration()}`}</p>
+          </div>
+        </div>
+        
+        <hr className="w-full bg-[#D4D4D4]"/>
+        
+        {/* MESSAGE FROM CLIENT */}
+        {
+          (clientMessage && clientMessage.length > 0) && 
+          <div className="flex flex-col  gap-3">
+            <p className="text-sm text-normal text-black px-1">{clientMessage}</p>
+            <hr className="w-full bg-[#D4D4D4]"/>
+          </div>
+        }  
+        
+        {
+          services.map((item: Service, index) => 
+            selectedServices.includes(item.id) && <BookingSummaryItem key={index} serviceData={item} activeStep={bookingStep}/> )
+        }
+
+        <hr className="w-full bg-[#F2F2F7]"/>
+          <div className="w-full flex flex-row justify-between px-1">
+            <p className="text-sm text-[#191919] font-semibold">Razem</p>
+            <p className="text-sm text-[#191919] font-semibold">{calcTotalPrice()} PLN</p>
+          </div>
+      </div>
+  
+      <BookingBookVisitButton 
+        services={services} 
+        businessId={businessId} 
+        setNextBookingStep={setNextBookingStep}
+      />
+    </div>
   )
 }
  

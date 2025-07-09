@@ -7,7 +7,7 @@ export default function Layout({children}: {children: ReactNode}) {
   return (
     <div className="fixed w-full h-svh flex flex-row overflow-hidden">
       <SidebarNavigation/>
-      <div className="flex flex-col w-full h-full overflow-hidden">
+      <div className="flex flex-col w-full h-full overflow-scroll">
         <DashboardContentContainer>
           {children}
         </DashboardContentContainer>

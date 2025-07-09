@@ -1,34 +1,43 @@
-import Image from "next/image";
-import review_image from '../../../public/default_user_image.png'
 import { Review } from "@/lib/types";
+import { differenceInYears, format } from "date-fns";
+import { pl } from "date-fns/locale";
+import { Dot } from "lucide-react";
 
 export const ServiceReviewItem = ({review}: {review:Review}) => {
+  const {client, title, content, rate, createdAt} = review
+  const displayReviewDate = (createdDate: Date) => {
+    const today = new Date()
+    const yearDiff = differenceInYears(today, createdDate)
+
+    if(yearDiff == 0) return `${format(createdDate, "d")} ${format(createdDate, "MMM", {locale: pl})}`
+    else {
+      if(yearDiff == 1) return `${yearDiff} rok temu`
+      else if(yearDiff > 1 && yearDiff < 5) return `${yearDiff} lata temu`
+      else return `${yearDiff} lat temu`
+    }
+  }
+
   return (
-    <div className="w-full flex flex-col gap-4 bg-[#F6F6F6] border-[0.5px] border-[#CCCCCC] p-[20px] rounded-[7px]">
-      <div className="flex flex-row justify-between items-center">
-        <div className="flex flex-row gap-3">
-          {
-            review.client.image ?
-            <Image src={review.client.image} alt="Profile image" width={45} height={45} className="rounded-[50%] shadow-[0px_0px_3px_1px_#00000040]"/> 
-            : <Image src={review_image} alt="Profile image" width={45} height={45} className="rounded-[50%] shadow-[0px_0px_3px_1px_#00000040]"/>
-          }
-          
-          <div className="flex flex-col">
-            <h2 className="text-[#333333] text-[15px] font-medium">{review.client.name}</h2>
-            <p className="text-[#555555] text-[13px] font-normal">{review.createdAt.toDateString()}</p>
+    <>
+      <div className="w-full px-4 py-5 flex flex-col shadow-inner-glass-sm ring-1 ring-[#F2F2F7] bg-[#FAFAFA] gap-4 rounded-2xl">
+        <div className="flex flex-col gap-1">
+          <h2 className="text-[#191919] text-[15px] font-medium leading-none tracking-normal">{title}</h2>
+          <div className="flex flex-row items-center">
+            <div className="flex flex-row gap-1">
+              {[...Array(5)].map((_, i)=> 
+                <svg key={i} xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill={rate-1 >= i ? "#ff9f0b" : "none" } stroke="#ff9f0b" viewBox="0 0 16 16" >
+                  <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                </svg>
+              )}
+            </div>
+            <Dot size={16} color="#C5C5C5"/>
+            <p className="text-[#8A8A8E] text-sm font-light">{displayReviewDate(createdAt)}</p>
+            <Dot size={16} color="#C5C5C5"/>
+            <p className="text-[#8A8A8E] text-sm font-light">{client.name}</p>
           </div>
         </div>
-        <div className="flex flex-row gap-1">
-          {[...Array(review.rate)].map((_, i)=> {
-            return(
-              <svg key={i} xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#FFD700" stroke="#AFA04D" viewBox="0 0 16 16" >
-                <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
-              </svg>
-            )
-          })}
-        </div>
+        <p className="text-[#191919] text-sm text-pretty leading-5 line-clamp-3">{content}</p>
       </div>
-      <p className="text-[#000000] text-[15px] font-light text-pretty leading-5">{review.content}</p>
-    </div>
-  );
-};
+    </>
+  )
+}

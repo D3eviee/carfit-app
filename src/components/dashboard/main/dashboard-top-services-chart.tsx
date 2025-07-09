@@ -1,22 +1,30 @@
-import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { getTopServicesChartData } from '@/app/dashboard/actions';
+import { Error } from '@/components/error';
+import { Spinner } from '@/components/spinner';
+import { useQuery } from '@tanstack/react-query';
+import { PieChart, Pie, ResponsiveContainer} from 'recharts';
 
-type DashboardTopServicesChartProps = {
-  name: string
-  count: number
-}
+export default function DashboardTopServicesChart(){
+    const {data, status} = useQuery({
+      queryKey: ["getTopServicesChartData"],
+      queryFn: async () => {
+        const response = await getTopServicesChartData()
+        if(response.success) return response.data
+        return null
+      }
+    })
 
-export default function DashboardTopServicesChart({topServicesData}: {topServicesData:DashboardTopServicesChartProps[]}){
+  if(status == "pending") return <Spinner/>
+  if(status == "error") return <Error/>
+
   return (
     <div className="w-full p-4 flex flex-col gap-4 border rounded-lg">
-      <h1 className="text-[#111] text-md font-normal">Popularne usługi</h1>
+      <h1 className="text-[#111] text-md font-normal">Udział usług</h1>
       {/* CHART */}
-      <ResponsiveContainer width="100%" height={220} className="border p-1 rounded-md">
-        <BarChart data={topServicesData}>
-          <XAxis type="number" className="text-sm" allowDecimals={false} scale="auto" padding={{ left: 10, right: 10 }} />
-          <YAxis type="category" dataKey="name" className="text-xs" tick={{ fontSize: 14 }} />
-          <Tooltip />
-          <Bar dataKey="count" fill="#1674F0" barSize={15} />
-        </BarChart>
+      <ResponsiveContainer width="100%" height={250} className="border p-1 rounded-md">
+        <PieChart>
+          <Pie data={data} nameKey={"name"} dataKey={"count"} cx="50%" cy="50%" outerRadius={100} fill="#FF5F58" />
+        </PieChart>
       </ResponsiveContainer>
     </div>
   )

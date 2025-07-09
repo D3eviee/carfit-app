@@ -6,7 +6,7 @@ import { authRole, businessAuth } from "@/lib/auth";
 // returning data for navbar profile menu, depending on the type of logged user
 export const getNavbarUserData = async () => {
     const auth = await authRole()
-    if(auth.role == "UNKNOWN") return 
+    if(auth.role == "NONAUTHORIZED") return  {role: "NONAUTHORIZED"}
 
     if(auth.role === "CLIENT"){        
         const userData = await prisma.client.findUnique({
@@ -99,16 +99,14 @@ export const getBusinessData = async (id: string) => {
                     select: {
                         id: true,
                         rate: true,
+                        title: true,
                         content: true,
                         createdAt: true,
                         client: {
-                            select: {
-                                id: true,
-                                image: true,
-                                name: true, 
-                            }
+                            select: { name: true }
                         }
-                    }
+                    },
+                    orderBy: { createdAt: "desc"}
                 },
                 workingDays: {
                     select: {
@@ -116,6 +114,9 @@ export const getBusinessData = async (id: string) => {
                         close: true,
                         dayOfWeek: true,
                         isOpen: true,
+                    },
+                    orderBy: {
+                        dayOfWeek: "asc"
                     }
                 },
                 categories: {

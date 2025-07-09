@@ -1,31 +1,24 @@
-import LandingSearchForm from "@/components/landing/landing-search-form";
+import LandingSearch from "@/components/landing/search/landing-search";
 import LandingRecommendedServicesSection from "@/components/landing/landing-recommended-services-section";
-import LandingTopServices from "@/components/landing/landing-top-services";
+import LandingHeaderText from "@/components/landing/landing-header-text";
+import LandingNewServicesSection from "@/components/landing/landing-new-services-section";
 
 export default function Landing() {
   return (
-    //<div className="mt-64 mx-64 mb-64"></div>
-    <div className="relative flex flex-col gap-32 mt-32 px-5 lg:px-60">
-      {/* PAGE HEADER */}
-      <div className="flex flex-col gap-7">
-        <div className="flex flex-col gap-1 text-pretty text-3xl font-semibold lg:text-5xl tracking-tight">
-          <h1>Zarezerwuj lokalne</h1>
-          <h1>usługi samochodowe</h1>
-        </div>
-
+    <div className="flex flex-col gap-24 md:gap-32 ">
+      {/* HEADER */}
+      <div className="mt-32 flex flex-col gap-5 md:gap-10 lg:gap-14 px-4 md:px-12 xl:px-40 2xl:px-60">
+        <LandingHeaderText/>
         {/* SEARCH FORM */}
-        <LandingSearchForm/>
+        <LandingSearch/>
       </div>
 
       {/* DIFFERENT TYPES OF SERVICES SECTION */}
-      <div className="flex flex-col gap-20 md:gap-32"> 
-          <LandingTopServices/>
-          <LandingRecommendedServicesSection />
+      <div className="mb-40 w-full flex flex-col gap-16 overflow-x-hidden lg:gap-20 pl-4 md:px-12 xl:px-40 2xl:px-60">
+        <LandingRecommendedServicesSection />
+        <LandingNewServicesSection />
       </div>
-
-      <div>
-        
-      </div>
+      
     </div>
   )
 }

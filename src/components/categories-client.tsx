@@ -1,7 +1,7 @@
 'use client'
 import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from 'next/navigation'
-import BusinessCard from "@/components/business-card";
+import BusinessCard from "@/components/landing/business-card";
 import { getCategoryBusinesses } from "@/app/categories/actions";
 
 export default function CategoriesClient() {

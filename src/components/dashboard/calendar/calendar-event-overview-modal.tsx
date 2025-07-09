@@ -9,7 +9,7 @@ import Image from "next/image";
 import CalendarEventOverviewCancelButton from "./calendar-event-overview-cancel-button";
 
 type ModalProviderProps = {
-  open: boolean
+  open: boolean 
   onClose: () => void
   appointmentData : CalendarAppointmentOverviewProps
 }

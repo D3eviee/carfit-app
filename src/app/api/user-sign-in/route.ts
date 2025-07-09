@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "../../../lib/db";
 import bcrypt from "bcryptjs";
 import { createSession } from "../../../lib/session";
+import { z } from "zod";
 
 export async function POST(req: NextRequest) {
     try {
@@ -13,7 +14,7 @@ export async function POST(req: NextRequest) {
         })
 
         if(!existingUser){
-            return NextResponse.json({ error: "User doesn't exist" }, {status: 409});
+            return NextResponse.json({ error: "Użytkownik nie istnieje" }, {status: 409});
         }else{
             const isPasswordValid = await bcrypt.compare(password, existingUser.password as string)
             if(isPasswordValid){
@@ -22,13 +23,13 @@ export async function POST(req: NextRequest) {
                 }
 
                 await createSession(user)
-                return NextResponse.json({ message: true }, { status: 201 });
+                return NextResponse.json({ success: true}, { status: 201 },);
             }
             else{
-                return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
+                return NextResponse.json({ error: "Podane dane są nieprawidłowe" }, { status: 401 });
             }
         }
     } catch{
-        return NextResponse.json({ error: "There was a problem with your registration" }, { status: 500 });
+        return NextResponse.json({ error: "Wystąpił problem podczas próby logowania" }, { status: 500 });
     }
 }
