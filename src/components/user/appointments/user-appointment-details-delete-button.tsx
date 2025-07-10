@@ -8,7 +8,7 @@ export default function UserAppointmenetDetailsDeleteButton({id, closeMainModalF
   return (
     <>
       <button 
-        className="w-full bg-[#CF142B] text-white py-1 rounded hover:cursor-pointer hover:bg-[#BE031A]"
+        className="w-full bg-[#CF142B] shadow-inner-glass text-white py-2 rounded-lg hover:cursor-pointer hover:bg-[#BE031A]"
         onClick={() => setOpenConformModal(true)}
         >Odwołaj</button>
       <UserAppointmentDeleteModal 

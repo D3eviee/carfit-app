@@ -7,10 +7,10 @@ export const BookingCloseButton = () => {
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
 
     return (
-    <>
+    <div className="w-full flex flex-row justify-end">
          <div 
             onClick={() => setIsModalOpen(true)}
-            className="absolute right-4 top-4 backdrop-blur-lg rounded-full shadow-inner-glass border-[0.5px] ring-1 ring-[#FFF] p-2 active:scale-105 transition-all duration-75 ease-in hover:cursor-pointer hover:bg-[#F2F2F7]"
+            className="w-fit backdrop-blur-lg rounded-full shadow-inner-glass border-[0.5px] ring-1 ring-[#FFF] p-2 active:scale-105 transition-all duration-75 ease-in hover:cursor-pointer hover:bg-[#F2F2F7]"
         >
             <X color="#000" size={25} strokeWidth={1.5}/>
             
@@ -20,6 +20,6 @@ export const BookingCloseButton = () => {
             isOpen={isModalOpen}
             onClose={() => setIsModalOpen(false)}
         />
-    </>
+    </div>
     )
 }

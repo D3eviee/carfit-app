@@ -115,7 +115,7 @@ export const BookingCalendar = ({servicesData}:{servicesData:Service[]}) => {
                 {/* DAYS FOR SELECTING */}
                 <div className="w-full grid grid-cols-7">
                     {Array.from({ length: firstDayOfCurrentMonth-1 }, (_, i) => i + 1).map((_ ,i) => (
-                        <div key={i} className="flex justify-center text-center border py-0.5 my-0.5"></div>
+                        <div key={i} className="flex justify-center text-center py-0.5 my-0.5"></div>
                     ))}
 
                     {daysOfActiveMonth.map((day, index) => (
@@ -129,7 +129,7 @@ export const BookingCalendar = ({servicesData}:{servicesData:Service[]}) => {
              </div>
 
             {/* AVAILABLE HOURS */}
-            <div className="w-full h-full flex flex-col gap-3 overflow-scroll max-h-44">
+            <div className="w-full h-full flex flex-col gap-3 overflow-scroll">
                 <h2 className="text-base font-medium text-[#191919]">{date}</h2>
                 
                 {selcetedDate && 

@@ -1,8 +1,8 @@
 'use client'
 import { useState } from "react";
-import { BookingMobileModalProvider } from "./booking-mobile-modal-provider";
-import { BookingLoginForm } from "./booking-login-form";
-import { BookingSignupForm } from "./booking-signup-form";
+import { BookingLoginForm } from "../booking-login-form";
+import { BookingSignupForm } from "../booking-signup-form";
+import { BookingModalProvider } from "./booking-modal-provider";
 
 type BookingLoginModalProps = {
   isOpen: boolean
@@ -19,7 +19,7 @@ export const BookingLoginModal = ({isOpen, onClose}: BookingLoginModalProps) => 
   }
 
   return (
-    <BookingMobileModalProvider
+    <BookingModalProvider
         isOpen={isOpen}
         onClose={handleClosingModal}
         
@@ -33,6 +33,6 @@ export const BookingLoginModal = ({isOpen, onClose}: BookingLoginModalProps) => 
         {form == 1 && <BookingLoginForm onClose={handleClosingModal} changeFormFn={() => setForm(2)}/> }
         {form == 2 && <BookingSignupForm onClose={handleClosingModal} changeFormFn={() => setForm(1)}/> }
       </div>
-    </BookingMobileModalProvider>
+    </BookingModalProvider>
   )
 }

@@ -1,12 +1,9 @@
-"use client";
+"use client"
 import { useState } from "react";
 import LandingSearchDropdown from "./landing-search.dropdown";
 import { SERVICES_CATEGORIES } from "@/lib/data";
-import { MapPin, MapPinned, Wrench } from "lucide-react";
-import Link from "next/link";
+import { MapPin, Wrench } from "lucide-react";
 import { useRouter } from "next/navigation";
-
-
 
 export default function LandingSearchForm() {
   const router = useRouter()
@@ -52,8 +49,6 @@ export default function LandingSearchForm() {
     router.push(url);
   };
 
-  
-
   return (
     <form className="flex flex-col p-4 bg-[#F2F2F7] border-[0.5px] rounded-3xl gap-3 md:flex-row md:rounded-2xl md:px-3 md:py-2">
       {/* SELECT SERVICE OR CATEGORY */}
@@ -74,6 +69,7 @@ export default function LandingSearchForm() {
           />
 
           <LandingSearchDropdown
+            key="1"
             dropdownFor="category"
             defaultOptions={categories}
             isOpen={isCategoryDropdownOpen}
@@ -99,6 +95,7 @@ export default function LandingSearchForm() {
           />
 
           <LandingSearchDropdown
+            key="2"
             dropdownFor="location"
             defaultOptions={locations}
             isOpen={isLocationDropdownOpen}

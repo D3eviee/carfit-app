@@ -1,6 +1,7 @@
 'use server'
 import { userAuth } from "@/lib/auth";
 import prisma from "@/lib/db"
+import { count } from "console";
 
 // getting all client appointments
 export const getClientAppointments = async () => {
@@ -16,6 +17,7 @@ export const getClientAppointments = async () => {
             reservationStart: true,
             duration: true,
             status: true,
+            clientMessage: true,
             services: {
                 select: {
                     serviceId: true,
@@ -35,7 +37,8 @@ export const getClientAppointments = async () => {
                     town: true,
                 }
             },
-        }
+        },
+        orderBy: {reservationStart: "desc"}
         })
         return {success: true, data: clientAppointments}
     }catch(error){
@@ -57,9 +60,9 @@ export const getUserProfileData = async () => {
                 image: true,
                 name: true,
                 phone: true,
-                Reservation:{
+                Reservation: {
                     select: {
-                        charge: true
+                        charge: true,
                     }
                 }
             }
@@ -92,6 +95,27 @@ export const updateUserData = async (data) => {
         return {success: false, message: "There was a server problem while updating profile data " + error}
     }
 }
+// deleting user profile photo
+export const deleteUserProfilePhoto = async () => {
+    try {
+        const user = await userAuth()
+        if(!user.success) return {success: false, message: "No-authenticated user. Log in"}
+
+        const userData = await prisma.client.update({
+            where: {
+                id: user.id
+            },
+            data: {
+                image: null,
+            }
+        })
+
+        return {success: true, data: userData}
+    } catch (error) {
+        return {success: false, message: "There was a server problem deleting image " + error}
+    }
+}
+
 
 //deleting user appointment
 export const deleteAppointment = async (appointmentId:string) => {
@@ -107,8 +131,9 @@ export const deleteAppointment = async (appointmentId:string) => {
             data: { status: "Odwołana" }
         })
 
+
         return {success: true, data: deletedAppointment}
     } catch (error) {
-        return {success: false, message: "Error occured while trying to delete your visit" + error}
+        return {success: false, message: "Wystąpił problem podczas próby odwołania wizyty" + error}
     }
 }

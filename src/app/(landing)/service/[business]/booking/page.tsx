@@ -6,9 +6,9 @@ import { useQuery } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 import { useState } from "react";
 import { Category } from "@/lib/types";
-import BookingSummary from "@/components/booking/booking-summary";
-import BookingStatusBarMobile from "@/components/booking/booking-status-bar-mobile";
-import BookingSummaryMobile from "@/components/booking/booking-summary-mobile";
+import BookingSummary from "@/components/booking/desktop/booking-summary";
+import BookingStatusBarMobile from "@/components/booking/mobile/booking-status-bar-mobile";
+import BookingSummaryMobile from "@/components/booking/mobile/booking-summary-mobile";
 import { Spinner } from "@/components/spinner";
 import { Error } from "@/components/error";
 import BookingServices from "@/components/booking/booking-services";
@@ -43,9 +43,9 @@ export default function Booking() {
   if(businessCategoriesAndServicesStatus == "error") return <Error/>
 
   return (
-    <div className="absolute w-full h-full top-0 bg-white flex flex-col overflow-hidden">
+    <div className="absolute w-full h-full top-0 bg-white flex flex-col overflow-hidden lg:gap-10">
       {/* NAVBAR */}
-      <nav className="relative py-10 px-4">
+      <nav className="flex flex-row justify-between py-4 px-4 lg:px-20 xl:px-40 2xl:px-64 lg:py-8">
         <BookingBackButton 
           bookingStep={bookingStep}
           previouStepFn={() => {setBookingStep(prev => prev-1)}}
@@ -54,41 +54,41 @@ export default function Booking() {
       </nav>
       
       {/* SERVICES */}
-      <div className="h-full flex flex-col px-4 overflow-hidden">
+      <div className="h-full w-full justify-center flex flex-row overflow-hidden gap-10 xl:gap-20 px-4 lg:px-8 xl:px-32 2xl:px-64">
         {/* CHOOSING SERVICE */}
-        {(businessCategoriesAndServicesData && bookingStep == 1) 
-        && <BookingServices categoriesData={businessCategoriesAndServicesData.data!}/>}
-        
+        {(businessCategoriesAndServicesData && bookingStep == 1) && <BookingServices categoriesData={businessCategoriesAndServicesData.data}/>}
         {bookingStep == 2 && <BookingCalendar servicesData={services}/>}
         {bookingStep == 3 && <BookingDetailsFromUser/>}
       
         {/* APPOINTMENT SUMMARY FOR BIG DISPLAYS*/}
-        <BookingSummary 
-          bookingStep={bookingStep} 
-          setNextBookingStep={() => {setBookingStep(prev => prev+1)}} 
-          setPreviousBookingStep={() => {setBookingStep(prev => prev-1)}} 
-          services={services!}
-          businessId ={id!}
-        />
-
         {bookingStep == 4 && 
-        <BookingSummaryMobile 
-          bookingStep={bookingStep} 
-          setNextBookingStep={() => {setBookingStep(prev => prev+1)}} 
-          setPreviousBookingStep={() => {setBookingStep(prev => prev-1)}} 
-          services={services!}
-          businessId ={id!}
-        />}
-      </div>
-
-      {/* MOBILE SUMMARY BAR FOR SMALL SCREENS*/}
-        {(bookingStep == 1 || bookingStep == 2 || bookingStep == 3) &&
-          <BookingStatusBarMobile
+          <BookingSummaryMobile 
             bookingStep={bookingStep} 
             setNextBookingStep={() => {setBookingStep(prev => prev+1)}} 
             setPreviousBookingStep={() => {setBookingStep(prev => prev-1)}} 
             services={services}
+            businessId ={id}
           />}
+
+          <div className="hidden lg:block lg:w-6/12">
+          <BookingSummary 
+            bookingStep={bookingStep} 
+            setNextBookingStep={() => {setBookingStep(prev => prev+1)}} 
+            resetBookingProcess={() => setBookingStep(1)}
+            services={services}
+            businessId ={id}
+          />
+        </div>
+      </div>
+
+      {/* MOBILE SUMMARY BAR FOR SMALL SCREENS*/}
+      {(bookingStep == 1 || bookingStep == 2 || bookingStep == 3) &&
+        <BookingStatusBarMobile
+          bookingStep={bookingStep} 
+          setNextBookingStep={() => {setBookingStep(prev => prev+1)}} 
+          services={services}
+        />
+      }
     </div>     
   )
 }

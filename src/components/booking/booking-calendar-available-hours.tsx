@@ -22,8 +22,8 @@ export const BookingAppointmentAvailableHours = ({services, reservations, workin
     }, 0) || 0;
 
     const activeDayOpeningData = workingHours.find((day) => day.dayOfWeek == selectedDateDayOfWeek)
-    const [serviceOpeningHour, serviceOpeningMinutes] = activeDayOpeningData!.open?.split(":")
-    const [serviceClosingHour, serviceClosingMinutes] = activeDayOpeningData!.close?.split(":")
+    const [serviceOpeningHour, serviceOpeningMinutes] = activeDayOpeningData.open.split(":")
+    const [serviceClosingHour, serviceClosingMinutes] = activeDayOpeningData.close.split(":")
     const openingServiceTime = set(new Date(selecetedDate!), { hours: Number(serviceOpeningHour), minutes: Number(serviceOpeningMinutes), seconds: 0})
     const closingServiceTime = set(new Date(selecetedDate!), { hours: Number(serviceClosingHour), minutes: Number(serviceClosingMinutes), seconds: 0 })
     const hours = eachMinuteOfInterval({start: openingServiceTime, end: closingServiceTime}, {step:15})
@@ -32,7 +32,7 @@ export const BookingAppointmentAvailableHours = ({services, reservations, workin
     return (
         <>
             {activeDayOpeningData?.isOpen ? (
-                <div className="w-full grid grid-cols-5 gap-3 overflow-scroll" >
+                <div className="w-full grid grid-cols-5 md:grid-cols-9 gap-3 overflow-scroll" >
                     {hours.map((time, index) => {
                         const isReserved = reservations.some((item) => time >= item.reservationStart && time < item.reservationEnd);
                         if (isReserved) return null;
@@ -48,8 +48,6 @@ export const BookingAppointmentAvailableHours = ({services, reservations, workin
                             if(!isAvaliabe[index]) return <BookingEventTimeItem time={time} key={index}/>
                         }
                     })}
-
-                    {isAvaliabe.every(flag => flag === true) && <p className="h-20 flex justify-center items-center text-center text-sm text-[#373737] font-normal">Brak dostępnych terminów</p>}
                 </div>
             ) : (
                 <p className="h-20 flex justify-center items-center text-center text-sm text-[#373737] font-normal">Warsztat nieczynny. Wybierz inny termin.</p>

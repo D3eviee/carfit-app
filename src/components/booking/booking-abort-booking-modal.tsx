@@ -39,7 +39,7 @@ export const BookingAbortBookingModal = ({isOpen, onClose}: BookingAbortBookingM
     createPortal(
       <div className="absolute z-30 bg-[#000]/70 top-0 h-full w-full flex items-center justify-center overflow-scroll px-4">
 
-        <div className="bg-[#FFF] w-full px-4 py-6 overflow-scroll flex flex-col gap-8 rounded-2xl">
+        <div className="bg-[#FFF] w-full px-4 py-6 overflow-scroll flex flex-col gap-8 rounded-2xl sm:w-[420px]">
           <div className="w-full flex flex-col gap-1">
             <h1 className="text-[#191919] font-semibold text-md leading-6">Czy na pewno chcesz opuścić tę rezerwację?</h1>
             <p className="text-[#191919] font-light text-sm leading-none">Wszystkie informacje zostaną utracone</p>

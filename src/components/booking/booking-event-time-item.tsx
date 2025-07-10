@@ -7,7 +7,7 @@ export const BookingEventTimeItem = ({time}:{time:Date}) => {
     const appointmentTime = useAppointmentStore((store) => store.appointmentTime)
     const setAppointmentTime = useAppointmentStore((store) => store.setAppointmentTime)
 
-    const timeText = `${format(time, "hh")}:${format(time, "mm")}`
+    const timeText = `${format(time, "kk")}:${format(time, "mm")}`
 
     const handleTimeSelect = () => {
         setAppointmentTime(time)

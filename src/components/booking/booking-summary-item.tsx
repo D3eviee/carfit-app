@@ -1,12 +1,25 @@
 'use client'
+import { useAppointmentStore } from "@/lib/store";
 import { Service } from "@/lib/types";
 import { displayAppointmentTime } from "@/utils";
 import { Dot, X } from "lucide-react";
 
-export const BookingSummaryItem = ({serviceData, activeStep}:{serviceData: Service, activeStep:number}) => {
+type BookingSummaryItemProps = {
+  serviceData: Service
+  activeBookingStep: number
+  resetBookingProcess: () => void
+}
+
+export const BookingSummaryItem = ({activeBookingStep, serviceData, resetBookingProcess}:BookingSummaryItemProps) => {
+  const toggleSelectedService = useAppointmentStore((store) => store.toggleSelectedService)
+  const selectedServices = useAppointmentStore((store) => store.selectedServices)
+
   const handleRemovingItem = () => {
-    return
-  };
+    toggleSelectedService(serviceData.id)
+    
+    const updatedLength = useAppointmentStore.getState().selectedServices.length;
+    if (updatedLength === 0 && activeBookingStep !== 1) resetBookingProcess()
+  }
 
   return (
     <div className="flex flex-row justify-between items-center w-full bg-[#F2F2F7] p-2.5 rounded-md">
@@ -18,7 +31,8 @@ export const BookingSummaryItem = ({serviceData, activeStep}:{serviceData: Servi
               <p className="text-sm text-[#191919] font-normal">{serviceData.price} PLN</p>
             </div>
         </div>
-        {activeStep != 4 && <X size={20} onClick={handleRemovingItem} className="text-[#333] hover:cursor-pointer hover:text-[#111111] "/>
+        {activeBookingStep != 4 && 
+        <X size={20} onClick={handleRemovingItem} className="text-[#333] hover:cursor-pointer hover:text-[#111111] "/>
         }
     </div>
   );

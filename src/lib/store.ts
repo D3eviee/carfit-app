@@ -103,7 +103,7 @@ type AppointmentStoreProps = {
 
 export const useAppointmentStore = create<AppointmentStoreProps>((set) => ({
   selectedServices: [],
-  clientMessage: null,
+  clientMessage: "",
   appointmentTime: null,
   toggleSelectedService: (serviceId) => set((state) => {
     const isSelected = state.selectedServices.includes(serviceId);

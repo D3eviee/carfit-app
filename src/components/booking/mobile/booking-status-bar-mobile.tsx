@@ -1,13 +1,12 @@
 'use client'
 import { Service } from "@/lib/types";
 import { useAppointmentStore} from "@/lib/store";
-import BookingNextStepButton from "./booking-next-step-button";
+import BookingNextStepButton from "../booking-next-step-button";
 
 type BookingStatusBarMobileProps = {
     services: Service[]
     bookingStep: number
     setNextBookingStep: () => void
-    setPreviousBookingStep: () => void
 }
 
 export default function BookingStatusBarMobile({services, bookingStep, setNextBookingStep}:BookingStatusBarMobileProps) {
@@ -42,7 +41,7 @@ export default function BookingStatusBarMobile({services, bookingStep, setNextBo
   return (
 
     (selectedServices.length > 0 &&
-    <div className="w-full sticky bottom-0 left-0 md:hidden bg-[#F2F2F7] shadow-inner-glass px-3 py-2">
+    <div className="w-full sticky bottom-0 left-0 lg:hidden bg-[#F2F2F7] shadow-inner-glass px-3 py-2">
       <div className="w-full h-full flex flex-row ">
         <div className="w-full flex flex-col justify-around">
           <p className="text-sm text-[#111111] font-semibold">{selectedServices.length == 1 ? `${selectedServices.length} usługa` : `${selectedServices.length} usługi`}</p>

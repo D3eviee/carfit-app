@@ -5,7 +5,7 @@ import { Calendar, Clock } from "lucide-react";
 import { Service } from "@/lib/types";
 import { useAppointmentStore, useCalendarStore } from "@/lib/store";
 import { pl } from "date-fns/locale";
-import BookingBookVisitButton from "./booking-book-visit-button";
+import BookingBookVisitButton from "./booking-mobile-book-visit-button";
 
 type BookingSummaryMobileProps = {
     services: Service[]
@@ -53,7 +53,7 @@ export default function BookingSummaryMobile({services, bookingStep, businessId,
   }
   
   return (
-    <div className="w-full flex flex-col gap-5 md:hidden">
+    <div className="w-full flex flex-col gap-5 lg:hidden">
       <h1 className="text-[#191919] text-2xl leading-none font-semibold">Podsumowanie wizyty</h1>
 
       <div className="w-full flex flex-col px-5 py-8 gap-3 ring-2 ring-[#F2F2F2] rounded-xl">
@@ -95,7 +95,6 @@ export default function BookingSummaryMobile({services, bookingStep, businessId,
       <BookingBookVisitButton 
         services={services} 
         businessId={businessId} 
-        setNextBookingStep={setNextBookingStep}
       />
     </div>
   )

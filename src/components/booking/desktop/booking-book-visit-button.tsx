@@ -7,15 +7,15 @@ import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { userAuth } from "@/lib/auth";
 import { useState } from "react";
+import { BookingLoginForm } from "../booking-login-form";
 import { BookingLoginModal } from "./booking-login-modal";
 
 type BookingBookVisitButtonProps = {
     services: Service[]
     businessId: string
-    setNextBookingStep: () => void
 }
 
-export default function BookingBookVisitButton({services, businessId, setNextBookingStep}:BookingBookVisitButtonProps) {
+export default function BookingBookVisitButton({services, businessId}:BookingBookVisitButtonProps) {
     const [isLoginModalOpen, setIsLoginModalOpen] = useState<boolean>(false)
     const router = useRouter()
 

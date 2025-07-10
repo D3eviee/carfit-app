@@ -19,10 +19,10 @@ export default function UserAppointmentDetailsButton({appointmentDetails}:{appoi
   return (
     <>
       <div 
-        className='w-full flex justify-center bg-[#13161B] border rounded-md overflow-hidden py-1.5'
+        className="w-full text-center py-2 rounded-lg bg-gradient-to-b from-[#313131] to-[#141414] shadow-md text-white hover:bg-[#333] hover:cursor-pointer"
         onClick={handleOpenModal}
       >
-        <p className='text-[#F2F2F2] text-sm font-base'>Szczegóły</p>
+        <p className='text-[#F2F2F7] text-sm font-medium'>Szczegóły</p>
       </div>
 
       <UserAppointmentDetailsModal 

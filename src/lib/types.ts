@@ -153,6 +153,7 @@ export type OnboardingBusinessProps = {
 // USER APPOINTMENTS
 export type AppointmentDetails = {
   id: string
+  clientMessage: string
   business: {
     name: string
     street: string
