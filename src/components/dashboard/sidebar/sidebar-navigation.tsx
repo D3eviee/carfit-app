@@ -1,6 +1,6 @@
 'use client'
 import { cn } from "@/utils"
-import { Book, Calendar, HelpCircle, Home, LogOut, Settings, Wrench } from "lucide-react"
+import { Book, Calendar, HelpCircle, Home, Settings, Wrench } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { SidebarNavigationProfile } from "./sidebar-navigation-profile"

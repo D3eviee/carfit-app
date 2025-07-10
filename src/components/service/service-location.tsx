@@ -1,5 +1,3 @@
-import { env } from "process"
-
 export const ServiceLocation = ({locationData}:{locationData : {street: string, city: string, zipcode:string }}) => {
   const apiKey = process.env.GOOGLE_MAPS_KEY
   const rawLocation = `ul. ${locationData.street}, ${locationData.zipcode} ${locationData.city}`

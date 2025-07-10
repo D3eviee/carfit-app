@@ -1,6 +1,5 @@
 'use client'
-import { ChevronRight, X } from "lucide-react";
-import Link from "next/link";
+import { X } from "lucide-react";
 import { NavbarProfileProps } from "@/lib/types";
 import { cn } from "@/utils";
 import NavbarMobileMenuOption from "./navbar-mobile-menu-option";

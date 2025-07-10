@@ -1,7 +1,6 @@
 'use client'
 import Image from "next/image"
 import { useState } from "react";
-import { ServiceMobileViewGalleryModal } from "../mobile/service-mobile-view-gallery-modal";
 import { ServiceGalleryModal } from "./service-gallery-modal";
 
 type ServiceGalleryProps = {

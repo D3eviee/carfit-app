@@ -74,10 +74,9 @@ export default function ProfileEditProfileModal({isOpen, onClose, userData}:Prof
     mutationKey: ["deleteImage"],
     mutationFn: async () => {
       try {
-        console.log("XD")
         await deleteUserProfilePhoto()
       } catch (err) {
-        return {}
+        return {err}
       }
     },
     onSuccess: () => queryClient.invalidateQueries({queryKey: ["userProfileData"]})

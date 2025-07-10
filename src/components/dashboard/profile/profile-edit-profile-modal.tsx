@@ -22,7 +22,7 @@ export const ProfileEditProfileModal = ({open, onClose, profileData}:ProfileChan
     const queryClient = useQueryClient()
     const wasOpened = useRef(false)
 
-    const {register, handleSubmit, formState : {isSubmitting, errors}, reset, setValue} = useForm<ChangePersonalDataInput>({
+    const {register, handleSubmit, formState : {isSubmitting, errors}, reset} = useForm<ChangePersonalDataInput>({
         resolver: zodResolver(changePersonalDataSchema),
         defaultValues: {
             name: profileData.name,

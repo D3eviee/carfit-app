@@ -1,14 +1,11 @@
 'use client'
 import { addNewService } from "@/app/dashboard/services/actions";
 import { FormButton } from "@/components/form-button";
-import { FormLabel } from "@/components/form-label";
 import ModalProvider from "@/components/providers/modal-provider";
 import { AddServiceSchema, addServiceSchema } from "@/lib/schema";
-import { AddService, ServicesCategory } from "@/lib/types";
+import { ServicesCategory } from "@/lib/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { FormInput } from "lucide-react";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 type ServiecAddServiceModalProps = {
@@ -22,7 +19,7 @@ export default function ServiecAddServiceModal({ open, onClose, categories}:Serv
 
   const timeOptions = [{time: "30min", value: 30}, {time: "45min", value: 45}, {time: "1h", value: 60}, {time: "1h 15min", value: 75},{time: "1h 30min", value: 90}, {time:  "1h 45min", value: 105}, {time: "2h", value: 120}, {time: "2h 15min", value: 135},{time: "2h 30min" , value: 150}, {time:"2h 45min" , value: 165}, {time: "3h", value: 180}, {time: "3h 15min", value: 195}, {time: "3h 30min", value: 210} , {time: "3h 30min", value: 225}, {time: "3h 45min", value: 240}, {time: "4h", value: 255}, {time: "4h 15min", value: 270},{time: "4h 30min" , value: 285}, {time:"4h 45min" , value: 300}, {time: "5h", value: 315}, {time: "5h 15min", value: 330}, {time: "5h 30min" , value: 345}, {time:"5h 45min" , value: 360}, {time:"6h" , value: 375}]
 
-  const { register, handleSubmit, getValues, setValue, reset, formState, watch} = useForm<AddServiceSchema>({
+  const { register, handleSubmit, getValues, reset, formState, watch} = useForm<AddServiceSchema>({
     resolver: zodResolver(addServiceSchema),
     defaultValues: {
       name: "",

@@ -3,11 +3,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { Upload } from "lucide-react"
 import { useState } from "react"
 
-type SettingsGalleryGridItemDeleteButtonProps = {
-
-}
-
-export default function SettingsGalleryUploadButton({}:SettingsGalleryGridItemDeleteButtonProps) {
+export default function SettingsGalleryUploadButton() {
   const queryClient = useQueryClient()
   const validFileTypes = ["image/jpg", "image/jpeg", "image/png"]
   const [error, setError] = useState("")

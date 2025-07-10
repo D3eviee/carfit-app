@@ -12,16 +12,16 @@ type LandingSearchCategoryDropdownProps = {
 }
 
 export default function LandingSearchCategoryDropdown({isOpen, onClose, setCategory, categoryInput}: LandingSearchCategoryDropdownProps) {
-  if(!isOpen) return null
-
   const debouncedInput = useDebounce(categoryInput, 300)
 
+  if(!isOpen) return null
   return (
     <div className="absolute max-h-48 overflow-scroll  bg-[#eee] top-full p-0.5 mt-0.5 w-full border rounded-lg  shadow-md">
       {(categoryInput.length > 0 && categoryInput.length < 2) && 
         <LandingSearchCategoryDropdownNoResult 
           onClose={onClose} 
-          setCategory={setCategory}
+          dropdownFor="category"
+          defaultOptions={}
         />
       }
 

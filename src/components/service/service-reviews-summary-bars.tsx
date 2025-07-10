@@ -6,7 +6,7 @@ export const ServiceSummaryBars = ({data}: {data: Review[]}) =>  {
   return (
     <>
       {[5, 4, 3, 2, 1].map((rateValue) => {
-        const numberShare = (data.filter((item, _) => item.rate == rateValue).length/numberOfReviews)*100
+        const numberShare = (data.filter((item) => item.rate == rateValue).length/numberOfReviews)*100
 
         return (
           <div key={rateValue} className="w-full flex flex-row items-center gap-2"> 

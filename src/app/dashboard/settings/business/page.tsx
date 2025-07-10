@@ -8,6 +8,8 @@ import { useState } from 'react';
 import SettingsBreadcrumb from '@/components/dashboard/settings/settings-breadcrumb';
 import SettingsViewTitle from '@/components/dashboard/settings/settings-view-title';
 import SettingsSideMenu from '@/components/dashboard/settings/settings-side-menu';
+import { Spinner } from '@/components/spinner';
+import { Error } from '@/components/error';
 
 export default function SettingsPage() {
   const [openView, setOpenView] = useState<string>("details")
@@ -26,13 +28,8 @@ export default function SettingsPage() {
     {title: "Linki", view:"links"}
   ]
 
-  let header = {title: "", subtitle:""}
-  if (openView === "details") header = {title: "Business details", subtitle: "Zarządzaj danymi swojego serwisu"}
-  else if (openView === "locations") header = {title: "Locations", subtitle: "Zarządzaj lokalizacją swojego serwisu"}
-  else if (openView === "links") header = {title: "Social links", subtitle: "Dodaj, usuń lub edytuj linki do swoich mediów społecznościowych"}
-
-  if(settingsStatus =="pending" || settings == undefined) return <p>Pending...</p>
-  if(settingsStatus =="error") return <p>Error...</p>
+  if(settingsStatus =="pending" || settings == undefined) return <Spinner/>
+  if(settingsStatus =="error") return <Error/>
 
   const settingsBusinessDetailsViewData = {businessName: settings.name, language: "Polski", country: "Polska", currency: "PLN" }
   const settingsBusinessLocationViewData = {town: settings.town, district: settings.district, street: settings.street, zipcode: settings.zipcode }

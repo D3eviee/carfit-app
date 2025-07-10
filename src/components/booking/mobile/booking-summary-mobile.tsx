@@ -11,11 +11,10 @@ type BookingSummaryMobileProps = {
     services: Service[]
     bookingStep: number
     businessId: string
-    setNextBookingStep: () => void
     setPreviousBookingStep: () => void
 }
 
-export default function BookingSummaryMobile({services, bookingStep, businessId, setNextBookingStep}:BookingSummaryMobileProps) {
+export default function BookingSummaryMobile({services, bookingStep, businessId}:BookingSummaryMobileProps) {
   // ZUSTAND STORE FOR SELECTED SERVICES, DATE AND TIME
   const selectedServices = useAppointmentStore((store) => store.selectedServices)
   const selectedDate = useCalendarStore(store => store.selectedDate)
@@ -82,7 +81,7 @@ export default function BookingSummaryMobile({services, bookingStep, businessId,
         
         {
           services.map((item: Service, index) => 
-            selectedServices.includes(item.id) && <BookingSummaryItem key={index} serviceData={item} activeStep={bookingStep}/> )
+            selectedServices.includes(item.id) && <BookingSummaryItem key={index} resetBookingProcess={() => {}} serviceData={item} activeBookingStep={bookingStep}/> )
         }
 
         <hr className="w-full bg-[#F2F2F7]"/>

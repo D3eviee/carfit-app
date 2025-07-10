@@ -5,11 +5,10 @@ import { addMinutes, format } from "date-fns";
 
 type CalendarEventListItemProps = {
   openModal: () => void
-  closeModal: () => void
   appointmentData : CalendarAppointmentOverviewProps
 }
 
-export default function CalendarEventListItem({openModal, closeModal, appointmentData}:CalendarEventListItemProps) {
+export default function CalendarEventListItem({openModal, appointmentData}:CalendarEventListItemProps) {
   const eventEnd = addMinutes(appointmentData.reservationStart, appointmentData.duration)
   const eventStartFormated = `${format(appointmentData.reservationStart, 'kk')}:${format(appointmentData.reservationStart, 'mm')}`
   const eventEndFormated = `${format(eventEnd, 'kk')}:${format(eventEnd, 'mm')}`

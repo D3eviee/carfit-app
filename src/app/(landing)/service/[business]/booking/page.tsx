@@ -64,7 +64,6 @@ export default function Booking() {
         {bookingStep == 4 && 
           <BookingSummaryMobile 
             bookingStep={bookingStep} 
-            setNextBookingStep={() => {setBookingStep(prev => prev+1)}} 
             setPreviousBookingStep={() => {setBookingStep(prev => prev-1)}} 
             services={services}
             businessId ={id}

@@ -60,8 +60,7 @@ export default function CalendarMobileEventList() {
       <div className="flex flex-col w-full h-full overflow-y-scroll overflow-hidden min-h-0  overflow-x-hidden">
         {activeDayAppointments.length >  0 ? activeDayAppointments.map((appointment, index) => 
           <CalendarEventListItem 
-            openModal={() => openOverview(appointment)}
-            closeModal={() => {setIsOpen(false)}}
+            openModal={() => openOverview(appointment)} 
             key={index} 
             appointmentData={appointment}
           />

@@ -1,5 +1,5 @@
 'use client'
-import {addDays, eachDayOfInterval, eachHourOfInterval, format,getDate,getDay,isSameDay,lastDayOfISOWeek,set, startOfISOWeek, subDays } from "date-fns";
+import {addDays, eachDayOfInterval, eachHourOfInterval, format,getDate ,isSameDay,lastDayOfISOWeek,set, startOfISOWeek, subDays } from "date-fns";
 import { useQuery } from "@tanstack/react-query";
 import { useBusinessSmallCallendarStore } from "@/lib/store";
 import { getAppointmentsForWeekInterval } from "@/app/dashboard/calendar/actions";
@@ -14,25 +14,6 @@ import CalendarMobileDayEvent from "./calendar-mobile-day-event";
 export default function CalendarMobileDayView() {
   const activeDay = useBusinessSmallCallendarStore(store => store.activeDay)
   const setActiveDay = useBusinessSmallCallendarStore(store => store.setActiveDay)
-
-  //overview state
-  const [isOpen, setIsOpen] = useState(false)
-  const [overviewData, setOverviewData] = useState<CalendarAppointmentOverviewProps>({
-    appointmentId: "",
-    clientPhone: "",
-    clientName: "",
-    clientImage: "",
-    duration: 120,
-    reservationStart: new Date(),
-    charge: 0,
-    service: [],
-    status:""
-  })
-
-  const openOverview = (data:CalendarAppointmentOverviewProps) => {
-    setOverviewData(data)
-    setIsOpen(true)
-  }
 
   const currentWeekInterval: Date[] = eachDayOfInterval({
     start: startOfISOWeek(activeDay),

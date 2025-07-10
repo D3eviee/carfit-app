@@ -53,7 +53,7 @@ export default function BookingMobileBookVisitButton({services, businessId}:Book
                 const response = await addReservation(newAppointmentData)
                 return response
             }catch(error){
-                console.error("Problem podczas dodawania rezerwacji", error)
+                console.error("Problem podczas dodawania rezerwacji" +  error)
             }
         }
     })
@@ -77,7 +77,7 @@ export default function BookingMobileBookVisitButton({services, businessId}:Book
             }
             else console.warn("Rezerwacja nie powiodła się."); 
         } catch (error) {
-            console.log("Wystąpił błąd")
+            console.log("Wystąpił błąd" + error)
         }
     }
     

@@ -11,7 +11,7 @@ export default function Support() {
   const [message, setMessage] = useState<{success:boolean | null, message:string}>({success:null, message: "" })
 
   //DEFINING USEFORM HOOK
-  const { register, handleSubmit, formState, setValue, reset} = useForm<SupportFormSchema>({
+  const { register, handleSubmit, formState, reset} = useForm<SupportFormSchema>({
     resolver: zodResolver(supportFormSchema),
   });
   

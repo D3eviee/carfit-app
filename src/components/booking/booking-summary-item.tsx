@@ -12,7 +12,6 @@ type BookingSummaryItemProps = {
 
 export const BookingSummaryItem = ({activeBookingStep, serviceData, resetBookingProcess}:BookingSummaryItemProps) => {
   const toggleSelectedService = useAppointmentStore((store) => store.toggleSelectedService)
-  const selectedServices = useAppointmentStore((store) => store.selectedServices)
 
   const handleRemovingItem = () => {
     toggleSelectedService(serviceData.id)

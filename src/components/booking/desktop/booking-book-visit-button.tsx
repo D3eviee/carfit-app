@@ -7,7 +7,6 @@ import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { userAuth } from "@/lib/auth";
 import { useState } from "react";
-import { BookingLoginForm } from "../booking-login-form";
 import { BookingLoginModal } from "./booking-login-modal";
 
 type BookingBookVisitButtonProps = {
@@ -54,7 +53,7 @@ export default function BookingBookVisitButton({services, businessId}:BookingBoo
                 const response = await addReservation(newAppointmentData)
                 return response
             }catch(error){
-                console.error("Problem podczas dodawania rezerwacji", error)
+                console.error("Problem podczas dodawania rezerwacji" + error)
             }
         }
     })
@@ -78,7 +77,7 @@ export default function BookingBookVisitButton({services, businessId}:BookingBoo
             }
             else console.warn("Rezerwacja nie powiodła się."); 
         } catch (error) {
-            console.log("Wystąpił błąd")
+            console.log("Wystąpił błąd" + error)
         }
     }
     

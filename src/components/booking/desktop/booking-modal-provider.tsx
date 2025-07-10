@@ -1,8 +1,7 @@
 'use client'
 import { createPortal } from "react-dom";
-import { cn } from "@/utils";
 import { X } from "lucide-react";
-import { ReactNode, useState } from "react";
+import { ReactNode } from "react";
 
 type BookingModalProviderProps = {
   children: ReactNode

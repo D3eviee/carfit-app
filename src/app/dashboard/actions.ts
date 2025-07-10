@@ -1,7 +1,7 @@
 'use server'
 import { businessAuth } from "@/lib/auth";
 import prisma from "@/lib/db"
-import { addDays, addMinutes, format, getDate, getDaysInMonth, getMonth, getYear, isSameDay, isThisWeek, lastDayOfMonth, set, startOfMonth, startOfWeek, } from "date-fns";
+import { addDays, addMinutes, format, getDate, getDaysInMonth, getMonth, getYear, isSameDay, isThisWeek, lastDayOfMonth, startOfMonth, startOfWeek, } from "date-fns";
 import { pl } from "date-fns/locale";
 
 //get reservations for current day
@@ -15,7 +15,6 @@ export const getTodayReservations = async () => {
     const business = await businessAuth()
     if(!business.success) return {success: false, message: "There was a problem with getting your current month reservations data"}
 
-    
     const reservationsThisMonth = await prisma.reservation.findMany({
       where: {
         businessId: business.id,

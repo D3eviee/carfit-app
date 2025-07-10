@@ -1,7 +1,6 @@
 'use server'
 import { userAuth } from "@/lib/auth";
 import prisma from "@/lib/db"
-import { count } from "console";
 
 // getting all client appointments
 export const getClientAppointments = async () => {

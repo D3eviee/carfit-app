@@ -1,7 +1,7 @@
 'use client'
 import { FormButton } from "../form-button";
 import { useState } from "react";
-import useWorkingDays, { useContainerErrorStore, useOnboardingStore } from "@/lib/store";
+import useWorkingDays, { useOnboardingStore } from "@/lib/store";
 import { OnboardingEditHoursModal } from "./onboarding-edit-hours-modal";
 import { useRouter } from "next/navigation";
 import { WorkingDay } from "@/lib/types";
@@ -16,7 +16,6 @@ export default function OnboardingWorkingDays() {
   const businessData = useOnboardingStore((state) => state)
   const setData = useOnboardingStore((state)=> state.resetData)
 
-  const setContainerError = useContainerErrorStore(state => state.setContainerError)
   
   const handleOpeningModal = (day:WorkingDay) => {
     setOpenModal(true);
@@ -32,12 +31,12 @@ export default function OnboardingWorkingDays() {
       
       const result = await createBusinessAccount(businessData, workingDays)
       if(result.status == "failed"){
-        setContainerError(result.message!)
+        return
       }
       else{
         setData()
         router.push('/dashboard')
-        setContainerError("Success. Registration copleted!")
+
       }      
   }
 

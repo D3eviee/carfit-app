@@ -17,7 +17,7 @@ export const ServiceIsOpenTag = ({workingHoursData}:{workingHoursData:WorkingDay
     const closingTime = todayWorkingHoursData.close
     const isOpen = (nowTime >= openingTime && nowTime <= closingTime)
 
-    const nextOpenDayData = workingHoursData.slice(Number(todayDayIndex)).find((item, _) =>  Number(item.dayOfWeek) != todayDayIndex && item.isOpen) || workingHoursData.find((item, _) =>  Number(item.dayOfWeek) != todayDayIndex && item.isOpen) 
+    const nextOpenDayData = workingHoursData.slice(Number(todayDayIndex)).find((item) =>  Number(item.dayOfWeek) != todayDayIndex && item.isOpen) || workingHoursData.find((item) =>  Number(item.dayOfWeek) != todayDayIndex && item.isOpen) 
     const nextOpenDayOpeningTime  = todayWorkingHoursData.open
     const nextOpenDayFormatted = `czynne w  ${daysOfWeek[Number(nextOpenDayData.dayOfWeek)-1]} o ${nextOpenDayOpeningTime} `
 

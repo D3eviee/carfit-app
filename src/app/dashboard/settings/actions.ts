@@ -22,6 +22,6 @@ export const DeleteGalleryImage = async (photoId: string) => {
         return { success: true, message: "Image deleted successfully" }
 
     } catch (error) {
-        return { success: false, message: "There was a problem deleting your image" }
+        return { success: false, message: "There was a problem deleting your image" + error}
     }
 }

@@ -1,6 +1,5 @@
 import z, { boolean, string } from 'zod'
 
-
 // CLIENT LOGIN FORM SCHEMA
 export const clientLoginSchema = z.object({
   email: z

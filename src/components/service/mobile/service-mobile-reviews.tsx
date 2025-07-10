@@ -1,7 +1,5 @@
 'use client'
 import { Review } from "@/lib/types";
-import { ServiceReviewItem } from "../service-reviews-item";
-import { ServiceReviewsAllReviewsModal } from "../desktop/service-reviews-all-reviews-modal";
 import { useState } from "react";
 import { ServiceReviewsSummary } from "../service-reviews-summary";
 import { ServiceMobileReviewItem } from "./service-mobile-reviews-item";

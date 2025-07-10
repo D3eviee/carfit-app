@@ -1,6 +1,5 @@
 'use client'
 import { useState } from "react";
-import { NavbarProfileProps } from "@/lib/types";
 import BusinessNavbarMobileMenu from "./business-navbar-mobile-menu";
 
 // this component provides button for opening mobile navigation menu

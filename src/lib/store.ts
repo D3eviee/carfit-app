@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { BusinessOnboardingSchema } from "./schema";
 import { addMonths, subMonths } from "date-fns";
-import { Service, WorkingDay } from "./types";
+import { WorkingDay } from "./types";
 
 export type OnboardingState = Partial<BusinessOnboardingSchema> & {
     setData: (data: Partial<BusinessOnboardingSchema>) => void;
@@ -66,7 +66,6 @@ const useWorkingDays = create<WorkingDaysStore>()((set) => ({
 }));
   
 export default useWorkingDays;
-
 
 type CalendarStoreProps = {
   todayDate: Date

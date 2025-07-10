@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "../../../lib/db";
 import bcrypt from "bcryptjs";
 import { createSession } from "../../../lib/session";
-import { z } from "zod";
 
 export async function POST(req: NextRequest) {
     try {

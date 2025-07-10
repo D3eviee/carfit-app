@@ -62,7 +62,6 @@ export default function CalendarEventList() {
         {activeDayAppointments.length >  0 ? activeDayAppointments.map((appointment, index) => 
           <CalendarEventListItem 
             openModal={() => openOverview(appointment)}
-            closeModal={() => {setIsOpen(false)}}
             key={index} 
             appointmentData={appointment}
           />

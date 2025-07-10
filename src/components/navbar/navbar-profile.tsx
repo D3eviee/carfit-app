@@ -15,15 +15,11 @@ export default function NavbarProfile({userData}:{userData:NavbarProfileProps}) 
   // menu profile modal state
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  const handleOpeningModal = () => {
-    if(isOpen) setIsOpen(false)
-    else setIsOpen(true)
-  }
 
   return (
     <div
       className="relative py-1 px-2 flex gap-2 items-center rounded-lg hover:cursor-pointer hover:bg-[#F0EEEF]" 
-      onClick={handleOpeningModal}
+      onClick={() => setIsOpen(true)}
     >
       <Image 
         src={userData.image || profile_picture} 

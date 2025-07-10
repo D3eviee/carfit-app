@@ -16,7 +16,6 @@ type CalendarEventModalProps = {
 export default function CalendarEventModal({ open, onClose, appointmentData}: CalendarEventModalProps) {
   // helpers for appointment date 
   const rawMonth = format(appointmentData.reservationStart, "LLLL", { locale: pl })
-  const appointmentMonth = rawMonth.charAt(0).toUpperCase() + rawMonth.slice(1)
 
   const rawShortAppointmentMonth = format(appointmentData.reservationStart, "LLL", { locale: pl })
   const shortAppointmentMonth = rawShortAppointmentMonth.charAt(0).toUpperCase() + rawShortAppointmentMonth.slice(1)

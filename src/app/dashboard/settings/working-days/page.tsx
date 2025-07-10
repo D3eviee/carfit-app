@@ -6,9 +6,10 @@ import SettingsBusinessWorkHours from '@/components/dashboard/settings/settings-
 import SettingsBusinessWorkHoursEdit from '@/components/dashboard/settings/settings-business-work-hours-edit';
 import { useSettingsEditingWorkingHours } from '@/lib/store';
 import SettingsBreadcrumb from '@/components/dashboard/settings/settings-breadcrumb';
-import SettingsBusinessMenu from "@/components/dashboard/settings/settings-side-menu";
 import SettingsPageHeader from "@/components/dashboard/settings/settings-page-header";
 import SettingsSideMenu from '@/components/dashboard/settings/settings-side-menu';
+import { Spinner } from '@/components/spinner';
+import { Error } from '@/components/error';
 
 export default function SettingsPage() {
   const queryClient = useQueryClient()
@@ -44,8 +45,8 @@ export default function SettingsPage() {
     setIsEditing(false)
   }
 
-  if(workingHoursDataStatus =="pending" || workingHoursData == undefined) return <p>Pending...</p>
-  if(workingHoursDataStatus =="error") return <p>Error...</p>
+  if(workingHoursDataStatus =="pending" || workingHoursData == undefined) return <Spinner/>
+  if(workingHoursDataStatus =="error") return <Error/>
 
   return (
     <div className='flex flex-col gap-5'>

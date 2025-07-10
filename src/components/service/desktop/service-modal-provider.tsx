@@ -1,7 +1,7 @@
 'use client'
 import { createPortal } from "react-dom";
 import { ChevronLeft } from "lucide-react";
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useState } from "react";
 
 type ServiceModalProviderProps = {
   children: ReactNode
@@ -10,9 +10,6 @@ type ServiceModalProviderProps = {
   title: string
 }
 export const ServiceModalProvider = ({isOpen, onClose, title, children}: ServiceModalProviderProps) =>  {
-  const [topPosition, setTopPosition] = useState(window.scrollY)
-
-
   const handleClosingModal =  () =>  {
     document.body.style.overflow = ""
     onClose()
@@ -22,10 +19,7 @@ export const ServiceModalProvider = ({isOpen, onClose, title, children}: Service
 
   return (
     createPortal(
-      <div 
-        className="z-30 absolute top-0 h-full w-full flex flex-col justify-center items-center bg-[#000]/60 transition-all duration-150 ease-in-out overflow-scroll"
-        style={{top: topPosition}}
-      >
+      <div className="z-30 absolute top-0 h-full w-full flex flex-col justify-center items-center bg-[#000]/60 transition-all duration-150 ease-in-out overflow-scroll">
         <div className="relative z-30 h-3/4 flex flex-col bg-white rounded-2xl px-2 xl:px-4 w-[90%] xl:w-[75%] 2xl:w-[60%]">
           {/* NAV */}
           <div className="z-50 left-0 top-0 absolute flex w-full items-center px-4">
