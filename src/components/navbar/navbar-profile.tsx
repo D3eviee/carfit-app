@@ -10,11 +10,8 @@ import { NavbarProfileProps } from "@/lib/types";
 // when client is loged in
 
 export default function NavbarProfile({userData}:{userData:NavbarProfileProps}) {
-  if(!userData) return null
-
   // menu profile modal state
   const [isOpen, setIsOpen] = useState<boolean>(false);
-
 
   return (
     <div

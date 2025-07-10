@@ -1,7 +1,7 @@
 'use client'
 import { createPortal } from "react-dom";
 import { ChevronLeft } from "lucide-react";
-import { ReactNode, useState } from "react";
+import { ReactNode } from "react";
 
 type ServiceModalProviderProps = {
   children: ReactNode

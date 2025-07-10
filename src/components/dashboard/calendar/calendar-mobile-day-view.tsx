@@ -7,8 +7,6 @@ import { Spinner } from "@/components/spinner";
 import { Error } from "@/components/error";
 import { pl } from "date-fns/locale";
 import { cn } from "@/utils";
-import { useState } from "react";
-import { CalendarAppointmentOverviewProps } from "@/lib/types";
 import CalendarMobileDayEvent from "./calendar-mobile-day-event";
 
 export default function CalendarMobileDayView() {

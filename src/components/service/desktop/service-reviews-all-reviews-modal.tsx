@@ -1,7 +1,6 @@
 import { Review } from "@/lib/types";
 import { ServiceReviewItem } from "../service-reviews-item";
 import { ServiceReviewsSummary } from "../service-reviews-summary";
-import { ServiceMobileModalProvider } from "../mobile/service-mobile-modal-provider";
 import { ServiceModalProvider } from "./service-modal-provider";
 
 type ServiceReviewsAllReviewsModalProps = {
@@ -11,7 +10,7 @@ type ServiceReviewsAllReviewsModalProps = {
   topPosition: number
 }
 
-export const ServiceReviewsAllReviewsModal = ({isOpen, onClose, reviewsData, topPosition}: ServiceReviewsAllReviewsModalProps) =>  {
+export const ServiceReviewsAllReviewsModal = ({isOpen, onClose, reviewsData}: ServiceReviewsAllReviewsModalProps) =>  {
   return (  
     <ServiceModalProvider
       isOpen={isOpen}
