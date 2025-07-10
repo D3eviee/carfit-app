@@ -3,13 +3,13 @@ import { getLocationsForSearch } from "@/app/(landing)/actions";
 import { Error } from "@/components/error";
 import { Spinner } from "@/components/spinner";
 
-type LandingSearchDropdownLocationResultProps = {
+type LandingSearchLocationResultProps = {
   onClose: () => void
   locationInput:string
   setLocation: (businessName?:string) => void
 }
 
-export default function LandingSearchDropdownLocationResult({onClose, setLocation, locationInput}: LandingSearchDropdownLocationResultProps){
+export default function LandingSearchLocationResult({onClose, setLocation, locationInput}: LandingSearchLocationResultProps){
   const {data, status} = useQuery({
     queryKey: ["getServicesForSearch", locationInput],
     queryFn: async () =>{

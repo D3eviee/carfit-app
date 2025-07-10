@@ -2,17 +2,16 @@ import { useQuery } from "@tanstack/react-query";
 import { getServicesForSearch } from "@/app/(landing)/actions";
 import { Error } from "@/components/error";
 import { Spinner } from "@/components/spinner";
-import LandingSearchCategoryDropdownNoResult from "./landing-search-dropdown-no-result";
 import LandingSearchDropdownCategoryResultItem from "./landing-search-dropdown-category-results-item";
+import LandingSearchCategoryNoResult from "./landing-search-category-no-result";
 
 type LandingSearchyDropdownCategoryResultProps = {
-  defaultOptions: string[]
   onClose: () => void
   categoryInput:string
   setCategory: (businessName?:string) => void
 }
 
-export default function LandingSearchDropdownCategoryResult({onClose, setCategory, categoryInput, defaultOptions}: LandingSearchyDropdownCategoryResultProps){
+export default function LandingSearchDropdownCategoryResult({onClose, setCategory, categoryInput}: LandingSearchyDropdownCategoryResultProps){
   const {data, status} = useQuery({
     queryKey: ["getServicesForSearch", categoryInput],
     queryFn: async () =>{
@@ -42,7 +41,7 @@ export default function LandingSearchDropdownCategoryResult({onClose, setCategor
         </div>
       }
 
-      {data.length == 0 && <LandingSearchCategoryDropdownNoResult defaultOptions={defaultOptions} onClose={onClose} setInputState={setCategory}/>} 
+      {data.length == 0 && <LandingSearchCategoryNoResult onClose={onClose} setInputState={setCategory}/>} 
     </div>
   )
 }

@@ -1,10 +1,10 @@
 "use client";
 
-type LandingSearchCategoryDropdownProps = {
+type LandingSearchLocationDefaultProps = {
   onClose: () => void
   setLocation: (category:string) => void
 }
-export default function LandingSearchLocationDropdownCities({onClose, setLocation}: LandingSearchCategoryDropdownProps) {
+export default function LandingSearchLocationDefault({onClose, setLocation}: LandingSearchLocationDefaultProps) {
   const locations = [
     "Warszawa", 
     "Gdańsk", 

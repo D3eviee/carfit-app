@@ -1,13 +1,11 @@
-import LandingSearchDropdownDefault from "./landing-search-dropdown-default";
+import LandingSearchDropdownDefault from "./landing-search-category-default";
 
 type LandingSearchCategoryDropdownNoResultProps = {
-  dropdownFor: string
   onClose: () => void
   setInputState: () => void
-  defaultOptions: string[]
 }
 
-export default function LandingSearchDropdownNoResult({onClose, setInputState, defaultOptions, dropdownFor}: LandingSearchCategoryDropdownNoResultProps){
+export default function LandingSearchCategoryNoResult({onClose, setInputState}: LandingSearchCategoryDropdownNoResultProps){
   return (
     <div className="flex flex-col gap-5">
       {/* No result text */}
@@ -17,9 +15,7 @@ export default function LandingSearchDropdownNoResult({onClose, setInputState, d
       </div>
 
       {/* display more options for category */}
-      {dropdownFor == "category" && <LandingSearchDropdownDefault onClose={onClose} setInputState={setInputState} defaultOptions={defaultOptions} dropdownFor={dropdownFor}/>}
+      <LandingSearchDropdownDefault onClose={onClose} setInputState={setInputState}/>
     </div>
   )
 }
-
-"text-sm text-[#] font-base px-3 py-3  rounded-xl  hover:bg-[#]"

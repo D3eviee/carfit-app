@@ -1,23 +1,23 @@
 "use client";
+import { SERVICES_CATEGORIES } from "@/lib/data";
 
-type LandingSearchDropdownDefaultProps = {
-  dropdownFor: string
+type LandingSearchCategoryDefaultProps = {
   onClose: () => void
   setInputState: (option:string) => void
-  defaultOptions: string[]
 }
 
-export default function LandingSearchDropdownDefault({onClose, setInputState, defaultOptions, dropdownFor}: LandingSearchDropdownDefaultProps) {
-
+export default function LandingSearchCategoryDefault({onClose, setInputState}: LandingSearchCategoryDefaultProps) {
   const handleSelection = (option:string) =>{
     setInputState(option) 
     onClose() 
   }
 
+  const categories = SERVICES_CATEGORIES.map(item => item.name)
+
   return (
     <div className="flex flex-col gap-2">
-      <p className="p-1 text-sm text-[#0C0C0C] font-medium">{dropdownFor == "category" ? "Kategorie" : "Popularne miasta"}</p>
-      {defaultOptions.map((defaultOption, index) => (
+      <p className="p-1 text-sm text-[#0C0C0C] font-medium">Kategorie</p>
+      {categories.map((defaultOption, index) => (
         <div 
         key={index} 
         onClick={() => handleSelection(defaultOption)}
