@@ -34,7 +34,7 @@ export default function LandingSearchLocationDropdown({isOpen, onClose, setLocat
         <LandingSearchLocationResult 
           onClose={onClose} 
           setLocation={setLocation} 
-          locationInput={locationInput}
+          locationInput={debouncedInput}
         />
       }
     </div>

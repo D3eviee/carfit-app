@@ -10,26 +10,7 @@ type LandingSearchLocationProps = {
 
 export default function LandingSearchLocation({locationState, setLocationState}:LandingSearchLocationProps) {
   const [isLocationDropdownOpen, setIsLocationDropdownOpen] = useState<boolean>(false);
-    
-  const locations = [
-    "Warszawa", 
-    "Kraków", 
-    "Gdańsk",  
-    "Wrocław",   
-    "Poznań",   
-    "Katowice",              
-    "Bydgoszcz",      
-    "Lublin",         
-    "Zielona Góra",   
-    "Łódź",                
-    "Opole",          
-    "Rzeszów",        
-    "Białystok",
-    "Kielce",         
-    "Olsztyn",        
-    "Szczecin"        
-  ]
-    
+  
   return (
     <div className="relative w-full"> 
       <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">

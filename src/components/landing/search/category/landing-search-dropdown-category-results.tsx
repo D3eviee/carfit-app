@@ -26,7 +26,7 @@ export default function LandingSearchDropdownCategoryResult({onClose, setCategor
 
   const handleServiceSelection = (serviceName:string) => {
     setCategory(serviceName)
-    onClose
+    onClose()
   }
 
   if(status == "pending") return <Spinner/>

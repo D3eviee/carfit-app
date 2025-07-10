@@ -24,7 +24,7 @@ export default function LandingSearchLocationResult({onClose, setLocation, locat
 
   const handleLocationSelection = (town:string) => {
     setLocation(town)
-    onClose
+    onClose()
   }
 
   if(status == "pending") return <Spinner/>
