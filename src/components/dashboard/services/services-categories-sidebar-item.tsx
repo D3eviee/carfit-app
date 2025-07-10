@@ -5,7 +5,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { deleteCategory } from "@/app/dashboard/services/actions";
 import { ServicesCategory } from "@/lib/types";
-import ServiecEditCategoryModal from "./services-edit-category-modal copy";
+import ServiecEditCategoryModal from "./services-edit-category-modal";
 
 export default function ServicesCategorySidebarItem({category}: {category: ServicesCategory}) {
   const [isModalOpen, setIsModalOpen] = useState(false)
