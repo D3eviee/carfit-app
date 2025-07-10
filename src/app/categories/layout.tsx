@@ -1,4 +1,4 @@
-import BusinessNavbar from "@/components/navbar/navbar-business";
+import BusinessNavbar from "@/components/business/navbar/business-navbar";
 import "../globals.css";
 
 
