@@ -2,7 +2,15 @@ import { getBusinessData} from "@/actions/actions";
 import ServiceMobileView from "@/components/service/mobile/service-mobile-view";
 import ServiceView from "@/components/service/desktop/service-view";
 
-export default async function Service({ params }: { params: { business: string } }){
+type RouteParams = {
+  business: string
+}
+
+type ServiceProps = {
+  params: RouteParams
+}
+
+export default async function Service({ params }: ServiceProps){
   // getting business id from url
   const { business } = params
   const id = business.slice(-36)  
