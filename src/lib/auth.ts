@@ -44,6 +44,7 @@ export const authRole = async () => {
     const user = await userAuth()
     const business = await businessAuth()
 
+
     if(user.success){
         return {
             role: "CLIENT",
