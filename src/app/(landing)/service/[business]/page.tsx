@@ -2,9 +2,9 @@ import { getBusinessData} from "@/actions/actions";
 import ServiceMobileView from "@/components/service/mobile/service-mobile-view";
 import ServiceView from "@/components/service/desktop/service-view";
 
-export default async function Service({ params }: { params: Promise<{ business: string }>}){
+export default async function Service({ params }: { params: { business: string } }){
   // getting business id from url
-  const { business } =  await params
+  const { business } = params
   const id = business.slice(-36)  
 
   //getting business data

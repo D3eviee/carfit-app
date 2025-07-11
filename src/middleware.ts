@@ -8,6 +8,7 @@ const middlewareAuth = (req: NextRequest) => {
     const serviceToken = req.cookies.get("ServiceToken")?.value || null
     const clientToken = req.cookies.get("ClientToken")?.value || null
 
+
     if (serviceToken) return { role: "BUSINESS" }
     else if (clientToken) return { role: "CLIENT" }
     else return { role: "UNSIGNED" }
