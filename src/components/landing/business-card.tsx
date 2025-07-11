@@ -1,4 +1,3 @@
-import { createLinkFormat } from "@/lib/functions"
 import Image from "next/image"
 import Link from "next/link"
 import { Star } from "lucide-react"
@@ -9,9 +8,12 @@ export default function BusinessCard({serviceData}:{serviceData: BusinessCardPro
 
   const numberOfReviews = reviews.length
   const averageRating = numberOfReviews ? (reviews.reduce((sum, r) => sum + r.rate, 0) / numberOfReviews).toFixed(1) : 0;
+  const companyNameToLowerCase = name.toLowerCase()
+  const companyLink = companyNameToLowerCase.replaceAll(" ", "-")
+  const link =  `/service/${companyLink}-${id}`
 
   return (
-    <Link href={createLinkFormat(id, name)} key={id} >
+    <Link href={link} key={id} >
       <div className="h-[250px] w-[220px] flex flex-col border bg-[#FFF] border-[#E5E5EA] rounded-xl overflow-clip hover:border-[#D4D4D9] group transition-all duration-200 ease-in-out xl:w-[280px] xl:h-[295px]">
         {/* IMAGE BOX */}
         <div className="relative h-1/2 w-full overflow-hidden xl:h-[57%]">
