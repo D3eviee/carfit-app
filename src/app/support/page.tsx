@@ -44,7 +44,6 @@ export default function SupportPage() {
           className="w-full flex flex-col gap-10 sm:w-[380px] lg:w-[450px] sm:px-8 sm:ring-[0.5px] sm:ring-[#D4D4D4] sm:py-8 sm:rounded-3xl sm:shadow-lg"
           onSubmit={handleSubmit(onSubmit)}
         >
-          
           <div className="w-full flex flex-col gap-5">
             <div className="flex flex-col gap-1">
               <TextLabel htmlFor="name" text="Imię" />
