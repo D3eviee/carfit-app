@@ -11,11 +11,7 @@ enum ReservationStatus {
   PENDING
   CONFIRMED
   CANCELLED
-}
-
-enum DurationType {
-  MINUTES
-  HOURS
+  COMPLETED
 }
 
 model Client {
@@ -29,8 +25,23 @@ model Client {
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
 
-  Reservation Reservation[]
-  reviews     Review[]
+  reservation   Reservation[]
+  cars          Car[]
+  reviews       Review[]
+  announcements Announcement[]
+}
+
+model Car {
+  id        String   @id @default(uuid())
+  brand     String
+  model     String
+  year      Int
+  archived  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  clientId  String
+
+  client        Client         @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  announcements Announcement[] // <-- nowe pole
 }
 
 model Business {
@@ -55,15 +66,13 @@ model Business {
   instagramUrl String
   websiteUrl   String
 
-  workingDays WorkingDay[]
-  services    Service[]
-  categories  Categories[]
-
+  workingDays  WorkingDay[]
+  services     Service[]
+  categories   Categories[]
   reservations Reservation[]
-
-  reviews Review[]
-
-  images Image[]
+  reviews      Review[]
+  offers       Offer[]
+  images       Image[]
 }
 
 model Image {
@@ -96,10 +105,12 @@ model Review {
   rate      Int
   createdAt DateTime @default(now())
 
-  service   Business @relation(fields: [serviceId], references: [id], onDelete: Cascade)
-  serviceId String
-  client    Client   @relation(fields: [clientId], references: [id], onDelete: Cascade)
-  clientId  String
+  serviceId     String
+  service       Business    @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  clientId      String
+  client        Client      @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  reservationId String      @unique
+  reservation   Reservation @relation(fields: [reservationId], references: [id])
 }
 
 model Service {
@@ -143,15 +154,18 @@ model Reservation {
   charge            Float
   status            String
   clientMessage     String?
+  clientCar         String?
   clientName        String?
   clientPhone       String?
   isAddedByBusiness Boolean  @default(false)
+  
 
   clientId String?
-  client   Client?  @relation(fields: [clientId], references: [id], onDelete: Cascade)
-  business Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
-
+  client   Client?               @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  business Business              @relation(fields: [businessId], references: [id], onDelete: Cascade)
   services ReservationServices[]
+  reviewId String?
+  Review   Review?
 }
 
 model ReservationServices {
@@ -161,4 +175,32 @@ model ReservationServices {
   serviceId     String
 
   @@id([reservationId, serviceId])
+}
+
+model Announcement {
+  id          String   @id @default(uuid())
+  createdAt   DateTime @default(now())
+  status      String   @default("open")
+  title       String
+  category    String
+  town        String
+  district    String
+  description String
+
+  carId    String
+  car      Car     @relation(fields: [carId], references: [id], onDelete: Cascade)
+  clientId String
+  client   Client  @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  offers   Offer[]
+}
+
+model Offer {
+  id          String   @id @default(uuid())
+  createdAt   DateTime @default(now())
+  description String
+
+  businessId     String
+  business       Business     @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  announcementId String
+  announcement   Announcement @relation(fields: [announcementId], references: [id], onDelete: Cascade)
 }

@@ -1,15 +1,12 @@
 import { ReactNode } from "react";
 
-type ServicesServiceListProps = {
-  children: ReactNode
-  categoryName: string
-}
-
-export const ServicesServiceList = ({categoryName, children}: ServicesServiceListProps) =>  {
+export const ServicesServiceList = ({categoryName, children}:{categoryName:string, children: ReactNode}) =>  {
   return (
-    <div className="w-full flex flex-col gap-2">
-      <p className="text-[#2B2B2B] text-md font-medium leading-none p-2 border-[0.5px] border-[#D4D4D4] py-3 rounded-xl shadow-md" >{categoryName}</p>
-      <div className="flex flex-col gap-2.5">
+    <div className="w-full flex flex-col gap-4">
+      <div className="px-3 py-3 border-1 border-[#E6E6E6] rounded-xl">
+        <p className="text-main-black text-middle font-semibold leading-none">{categoryName}</p>
+      </div>
+      <div className="flex flex-col gap-2">
         {children}
       </div>
     </div>

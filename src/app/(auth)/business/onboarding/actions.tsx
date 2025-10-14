@@ -50,9 +50,9 @@ export const createBusinessAccount = async (businessOnboardingData: BusinessOnbo
                 district: businessDistrict,
                 description: businessDescription,
                 street: businessStreet,
-                facebookUrl: null,
-                instagramUrl: null,
-                websiteUrl: null,
+                facebookUrl: "",
+                instagramUrl: "",
+                websiteUrl: "",
             }
         })
         if(!addNewBusiness) return {success: false, message: "Wystąpił problem podczas tworzenia twojego konta"}

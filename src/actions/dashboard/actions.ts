@@ -4,7 +4,7 @@ import { businessAuth } from "@/lib/auth";
 
 // getting basic profile data like name, phone, image etc.
 // used in sidebar and profile page
-export const getBusinessProfileInformation = async () => {
+export const getBusinessProfile = async () => {
     const auth = await businessAuth()
     if(!auth.success) return {success: false, message: "Non-auth user. Please log-in."}
 
@@ -17,6 +17,7 @@ export const getBusinessProfileInformation = async () => {
                 email: true,
                 image: true,
                 owner: true,
+                phone: true
             }
         })
 

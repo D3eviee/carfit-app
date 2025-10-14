@@ -1,7 +1,7 @@
 'use client'
 import { useDashboardSidebar } from "@/lib/store"
 import { cn } from "@/utils"
-import { Book, Calendar, Home, Wrench } from "lucide-react"
+import { Book, Calendar, Home, Wrench, Store } from "lucide-react"
 import Link from "next/link"
 
  const dashboardPages = [
@@ -9,6 +9,7 @@ import Link from "next/link"
     { link: "/dashboard/calendar", text: "Kalendarz", icon: Calendar },
     { link: "/dashboard/appointments", text: "Wizyty", icon: Book },
     { link: "/dashboard/services", text: "Usługi", icon: Wrench },
+    { link: "/dashboard/listings", text: "Ogłoszenia", icon:  Store},
   ]
 
 export const SidebarNavigationSubpages = ({activePage}:{activePage:string}) => {

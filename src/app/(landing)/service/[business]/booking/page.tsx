@@ -1,7 +1,5 @@
 'use client'
-import { getBusinessCategoriesAndServices } from "@/app/(landing)/actions";
 import { BookingCalendar } from "@/components/booking/booking-calendar";
-import { useQuery } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 import { useState } from "react";
 import { Category } from "@/lib/types";
@@ -15,31 +13,21 @@ import { BookingDetailsFromUser } from "@/components/booking/booking-details-fro
 import { BookingAbortButton } from "@/components/buttons/booking-abort-button";
 import { BookingPreviousStepButton } from "@/components/buttons/booking-previous-step-button";
 import { cn } from "@/utils";
+import { useBookingBusinessServices } from "@/lib/hooks/client/useBookingBusinessServices";
 
 export default function Booking() {
   const [bookingStep, setBookingStep] = useState(1)
   
   // getting business id from url
   const params = useParams()
-  const id = typeof params.business === 'string'
-    ? params.business.match(/[0-9a-fA-F\-]{36}$/)?.[0]
-    : ""
+  const id = typeof params.business === 'string' ? params.business.match(/[0-9a-fA-F\-]{36}$/)?.[0] : ""
 
-  //getting service data
-  const { data: businessCategoriesAndServicesData, status: businessCategoriesAndServicesStatus  } = useQuery({
-    queryKey: ["businessCategoriesAndServicesData", id],
-    queryFn: async () => {
-      if(id == undefined) return 
-      const response = await getBusinessCategoriesAndServices(id);   
-      if(!response.success) return 
-      return response.data
-    },
-  })
+  // FETCHING DATA
+  const {data:businessServices, status} = useBookingBusinessServices(id)
+  if(status == "pending") return <Spinner/>
+  if(status == "error") return <Error/>
 
-  if(businessCategoriesAndServicesStatus == "pending") return <Spinner/>
-  if(businessCategoriesAndServicesStatus == "error") return <Error/>
-
-  const services = businessCategoriesAndServicesData.map((item: Category) => item.services).flat();
+  const services = businessServices.map((item: Category) => item.services).flat();
 
   return (
     <div className="absolute w-full h-full top-0 bg-white flex flex-col overflow-hidden lg:gap-5">
@@ -52,7 +40,7 @@ export default function Booking() {
       {/* SERVICES */}
       <div className="h-full w-full justify-center flex flex-row overflow-hidden gap-10 xl:gap-20 px-4 lg:px-8 xl:px-32 2xl:px-64">
         {/* CHOOSING SERVICE */}
-        {(businessCategoriesAndServicesData && bookingStep == 1) && <BookingServices categoriesData={businessCategoriesAndServicesData}/>}
+        {(businessServices && bookingStep == 1) && <BookingServices categoriesData={businessServices}/>}
         {bookingStep == 2 && <BookingCalendar servicesData={services}/>}
         {bookingStep == 3 && <BookingDetailsFromUser/>}
       

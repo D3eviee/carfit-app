@@ -1,11 +1,17 @@
 'use client'
 import { type ClassValue, clsx } from "clsx"
-import { addMinutes, format } from "date-fns"
+import { addMinutes, differenceInDays, differenceInHours, differenceInMinutes, differenceInMonths, differenceInSeconds, differenceInYears, format } from "date-fns"
 import { useParams } from "next/navigation"
 import { twMerge } from "tailwind-merge"
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
+}
+
+export const createLinkFormat = (id:string, companyName:string) : string  => {
+    const companyNameToLowerCase = companyName.toLowerCase()
+    const companyLink = companyNameToLowerCase.replaceAll(" ", "-")
+    return `/service/${companyLink}-${id}`
 }
 
 export function displayAppointmentHours(appointmentStart:Date, appointmentDuration: number){
@@ -16,8 +22,6 @@ export function displayAppointmentHours(appointmentStart:Date, appointmentDurati
 
   return `${appointmentStartHour}:${appointmentStartMinute} - ${appointmentFinishHour}:${appointmentFinishMinute}`
 }
-
-
 
  export function useServiceIdFromParams() {
     const param = useParams();
@@ -53,4 +57,44 @@ export function checkImageType(uploadedFile: File): FormData | null {
   const formData = new FormData()
   formData.append('image', uploadedFile)
   return formData;
+}
+
+export function displayAddedTime (createdAt:Date){
+  const now = new Date()
+
+  const diffSeconds = differenceInSeconds(now, createdAt)
+  if (diffSeconds < 60) return diffSeconds === 1 ? "1 sekunda temu" : `${diffSeconds} sekund temu`
+
+  const diffMinutes = differenceInMinutes(now, createdAt)
+  if (diffMinutes < 60) return diffMinutes === 1 ? "1 minuta temu" : `${diffMinutes} minut temu`
+  
+  const diffHours = differenceInHours(now, createdAt)
+  if (diffHours < 24) return diffHours === 1 ? "1 godzina temu" : `${diffHours} godziny temu`
+  
+  const diffDays = differenceInDays(now, createdAt)
+  if (diffDays < 30) return diffDays === 1 ? "1 dzień temu" : `${diffDays} dni temu`
+  
+  const diffMonths = differenceInMonths(now, createdAt)
+  if (diffMonths < 12)  return diffMonths === 1 ? "1 miesiąc temu" : `${diffMonths} miesiące temu`
+  
+  const diffYears = differenceInYears(now, createdAt)
+  if (diffYears === 1) return "1 rok temu"
+  
+  if (diffYears > 1 && diffYears < 5) return `${diffYears} lata temu`
+  return `${diffYears} lat temu`
+} 
+
+export function sortScheduleByDay(schedule) {
+  const dniTygodnia = [
+    "Poniedziałek",
+    "Wtorek",
+    "Środa",
+    "Czwartek",
+    "Piątek",
+    "Sobota",
+    "Niedziela"
+  ];
+  return [...schedule].sort(
+    (a, b) => dniTygodnia.indexOf(a.dayOfWeek) - dniTygodnia.indexOf(b.dayOfWeek)
+  );
 }

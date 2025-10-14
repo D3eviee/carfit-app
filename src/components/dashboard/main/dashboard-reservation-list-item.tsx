@@ -1,67 +1,47 @@
-import { format, getDate } from "date-fns";
+import { format } from "date-fns";
 import { displayAppointmentTime } from "@/utils";
 import { AppoinmentProps } from "@/lib/types";
 import { useModalStore } from "@/lib/store";
-import { DashboardHomeDetailsModal } from "@/components/modals/home/dashboard-home-details-modal";
-import { pl } from "date-fns/locale";
+import { DashboardAppointmentDetailsModal } from "@/components/modals/dashboard/appointment-details/dashboard-appointment-details-modal";
+import { DashboardReservationListItemStatus } from "./dashboard-reservation-list-item-status";
 
 export const DashboardReservationListItem = ({reservation}:{reservation:AppoinmentProps}) => {
   const {duration, status, charge, reservationStart, service} = reservation
+  const appointmentTitle = service.length == 1 ? `${service[0].name}` : `${service[0].name} i ${service.length} inne usługi`
+
+  // MANAGING APPOINTMNET DETALIS MODAL
   const openModal = useModalStore(store => store.openModal)
-  const handleOpeningModal = () => openModal(<DashboardHomeDetailsModal appointmentData={reservation}/>)
-
-  const monthDay = getDate(reservation.reservationStart)
-  const monthRaw = format(reservation.reservationStart, "MMM", {locale: pl})
-  const monthFormatted = monthRaw[0].toUpperCase() + monthRaw.slice(1)
-
-  const dayOfWeek = format(reservationStart, "EEEE", {locale: pl})
-  const dayOfWeekFormatted = dayOfWeek[0].toUpperCase() + dayOfWeek.slice(1)
-  const day = format(reservationStart, "d")
-  const fullMonthRaw = format(reservationStart, "MMMM", {locale: pl})
-  const fullMonthFormatted = fullMonthRaw[0].toUpperCase() + fullMonthRaw.slice(1)
-  const hour = format(reservationStart, "k")
-  const minute = format(reservationStart, "mm")
+  const handleOpeningModal = () => openModal(<DashboardAppointmentDetailsModal appointmentData={reservation}/>)
 
   return (
     <div 
       onClick={handleOpeningModal}
-      className="w-full flex flex-row gap-2 px-2 py-4 bg-[#F2F2F7] border-[0.5px] border-[#D4D4D4] rounded-2xl hover:cursor-pointer active:scale-[0.99] transition-all duration-75 ease-in"
+      className="w-full flex flex-row gap-2 px-2 py-4 border-1 border-[#E6E6E6] rounded-2xl hover:cursor-pointer active:scale-[0.98] hover:border-[#D4D4D4] transition-all duration-75 ease-in"
     >
-      {/* EVENT DATE */}
-      <div className="flex flex-col text-right">
-        <h1 className="leading-5 text-xl  text-[#191919] font-normal">{monthDay}</h1>
-        <h1 className="leading-5 text-md  text-[#191919] font-light">{monthFormatted}</h1>
+      {/* APPOINTMNET TIME */}
+      <div className="flex flex-col text-right text-main-black text-xl leading-6 px-1">
+        <h1 className="font-medium">{format(reservationStart, "k")}</h1>
+        <h1 className="font-light">{format(reservationStart, "mm")}</h1>
       </div>
 
       {/* DEVIDER LINE */}
-      <hr className="h-full w-[0.5px] bg-[#E8E9EB]"/>
+      <hr className="h-full w-[0.5px] bg-[#D4D4D4]"/>
       
-      {/* CONTENT BOX */}
+      {/* APPOINTMNET DETAILS */}
       <div className="flex flex-col gap-2 w-full">
-        {/* EVENT TIME */}
-        <p className="text-sm text-[#191919]">{`${hour}:${minute} | ${dayOfWeekFormatted} ${day} ${fullMonthFormatted}`}</p>       
-
-        {/* EVENT SERVICES */}
-        <div className="flex flex-row flex-wrap gap-2">
-          {service.map((item) => <p  key={item.name} className="text-xs border-[0.5px] border-[#EEE] text-[#000] font-normal bg-[#FFF] px-2 py-1 rounded-lg">{item.name}</p>)}
-        </div>
-
-        {/* EVENT DURATION AND CHANGE */}
-        <div className="flex flex-row items-center gap-2">
-            {/* EVENT DURATION*/}
-            <div className="px-3 py-1 flex flex-row items-center bg-[#5D44F8] rounded-lg">
-
-              <p className="text-xs text-[#FFF] font-medium leading-none ">{displayAppointmentTime(duration)}</p>
-            </div>
-            {/* EVENT CHARGE*/}
-            <div className="px-3 py-1 flex flex-row items-center bg-[#098EFF] rounded-lg">
-              <p className="text-xs text-[#FFF] font-medium leading-none">{charge} PLN</p>
-            </div>
+        {/* SERVICE TYPE */}
+        <p className="text-middle text-main-black py-0.5">{appointmentTitle}</p>    
+        
+        {/* APPOINTMNET TAGS */}
+        <div className="flex flex-row gap-2 items-center">
+          {/* DURATION */}
+          <p className="text-xs px-2 py-0.5 rounded-lg bg-[#F5F0FF] text-[#6D28D9] border-[0.5px] border-[#E0D4FF]">{displayAppointmentTime(duration)}</p>
+          {/* CHARGE */}
+          <p className="text-xs px-2 py-0.5 rounded-lg bg-[#FAE8FF] text-[#C026D3] border-[0.5px] border-[#F5D0FE]">{charge} PLN</p>
         </div> 
-        {/* EVENT STATUS */}
-        {status == "Odwołana" && <p className="w-fit text-xs text-[#FFF] font-medium leading-none  px-2 py-1 rounded-md bg-[#FF5F58]">{status}</p>}
-        {status == "Oczekująca" && <p className="w-fit text-xs text-[#FFF] font-medium leading-none  px-2 py-1 rounded-md bg-[#FDBC2C]">{status}</p>}
-        {status == "Zarezerwowana" && <p className="w-fit text-xs text-[#FFF] font-medium leading-none  px-2 py-1 rounded-md bg-[#28C840]">{status}</p>}
+
+        {/* APPOINTMNET STATUS */}
+        <DashboardReservationListItemStatus status={status}/>   
       </div>
     </div>
   )

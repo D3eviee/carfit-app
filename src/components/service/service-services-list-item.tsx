@@ -2,7 +2,7 @@ import { Service } from "@/lib/types";
 import { displayAppointmentTime } from "@/utils";
 import { ServiceServicesListItemBookButton } from "./service-services-list-item-book-button";
 import { useModalStore } from "@/lib/store";
-import { ServiceDetailsModal } from "../modals/service-details-modal";
+import { ServiceDetailsModal } from "../modals/user/service/service-details-modal";
 
 export const ServiceServicesListItem = ({service}:{service:Service}) => {
   const openModal = useModalStore(store => store.openModal)

@@ -20,10 +20,22 @@ export const getClientProfileData = async () => {
                 name: true,
                 phone: true,
                 createdAt: true,
-                Reservation: {
+                reservation: {
                     select: {
                         charge: true,
                     }
+                },
+                cars:{
+                    select: {
+                        id: true,
+                        brand: true,
+                        model: true, 
+                        year: true,
+                    },
+                    where:{
+                        archived: false,
+                    },
+                    orderBy: {year: "desc"}
                 }
             }
         })
@@ -57,50 +69,32 @@ export const updateClientProfileData = async (oldData:ChangeClientProfileData, n
     try {
         const user = await userAuth()
         if(!user.success) return {success: false, message: "Brak dostępu. Zaloguj się"}
-
-        if(oldData.email == newData.email && oldData.phone == newData.phone){
-            const updateUserName = await prisma.client.update({
-                where: { id: user.id},
-                data: { name: newData.name }
-            })
-            if(updateUserName) return {success: true, data: updateUserName}
-        }
-
-        if(oldData.email == newData.email){
-            const phoneExists = await prisma.client.findUnique({ where: {phone: newData.phone} })
-            if(phoneExists) return {success: false, message: "Konto z tym numerem telefonu istnieje"}
-            const updateUserName = await prisma.client.update({
-                where: { id: user.id},
-                data: { name: newData.name, phone: newData.phone }
-            })
-            if(updateUserName) return {success: true, data: updateUserName}
-        }
-
-        if(oldData.phone == newData.phone){
-            const emailExists = await prisma.client.findUnique({ where: {email: newData.email} })
-            if(emailExists) return {success: false, message: "Konto z tym adresem email istnieje"}
-            const updateUserEmail = await prisma.client.update({
-                where: { id: user.id},
-                data: { name: newData.name, email: newData.email }
-            })
-            if(updateUserEmail) return {success: true, data: updateUserEmail}
-        }
         
-        const updateUserDataResult = await prisma.client.update({
-            where: {
-                id: user.id
-            },
+        const existingEmail = oldData.email !== newData.email 
+            ? await prisma.client.findUnique({ where: { email: newData.email } })
+            : null;
+        if (existingEmail) return { success: false, message: "Konto z tym adresem email już istnieje" };
+        
+        const existingPhone = oldData.phone !== newData.phone 
+            ? await prisma.client.findUnique({ where: { phone: newData.phone } })
+            : null;
+        if (existingPhone) return { success: false, message: "Konto z tym numerem telefonu już istnieje" };
+
+
+        const updatedUser = await prisma.client.update({
+            where: { id: user.id },
             data: {
                 name: newData.name,
-                phone: newData.phone,
                 email: newData.email,
+                phone: newData.phone,
             },
-        })
+        });
 
-        if(!updateUserDataResult) return {success: false, message: "Wystąpił problem podczas zapisaywania danych."}
-        return {success: true, data: updateUserDataResult}
+        if(!updatedUser) return {success: false, message: "Wystąpił problem podczas zapisaywania danych."}
+        return { success: true, data: updatedUser };
     } catch (error) {
-        return {success: false, message: "Wystąpił problem servera:" + error}
+        console.error(error)
+        return {success: false, message: "Wystąpił problem podczas zapisaywania danych."}
     }
 }
 
@@ -193,5 +187,69 @@ export const deleteClientAccount = async () => {
         return { success: true, message:`Twoje konto zostało usunięte`}
     }catch(error){
         return {success: false, message: `Wystąpił problem podczas usuwania konta ${error}`}
+    }
+}
+
+// PROFILE -> adds car to profile user
+export const addClientCar = async ({brand, model, year}) => {
+    try {
+        const user = await userAuth()
+        if(!user.success) return {success: false, message:"Odmowa dostępu. Użytkownik niezalogowany"}
+
+        const newCar = await prisma.car.create({ 
+            data: {
+                clientId: user.id,
+                brand: brand,
+                model: model,
+                year: year
+            }
+        })
+
+        if(!newCar) return {success: false, message:`Wystąpił problem podczas dodawania pojazdu`}
+        return { success: true, car: newCar }
+    }catch(error){
+        console.log(error)
+        return {success: false, message: "Wystąpił problem podczas dodawania pojazdu"}
+    }
+}
+
+// PROFILE -> updates client car information
+export const updateClientCar = async ({carId, brand, model, year}) => {
+    try {
+        const user = await userAuth()
+        if(!user.success) return {success: false, message:"Odmowa dostępu. Użytkownik niezalogowany"}
+
+        const result = await prisma.car.update({ 
+            where: { id: carId },
+            data: {
+                brand: brand,
+                model: model,
+                year: year
+            }
+        })
+        if(!result) return {success: false, message: `Wystąpił problem podczas zapisywania informacji`}
+        return { success: true, message:`Zaktualizowano`}
+    }catch(error){
+        return {success: false, message: `Wystąpił problem podczas zapisywania informacji ${error}`}
+    }
+}
+
+// PROFILE -> deletes client car
+export const deleteClientCar = async (carId:string) => {
+    try {
+        const user = await userAuth()
+        if(!user.success) return {success: false, message:"Odmowa dostępu. Użytkownik niezalogowany"}
+
+        const result = await prisma.car.update({ 
+            where: { 
+                clientId: user.id,
+                id: carId,
+            },
+            data: { archived: true }
+        })
+        if(!result) return {success: false, message:`Wystąpił problem podczas usuwania pojazdu`}
+        return { success: true, message:`Pojazd został usunięty`}
+    }catch(error){
+        return {success: false, message: `Wystąpił problem podczas usuwania pojazdu ${error}`}
     }
 }

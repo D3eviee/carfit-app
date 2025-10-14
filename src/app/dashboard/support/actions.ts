@@ -17,7 +17,7 @@ export async function sendSupportTicket(data:SupportFormSchema ) {
   try {
     const { error } = await resend.emails.send({
       from: "onboarding@resend.dev",
-      to: ["hipolitroszkowski@protonmail.ch"],
+      to: ["support@car-fit.pl"],
       subject: `Support ticket from ${name}`,
       html
     }) 

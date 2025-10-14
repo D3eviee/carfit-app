@@ -2,7 +2,7 @@ import { Service } from "@/lib/types";
 import { displayAppointmentTime } from "@/utils";
 import { BookingServicesCategoryItemAddButton } from "./booking-services-category-item-add-button";
 import { useModalStore } from "@/lib/store";
-import { ServiceDetailsModal } from "../modals/service-details-modal";
+import { ServiceDetailsModal } from "../modals/user/service/service-details-modal";
 
 export const BookingServicesCategoryItem = ({service}:{service:Service}) => {
   const openModal = useModalStore(store => store.openModal)

@@ -2,6 +2,7 @@
 import { logout } from "@/lib/auth"
 import { useMobileNavigationStore, useModalStore, useToastStore } from "@/lib/store"
 import { useRouter } from "next/navigation"
+import { ExitModalButton } from "./exit-modal-button"
 
 export const LogoutModal = () => {
     const router = useRouter()
@@ -18,21 +19,16 @@ export const LogoutModal = () => {
     }
     
     return (
-        <div className="w-fit flex flex-col gap-5 px-8 pt-5 pb-3 bg-white rounded-2xl">
-            <p className="text-sm text-[#363638] text-center leading-4">Czy napewno chcesz zostać wylogowanym?</p>
-            <div className="w-full flex flex-row justify-end gap-3">
-                <button 
-                    onClick={closeModal}  
-                    className="w-full py-2 bg-[#F2F2F7] text-sm text-[#363638] font-normal ring-[0.5px] ring-[#D4D4D4] rounded-xl hover:cursor-pointer inset-shadow-glass active:scale-95"
+        <div className="w-[360px] flex flex-col gap-8 px-4 pb-4 pt-8 bg-[#F2F2F7] rounded-4xl">
+            <p className="text-main-black text-middle leading-none font-semibold">Czy napewno chcesz zostać wylogowanym?</p>
+            <div className="w-full flex flex-row gap-2.5">
+                <ExitModalButton/>
+                <div 
+                    onClick={() => handleLogout()}
+                    className="w-full text-center justify-center py-2.5 bg-[#F95A59] rounded-2xl shadow-bnw-y-small hover:cursor-pointer hover:bg-[#E84948] active:scale-105"
                 >
-                    Anuluj
-                </button>
-                <button  
-                    onClick={handleLogout} 
-                    className="w-full py-2 bg-[#FF5F58] text-sm text-white font-medium ring-[0.5px] ring-[#EE4E47] rounded-xl  hover:cursor-pointer inset-shadow-glass active:scale-95"
-                >
-                    Wyloguj
-                </button> 
+                    <p className="text-[#FFF]">Wyloguj</p>
+                </div>
             </div>
         </div>
   )

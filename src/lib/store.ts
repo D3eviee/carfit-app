@@ -34,7 +34,7 @@ interface WorkingDaysStore {
     updateWorkingHours: (dayName: string, open: string, close:string) => void
 }
 
-const useWorkingDays = create<WorkingDaysStore>()((set) => ({
+export const useWorkingDays = create<WorkingDaysStore>()((set) => ({
     days: [
       { isOpen: true, dayOfWeek: "Poniedziałek", open: "07:00", close: "18:00" },
       { isOpen: true, dayOfWeek: "Wtorek", open: "07:00", close: "18:00" },
@@ -57,7 +57,6 @@ const useWorkingDays = create<WorkingDaysStore>()((set) => ({
     }
 }))
   
-export default useWorkingDays;
 
 type CalendarStoreProps = {
   todayDate: Date
@@ -82,10 +81,12 @@ export const useCalendarStore = create<CalendarStoreProps>((set) => ({
 // Booking appointmentState
 type AppointmentStoreProps = {
   clientMessage: string | null
+  clientCar: string | null
   appointmentTime: Date | null
   selectedServices: string[]
   setAppointmentTime: (time:Date | null) => void
   setClientMessage: (text: string) => void
+  setClientCar: (text: string) => void
   toggleSelectedService: (serviceId) => void
   resetSelectedServices: () => void
   resetAppointmentTime: () => void
@@ -95,6 +96,7 @@ type AppointmentStoreProps = {
 export const useAppointmentStore = create<AppointmentStoreProps>((set) => ({
   selectedServices: [],
   clientMessage: "",
+  clientCar: "", 
   appointmentTime: null,
   toggleSelectedService: (serviceId) => set((state) => {
     const isSelected = state.selectedServices.includes(serviceId);
@@ -107,6 +109,7 @@ export const useAppointmentStore = create<AppointmentStoreProps>((set) => ({
   ),
   resetSelectedServices: () => set(()=>({selectedServices : []})),
   setAppointmentTime : (time) => set(()=>({appointmentTime : time})),
+  setClientCar : (car) => set(()=>({clientCar : car})),
   setClientMessage: (text) => set(() => ({clientMessage: text})),
   resetAppointmentTime: () => set(() => ({appointmentTime: null})),
   resetClientMessage: () => set(() => ({clientMessage: null}))
@@ -267,7 +270,6 @@ export const useMobileNavigationStore = create<MobileNavigationStore>((set) => (
   }
 }))
 
-
 // DASHBOARD SIDEBAR
 type DashboardSidebar = {
   isMenuOpen: boolean;
@@ -277,4 +279,64 @@ type DashboardSidebar = {
 export const useDashboardSidebar = create<DashboardSidebar>((set) => ({
   isMenuOpen: true,
   toggleMenu: () => { set((store) => ({ isMenuOpen: !store.isMenuOpen }))}
+}))
+
+
+// DASHBOARD LISTINGS
+type Offering = {
+  id: string
+  createdAt: Date
+  status: string
+  title: string
+  category: string
+  description: string
+  brand: string
+  model: string
+  town: string
+  district: string
+  clientName: string
+  clientPhone: string
+  offerId: string | null
+  offerDescription: string | null
+}
+
+type SelectedListing = {
+  toggleIsEditing: () => void
+  isEditing: boolean
+  activeOffering: Offering
+  markActiveOffering: (activeOffering: Offering) => void
+  updateOffering: (offer: string) => void
+}
+
+export const useActiveListingStore = create<SelectedListing>((set) => ({
+  activeOffering: {
+    id: "",
+    createdAt: new Date(),
+    status: "",
+    title: "",
+    category: "",
+    description: "",
+    brand: "",
+    model: "",
+    town: "",
+    district: "",
+    clientName: "",
+    clientPhone: "",
+    offerId: null,
+    offerDescription: null
+  },
+  markActiveOffering: (activeOffering) => set(() => ({ activeOffering })),
+  updateOffering: (offer) => set((state) => ({ activeOffering: { ...state.activeOffering, offerDescription: offer} })),
+  isEditing: false,
+  toggleIsEditing: () => set((state) => ({ isEditing: !state.isEditing }))
+}))
+
+type EditReview = {
+  isEditing: boolean
+  toggleIsEditing ;
+  
+}
+export const useEditReviewStore = create<EditReview>((set) => ({
+  isEditing: false,
+  toggleIsEditing: () => set((state) => ({ isEditing: !state.isEditing }))
 }))

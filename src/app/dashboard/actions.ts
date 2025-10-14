@@ -13,15 +13,29 @@ export const getTodayAppointments = async () => {
 
   try {
     const business = await businessAuth()
-    if(!business.success) return {success: false, message: "There was a problem with getting your current month reservations data"}
+    if(!business.success) return {success: false, message: "Brak autoryzajcji. Zaloguj się."}
+
+    const rawNow= new Date()
+    const now = new Date(rawNow.getTime() + 2 * 60 * 60 * 1000)
+    await prisma.reservation.updateMany({
+      where:{
+        businessId: business.id,
+        reservationEnd: { lte: now},
+        status: "reserved"
+      },
+      data:{
+        status: "finished"
+      }
+    })
 
     const reservationResult = await prisma.reservation.findMany({
       where: {
-        reservationStart: 
-        {
+        reservationStart: {
           gte: startOfDay,
           lte: endOfDay,
-        }
+        },
+        status: {not: "canceled"},
+        businessId: business.id
       },
       select: {
         id: true, 
@@ -36,6 +50,7 @@ export const getTodayAppointments = async () => {
         clientMessage: true,
         clientName: true,
         clientPhone: true,
+        clientCar: true,
         charge: true,
         duration: true,
         reservationStart: true,
@@ -51,6 +66,9 @@ export const getTodayAppointments = async () => {
           }
         }
       },
+      orderBy:{
+        reservationStart: "asc"
+      }
     })
 
      if(!reservationResult)  return {success: false, message: "Wystiąpoł problem podczas pobierania danych"}
@@ -65,6 +83,7 @@ export const getTodayAppointments = async () => {
           clientPhone: item.clientPhone,
           clientImage: "https://carfitapp.s3.eu-north-1.amazonaws.com/BusinessGallery/fe69e074-0cef-48af-880b-e08895d1d734/ecc30e22-1193-413e-96ec-d84222d95b88",
           clientMessage: item.clientMessage,
+          clientCar: item.clientCar,
           reservationStart: item.reservationStart,
           duration : item.duration,
           charge: item.charge,
@@ -78,6 +97,7 @@ export const getTodayAppointments = async () => {
           clientName: item.client.name, 
           clientImage: item.client.image,
           clientMessage: item.clientMessage,
+          clientCar: item.clientCar,
           reservationStart: item.reservationStart,
           duration : item.duration,
           charge: item.charge,
@@ -86,21 +106,21 @@ export const getTodayAppointments = async () => {
         }
       }
     })
-
     return {success: true, data: todayAppointments}
   }catch (error) {
-    return {success:false, message: "There was a server problem: "+ error}
+    console.error(error)
+    return {success: false, message: "Wystąpił problem podczas ładowania danych"}
   }
 }
 
 // get reservation number for chart
-export const getLastMonthReservationChartData = async () => {
+export const getVisitChartData = async () => {
   const today = new Date()
   const monthStart = startOfMonth(today)
   const monthEnd = lastDayOfMonth(today)
 
   const business = await businessAuth()
-  if(!business.success) return {success: false, message: "Non-authenticated user"}
+  if(!business.success) return {success: false, message: "Brak autoryzacji. Zaloguj się"}
 
   try {
     const lastMonthAppointments = await prisma.reservation.findMany({
@@ -139,18 +159,18 @@ export const getLastMonthReservationChartData = async () => {
       ).length
 
       const canceledVisits = lastMonthAppointments.filter(item =>
-        isSameDay(item.reservationStart, dayInMonth) && item.status == "Odwołana"
+        isSameDay(item.reservationStart, dayInMonth) && item.status == "canceled"
       ).length
 
       monthNumbers.push({
-        day: format(dayInMonth, 'dd', {locale: pl}), 
+        day: format(dayInMonth, 'd', {locale: pl}), 
         visits: visitsPerDay-canceledVisits,
         cancelled: canceledVisits
       })
       
       if(isThisWeek(dayInMonth)){
         weekNumbers.push({
-          day: format(dayInMonth, 'EEE', {locale: pl}), 
+          day: format(dayInMonth, 'EEEE', {locale: pl}), 
           visits: visitsPerDay-canceledVisits,
           cancelled: canceledVisits
         })
@@ -159,12 +179,13 @@ export const getLastMonthReservationChartData = async () => {
 
     return {success: true, data: {month: monthNumbers, week:weekNumbers}}
   } catch (error) {
-    return {success: false, message: "There was a server problem. Try later: " + error}
+    console.error(error)
+    return {success: false, message: "Wystąpił problem podczas pobierania danych"}
   }
 }
 
 // DASHBOARD/HOME -> get top services for chart
-export const getTopServicesChartData = async () => {
+export const getServicesChartData = async () => {
   const today = new Date()
   const weekStart = startOfISOWeek(today)
 
@@ -177,14 +198,13 @@ export const getTopServicesChartData = async () => {
         reservationStart: {
           gte: weekStart,
           lte: today,
-        }
+        },
+        status: {not: "canceled"}
       },
       select: {
         services: {
           select: {
-            service: {
-              select: { name: true }
-            }
+            service: { select: { name: true }}
           }
         }
       },
@@ -310,7 +330,7 @@ export const cancelAppointment = async (appointmentId:string) => {
         const businessData = await businessAuth()
         if(!businessData.success) return {success: false, message: "Brak dostępu. Zaloguj się"} 
 
-        const deleteAppointment = await prisma.reservation.update({ where: {id: appointmentId}, data: {status: "Odwołana"}})
+        const deleteAppointment = await prisma.reservation.update({ where: {id: appointmentId}, data: {status: "canceled"}})
         if(!deleteAppointment) return {success: false, message: "Wystąpił błąd podczas próby anulowania wizyty"}
         return {success: true, message:"Wizyta została odwołana", data: deleteAppointment}
     }catch(error){

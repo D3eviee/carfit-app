@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
-import "..//globals.css";
 import Navbar from "@/components/navbar/navbar";
+import "@/app/globals.css";
 import { ClientFooter } from "@/components/client-footer";
 
 export default function RootLayout({children}: Readonly<{children: ReactNode}>) {
@@ -8,7 +8,6 @@ export default function RootLayout({children}: Readonly<{children: ReactNode}>) 
     <div className="flex flex-col">
       <Navbar/>
       {children}
-
       <ClientFooter/>
     </div>
   );

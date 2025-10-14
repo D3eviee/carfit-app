@@ -69,6 +69,7 @@ export default function NavbarProfileDropdown({userData, isOpen, onClose}:Navbar
           <div className="flex flex-col gap-1">
             <NavbarProfileDropdownOption title="Profil" icon={<User color="#8A8A8A" strokeWidth="1.5px" size={16}/>} link="/user/profile" close={() => onClose}/>
             <NavbarProfileDropdownOption title="Wizyty" icon={<Book color="#8A8A8A" strokeWidth="1.5px" size={16}/>} link="/user/appointments" close={() => onClose}/>
+            <NavbarProfileDropdownOption title="Ogłoszenia" icon={<Book color="#8A8A8A" strokeWidth="1.5px" size={16}/>} link="/user/announcements" close={() => onClose}/>
           </div>
 
           <hr className="text-[#F2F2F7]"/>

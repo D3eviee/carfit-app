@@ -5,10 +5,11 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import z from "zod";
 import { editBusinessName } from "@/app/dashboard/settings/actions";
-import TextLabel from "@/components/forms/text-label";
-import TextInput from "@/components/forms/text-input";
 import { FormError } from "@/components/forms/form-error";
 import { Spinner } from "@/components/spinner";
+import { FormLabel } from "@/components/forms/form-label";
+import { FormInput } from "@/components/forms/form-input";
+import { ExitModalButton } from "../../exit-modal-button";
 
 const businessNameSchema = z.object({businessName: z.string().min(1, ({ message: "Brak nazwy biznesu" })).max(50)})
 type BusinessName = z.infer<typeof businessNameSchema>
@@ -23,7 +24,7 @@ export const DashboardSettingsEditBusinessNameModal = ({businessName}:{businessN
     defaultValues: { businessName: businessName }
   })
 
-  const { mutate: editCategoryNameMutation, isPending:editCategoryNameisPending } = useMutation({
+  const { mutate: editBusinessNameMutation, isPending:editBusinessNameMutationIsPending } = useMutation({
     mutationFn: async (businessName: string) => {
       const businessNameFormatted = businessName.trim()
       const response = await editBusinessName(businessNameFormatted)
@@ -39,15 +40,15 @@ export const DashboardSettingsEditBusinessNameModal = ({businessName}:{businessN
   })
 
   const onBusinessNameEditSubmit = (data: BusinessName) => {
-    editCategoryNameMutation(data.businessName)
+    editBusinessNameMutation(data.businessName)
   }
   
   return (
-    <div className="w-[360px] flex flex-col px-3 pt-5 pb-3 bg-white ring-1 ring-white inset-shadow-white rounded-2xl text-black space-y-5">
+    <div className="w-[360px] flex flex-col px-4 pt-6  pb-4 bg-white ring-1 ring-white inset-shadow-white rounded-4xl">
       <form onSubmit={handleSubmit(onBusinessNameEditSubmit)} className="flex flex-col gap-5">
-        <div className="w-full flex flex-col gap-1">
-          <TextLabel htmlFor="categoryName" text="Nazwa kategorii"/> 
-          <TextInput 
+        <div className="w-full flex flex-col gap-2.5">
+          <FormLabel htmlFor="businessName" labelText="Nazwa serwisu"/> 
+          <FormInput 
             id="businessName"
             type="text"
             {...register("businessName")}
@@ -56,19 +57,13 @@ export const DashboardSettingsEditBusinessNameModal = ({businessName}:{businessN
         </div>
         
         <div className="w-full flex flex-row gap-2.5">
-          <button 
-            type="button"
-            onClick={closeModal}
-            className="w-full text-center justify-center py-2 bg-[#F2F2F7] backdrop-blur-sm text-[#0C0C0C] rounded-3xl shadow-bnw-y-small shadow-inner-glass  hover:cursor-pointer hover:bg-[#E1E1E6] active:scale-105"
-          >
-            Wyjdź
-          </button>
+          <ExitModalButton/>
           
           <button 
             type="submit"
-            className="w-full text-center justify-center py-2 bg-[#333] backdrop- text-white rounded-3xl shadow-inner-glass hover:cursor-pointer hover:bg-[#333] active:scale-105"
+            className="w-full text-center justify-center py-2.5 bg-[#333] rounded-2xl shadow-bnw-y-small hover:cursor-pointer hover:bg-[#222] active:scale-xs transition duration-75"
           >
-           {editCategoryNameisPending ? <Spinner/> : "Zapisz"} 
+            {editBusinessNameMutationIsPending ? <Spinner/> : <p className="text-white">Zapisz</p>} 
           </button>
         </div>
       </form>

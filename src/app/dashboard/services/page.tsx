@@ -1,26 +1,17 @@
 "use client";
-import { useQuery } from "@tanstack/react-query";
 import { DashboardServicesCategoryMenu } from "@/components/dashboard/services/dashboard-services-category-menu";
-import { getServicesForBusiness } from "./actions";
 import { DashboardPageHeader } from "@/components/dashboard/dashboard-page-header";
 import { Spinner } from "@/components/spinner";
 import { Error } from "@/components/error";
 import { DashboardServicesServiceMenu }  from "@/components/dashboard/services/dashboard-services-service-menu";
+import { useBusienessServices } from "@/lib/hooks/useBusinessServices";
 
 export default function ServicePage() {
-  const { data: servicesForBusinessData, status: servicesForBusinessStatus } = useQuery({
-    queryKey: ["getServicesForBusiness"],
-    queryFn: async () => {
-      const response =  await getServicesForBusiness()
-      if(!response.success) return null
-      return response.data
-    } 
-  })
-
-  if(servicesForBusinessStatus == "pending") return <Spinner/>
-  if(servicesForBusinessStatus == "error") return <Error/>
-
-  const categories = servicesForBusinessData &&  servicesForBusinessData.map((item) => ({id: item.id, name: item.name}))
+  const { data:services, status }= useBusienessServices()
+  if(status == "pending") return <Spinner/>
+  if(status == "error") return <Error/>
+  
+  const categories = services && services.map((item) => ({id: item.id, name: item.name}))
   
   return (
     <div className="h-full w-full flex flex-col gap-5 overflow-hidden">
@@ -34,7 +25,7 @@ export default function ServicePage() {
         {/* MENU FOR CATEGORIES*/}
         <DashboardServicesCategoryMenu categories={categories!} />
         {/* MENU FOR SERVICEs*/}
-        <DashboardServicesServiceMenu servicesData={servicesForBusinessData}/>
+        <DashboardServicesServiceMenu servicesData={services}/>
       </div>
     </div>
   )

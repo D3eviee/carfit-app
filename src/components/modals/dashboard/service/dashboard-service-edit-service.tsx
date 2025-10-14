@@ -1,8 +1,8 @@
 'use client'
 import { editService } from "@/app/dashboard/services/actions";
 import { FormError } from "@/components/forms/form-error";
-import TextInput from "@/components/forms/text-input";
-import TextLabel from "@/components/forms/text-label";
+import { FormInput } from "@/components/forms/form-input";
+import { FormLabel } from "@/components/forms/form-label";
 import { Spinner } from "@/components/spinner";
 import { AddService, addServiceSchema } from "@/lib/schema";
 import { useModalStore, useToastStore } from "@/lib/store";
@@ -10,6 +10,7 @@ import { Service, ServicesCategory } from "@/lib/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
+import { ExitModalButton } from "../../exit-modal-button";
 
  const timeOptions = [
   {time: "30min", value: 30}, 
@@ -88,18 +89,18 @@ export const DashboardServiceEditModal = ({categories, service}:DashboardService
 
   return (
     <form 
-      className="w-[380px] gap-1 bg-white px-4 pb-4 pt-8 flex flex-col rounded-2xl"
+      className="w-[480px] flex flex-col px-4 pt-8 pb-4 bg-[#FFF] rounded-4xl"
       onSubmit={handleSubmit(onEditService)}
     >
       {/* CONTAINER FOR INPUTS */}
-      <div className="w-full pb-8 flex flex-col gap-4">
+      <div className="w-full pb-8 flex flex-col gap-6">
         {/* SERVICE NAME INPUT */}
-        <div className="w-full flex flex-col gap-1">
+        <div className="w-full flex flex-col gap-2.5">
           <div className="flex flex-row justify-between items-end">
-            <TextLabel htmlFor="name" text="Nazwa usługi"/>
+            <FormLabel htmlFor="name" labelText="Nazwa usługi"/>
             <p className="text-[10px] text-[#999] font-normal mt-1.5">{watch('name').length} / 100</p>
           </div>
-          <TextInput 
+          <FormInput 
             type="text"
             id="name"
             {...register("name")}  
@@ -108,9 +109,9 @@ export const DashboardServiceEditModal = ({categories, service}:DashboardService
         </div>
         
         {/* DESCRPTION */}
-        <div className="w-full flex flex-col gap-1">
+        <div className="w-full flex flex-col gap-2.5">
           <div className="flex flex-row justify-between items-end">
-            <TextLabel  htmlFor="description" text="Opis usługi"/>
+            <FormLabel  htmlFor="description" labelText="Opis usługi"/>
             <p className="text-[10px] text-[#999] font-normal mt-1.5">{watch('name').length} / 100</p>
           </div>
           <textarea 
@@ -124,8 +125,8 @@ export const DashboardServiceEditModal = ({categories, service}:DashboardService
         </div>
           
         {/* SERVICE CATEGORY AND PRICE INPUTS ROW*/}
-        <div className="flex flex-col gap-1">
-          <TextLabel htmlFor="categoryId" text="Kategoria"/>
+        <div className="flex flex-col gap-2.5">
+          <FormLabel htmlFor="categoryId" labelText="Kategoria"/>
           <select 
             className="w-full bg-[#F6F7FB] px-2 py-2 text-md text-[#191919] rounded-lg border outline-none border-transparent focus:border-[#CCC]"
             id="categoryId" 
@@ -138,10 +139,10 @@ export const DashboardServiceEditModal = ({categories, service}:DashboardService
         </div>
 
         {/* SERVICE DURATION AND PRICE */}
-        <div className="w-full flex flex-row gap-5">
+        <div className="w-full flex flex-row gap-6">
           {/* PRICE */}
-          <div className="w-1/2 flex flex-col gap-1">
-            <TextLabel htmlFor="price" text="Cena"/>
+          <div className="w-1/2 flex flex-col gap-2.5">
+            <FormLabel htmlFor="price" labelText="Cena"/>
             <div className="relative box-border">
               <input
                 type="text"
@@ -155,8 +156,8 @@ export const DashboardServiceEditModal = ({categories, service}:DashboardService
           </div>
 
           {/* DURATION */}
-          <div className="w-1/2 flex flex-col gap-1">
-            <TextLabel htmlFor="duration" text="Czas trwania"/>
+          <div className="w-1/2 flex flex-col gap-2.5">
+            <FormLabel htmlFor="duration" labelText="Czas trwania"/>
             <select 
               className="w-full bg-[#F6F7FB] px-2 py-2 text-md text-[#191919] rounded-lg border outline-none border-transparent focus:border-[#CCC]" 
               id="duration" 
@@ -172,20 +173,14 @@ export const DashboardServiceEditModal = ({categories, service}:DashboardService
       </div> 
 
       <div className="w-full flex flex-row gap-2.5">
-          <button 
-            onClick={closeModal}
-            className="w-full text-center justify-center py-2 bg-[#F2F2F7] backdrop-blur-sm text-[#0C0C0C] rounded-3xl shadow-bnw-y-small shadow-inner-glass  hover:cursor-pointer hover:bg-[#E1E1E6] active:scale-105"
-          >
-            Wyjdź
-          </button>
-          
-          <button 
-            type="submit"
-            className="w-full text-center justify-center py-2 bg-[#333] backdrop- text-white rounded-3xl shadow-inner-glass hover:cursor-pointer hover:bg-[#333] active:scale-105"
-          >
-           {addingNewServiceIsPending ? <Spinner/> : "Zapisz"} 
-          </button>
-        </div>
+        <ExitModalButton/>
+        <button 
+          type="submit"
+          className="w-full text-center justify-center py-2.5 text-white bg-[#333] rounded-2xl shadow-bnw-y-small hover:cursor-pointer hover:bg-[#222] active:scale-xs transition duration-75"
+        >
+          {addingNewServiceIsPending ? <Spinner color="#FFF"/> : "Zapisz"} 
+        </button>
+      </div>
     </form>
   )
 }

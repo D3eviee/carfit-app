@@ -14,9 +14,8 @@ const SmallFooterLayout = () => {
         <div className="flex flex-col md:hidden" >
             <div className="bg-[#F2F2F7] py-6 w-full flex flex-row justify-between items-start px-4">
             <div className="flex flex-col gap-2 items-start">
-                <p className="text-small text-[#000] font-light w-fit">Polityka prywatności</p>
-                <p className="text-small text-[#000] font-light w-fit">Regulamin</p>
-                <p className="text-small text-[#000] font-light w-fit">Warunki użytkowania</p>
+                 <Link href="/policy"><p className="text-small text-[#000] font-light w-fit">Polityka prywatności</p></Link>
+                <Link href="/terms"><p className="text-small text-[#000] font-light w-fit">Regulamin</p></Link>
             </div>
             <div className="flex flex-col gap-2 items-end px-4">
                 <Link href="/business"><p className="text-small text-[#000] font-light w-fit">Aplikacja dla biznesu</p></Link>
@@ -39,9 +38,8 @@ const LargeFooterLayout = () => {
             <p className="font-light text-sm text-main-[#8A8A8A]">&#169; 2025 CarFit</p>
         </div>
         <div className="flex flex-row items-center justify-between sm:justify-normal gap-6">
-            <p className="text-small text-[#000] font-light w-fit">Polityka prywatności</p>
-            <p className="text-small text-[#000] font-light w-fit">Regulamin</p>
-            <p className="text-small text-[#000] font-light w-fit">Warunki użytkowania</p>
+            <Link href="/policy"><p className="text-small text-[#000] font-light w-fit">Polityka prywatności</p></Link>
+            <Link href="/terms"><p className="text-small text-[#000] font-light w-fit">Regulamin</p></Link>
             <Link href="/business"><p className="text-small text-[#000] font-light w-fit">Aplikacja dla biznesu</p></Link>
             <Link href="/support"><p className="text-small text-[#000] font-light w-fit">Kontakt</p></Link>
         </div>

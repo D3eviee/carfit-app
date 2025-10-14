@@ -3,35 +3,41 @@ import { businessAuth } from "@/lib/auth";
 import prisma from "@/lib/db";
 import { addMinutes, getMonth, getYear } from "date-fns";
 
-type NewReservationManual =  {
-  clientName: string
-  clientPhone: string
-  reservationStart: Date 
-  duration: number
-  charge: number
-  servicesIds: string[]
-}
-
-// getting appointments for calendar week view
+// DASHBOARD/CALENDAR 
+// THIS FUNCTION IS USED TO FETCH APPOINTMENTS FOR SPECIFIC WEEK IN CALENDAR
+// IT GETS WEEK INTERVAL AND RETURN APPOINTMENTS FOR THIS WEEK
 export const getAppointmentsForWeekInterval = async (weekInterval: Date[]) => {
     try{
         const business = await businessAuth()
-        if(business.success == false) return {success: false, message: "No-authenticated user. Log-in!"} 
+        if(business.success == false) return {success: false, message: "Brak autoryzacji. Zaloguj się."} 
+
+        const rawNow= new Date()
+        const now = new Date(rawNow.getTime() + 2 * 60 * 60 * 1000)
+
+        await prisma.reservation.updateMany({
+            where:{
+                businessId: business.id,
+                reservationEnd: { lte: now},
+                status: "reserved"
+            },
+            data:{ status: "finished" }
+        })
 
         const weekReservations =  await prisma.reservation.findMany({
             where: {
                 businessId: business.id,
                 reservationStart: {
-                    gte: weekInterval[0], // Start tygodnia
-                    lte: weekInterval[weekInterval.length - 1], // Koniec tygodnia
+                    gte: weekInterval[0], // start of week
+                    lte: weekInterval[weekInterval.length], // end of week
                 },
-                status: "Zarezerwowana"
+                status: { not: "canceled" }
             },
             select: {
                 id: true,
                 clientName: true, 
                 clientPhone: true,
                 clientMessage: true,
+                clientCar: true,
                 duration : true,
                 reservationStart: true,
                 charge: true,
@@ -68,6 +74,7 @@ export const getAppointmentsForWeekInterval = async (weekInterval: Date[]) => {
                     clientPhone: item.clientPhone,
                     clientImage: null,
                     clientMessage: item.clientMessage,
+                    clientCar: item.clientCar,
                     reservationStart: item.reservationStart,
                     duration : item.duration,
                     charge: item.charge,
@@ -81,6 +88,7 @@ export const getAppointmentsForWeekInterval = async (weekInterval: Date[]) => {
                     clientName: item.client.name, 
                     clientImage: item.client.image,
                     clientMessage: item.clientMessage,
+                    clientCar: item.clientCar,
                     reservationStart: item.reservationStart,
                     duration : item.duration,
                     charge: item.charge,
@@ -92,11 +100,12 @@ export const getAppointmentsForWeekInterval = async (weekInterval: Date[]) => {
 
         return {success: true, data: reservations}
     }catch(error){
-        return {success: false, message: "Server error while getting week reservations" + error}
+        console.error(error)
+        return {success: false, message: "Wystąpił problem serwera podczas ładowania danych"}
     }
 }
 
-// DASHBOARD/CALEMDAR -> MODAL
+// DASHBOARD/CALENDAR -> MODAL
 // THIS FUNCTION GETS EXISTING APPOINTMETS FOR MONTH OF SELECTED DATE
 // IT'S USED IN MODAL TO FILTER THE AVAILABLE APPOINTMENT HOURS
 export const getActiveMonthAppointments = async(activeDate:Date) => {
@@ -107,13 +116,12 @@ export const getActiveMonthAppointments = async(activeDate:Date) => {
         const business = await businessAuth()
         if(business.success == false) return {success: false, message: "Brak autoryzacji. Zaloguj się"} 
 
-
         const reservationForSelectedMonth = await prisma.reservation.findMany({
             where: {
                 businessId: business.id,
                 reservationYear:activeDateYear,
                 reservationMonth: activeDateMonth,
-                status: "Zarezerwowana"
+                status: "reserved"
             },
             select: {
                 reservationStart: true,
@@ -129,9 +137,20 @@ export const getActiveMonthAppointments = async(activeDate:Date) => {
     }
 }
 
+type NewAppointmentManual =  {
+  clientName: string
+  clientPhone: string
+  clientCar: string
+  reservationStart: Date 
+  duration: number
+  charge: number
+  servicesIds: string[]
+  description: string
+}
+
 //FUNCTION FOR ADDING RESERVATION MANUALLY
-export const addNewAppointmentManual = async (reservation:NewReservationManual) => {
-  const {clientName, clientPhone, reservationStart, duration, charge, servicesIds } = reservation
+export const addNewAppointmentManual = async (reservation:NewAppointmentManual) => {
+  const {clientName, clientPhone, reservationStart, duration, charge, servicesIds, clientCar, description} = reservation
 
   try{
       const businessData = await businessAuth()
@@ -146,10 +165,12 @@ export const addNewAppointmentManual = async (reservation:NewReservationManual) 
             reservationEnd: addMinutes(reservationStart, duration),
             duration: duration,
             charge: charge,
-            status: "Zarezerwowana",
+            status: "reserved",
             clientName: clientName,
             clientPhone: clientPhone,
             isAddedByBusiness: true,
+            clientCar: clientCar,
+            clientMessage: description,
           }
         })
         if(!addReservationResult) return {success: false, message: "Wystąpił problem podczas dodwania rezerwacji"}

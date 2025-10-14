@@ -46,7 +46,7 @@ export default function BookingMobileBookVisitButton({services, businessId}:Book
                     reservationEnd: addMinutes(appointmentTime, appointmentDuration),
                     duration: appointmentDuration,
                     charge: appointmentCharge,
-                    status: "Zarezerwowana",
+                    status: "reserved",
                     clientMessage: clientMessage,
                 }
                 

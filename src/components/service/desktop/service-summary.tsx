@@ -14,7 +14,7 @@ export const ServiceSummary = ({serviceSummaryData}:{serviceSummaryData: Service
     <div className="mt-11 hidden lg:block sticky top-3 max-h-[90vh] w-1/3 rounded-2xl">
       <div className="w-full flex flex-col gap-4 px-6 py-8 rounded-3xl ring-[0.5px] ring-offset-1 ring-[#D4D4D4] inset-shadow-glass xl:px-8 xl:py-12 xl:gap-6">
         <div className="flex w-full flex-col gap-3">
-          <h2 className="text-xl xl:text-[28px] text-[#191919] font-bold leading-8">{serviceSummaryData.name}</h2>
+          <h2 className="text-xl xl:text-[28px] text-main-black font-bold leading-8">{serviceSummaryData.name}</h2>
           <p className="text-sm xl:text-base text-[#8A8A8E] font-normal">{serviceSummaryData.street}, {serviceSummaryData.district}, {serviceSummaryData.town}, {serviceSummaryData.zipcode}</p>
           <ServiceSumarryRating reviewsData={reviews}/>
 

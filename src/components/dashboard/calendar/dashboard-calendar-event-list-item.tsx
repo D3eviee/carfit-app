@@ -1,36 +1,33 @@
 'use client'
-import { DashboardCalendarAppointmentDetailsModal } from "@/components/modals/dashboard-calendar-appointment-details-modal"
+import { DashboardAppointmentDetailsModal } from "@/components/modals/dashboard/appointment-details/dashboard-appointment-details-modal"
 import { useModalStore } from "@/lib/store"
 import { CalendarAppointmentOverviewProps } from "@/lib/types"
 import { cn } from "@/utils"
 import { addMinutes, format } from "date-fns"
 
 export const DashboardCalendarEventListItem = ({appointmentData}:{appointmentData:CalendarAppointmentOverviewProps}) => {
+  const {status, reservationStart, duration, service} = appointmentData
   const openModal = useModalStore(store => store.openModal)
-  const eventEnd = addMinutes(appointmentData.reservationStart, appointmentData.duration)
-  const eventStartFormated = `${format(appointmentData.reservationStart, 'kk')}:${format(appointmentData.reservationStart, 'mm')}`
-  const eventEndFormated = `${format(eventEnd, 'kk')}:${format(eventEnd, 'mm')}`
 
-  const handleOpeningDetailsModal = () => openModal(<DashboardCalendarAppointmentDetailsModal appointmentData={appointmentData}/>)
+  // FORMATING FOR DISPLAYING TITLE, COLOR LABELS AND HOURS
+  const eventEnd = addMinutes(reservationStart, duration)
+  const eventStartFormated = `${format(reservationStart, 'kk')}:${format(reservationStart, 'mm')}`
+  const eventEndFormated = `${format(eventEnd, 'kk')}:${format(eventEnd, 'mm')}`
+  const appointmentTitle = service.length == 1 ? `${service[0].name}` : service.length == 2 ? `${service[0].name} i 1 inna usługi` : `${service[0].name} i ${service.length-1} inne usługi`
+  const statusColor = status == "finished" ? "#1E6EF3" : status == "reserved" ? "#35C759" : "#FE6265"
+
+  const handleOpeningDetailsModal = () => openModal(<DashboardAppointmentDetailsModal appointmentData={appointmentData}/>)
 
   return (
     <div 
       onClick={handleOpeningDetailsModal}
-      className="w-full px-2.5 py-3  rounded-xl flex flex-row justify-between items-center border-b-[0.5px] border-b-[#F2F2F2] hover:cursor-pointer hover:bg-[#F2F2F7]"
+      className="w-full flex flex-row items-center gap-3 p-2 py-3 rounded-2xl hover:cursor-pointer hover:bg-[#F2F2F7]"
     >
-        <div className="relative flex flex-row gap-2 items-center">
-          <div className={cn("w-1.5 h-1.5 rounded-full", 
-            appointmentData.status == "Odwołana" && "bg-[#FF5F58]",
-            appointmentData.status == "Oczekująca" && "bg-[#FDBC2C]",
-            appointmentData.status == "Zarezerwowana" && "bg-[#28C840]",
-          )}/>
-
-          <div className="flex flex-col gap-1.5">
-            {appointmentData.service.map((service, index) => (
-            <h1 key={index} className="text-md text-[#111] font-medium leading-none">{service.name}</h1>))}
-          </div>
+      <div className={cn("w-1.5 h-1.5 rounded-full", `bg-[${statusColor}]`)}/>
+      <div className="flex flex-col gap-2">
+        <p className="text-middle text-main-black font-medium leading-5">{appointmentTitle}</p>
+        <p className="text-sm text-main-black font-light leading-none">{eventStartFormated} - {eventEndFormated}</p>
       </div>
-      <p className="text-sm font-normal leading-none">{eventStartFormated} - {eventEndFormated}</p>
     </div>    
   );
 }

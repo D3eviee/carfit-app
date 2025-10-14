@@ -3,43 +3,44 @@ import { getHours, getMinutes } from "date-fns";
 import Image from "next/image";
 import client_profile_picture from "@/../public/default_user_image.png"
 import { displayAppointmentHours } from "@/utils";
-import { DashboardCalendarAppointmentDetailsModal } from "@/components/modals/dashboard-calendar-appointment-details-modal";
 import { useModalStore } from "@/lib/store";
+import { DashboardAppointmentDetailsModal } from "@/components/modals/dashboard/appointment-details/dashboard-appointment-details-modal";
 
 export const DashboardCalendarPrimaryDayViewAppointment = ({appointment}:{appointment:CalendarAppointmentOverviewProps}) => {
-  const {clientImage, clientName, duration, reservationStart, service} = appointment
+  const {clientImage, clientName, duration, reservationStart, service, status} = appointment
   const openModal = useModalStore(store => store.openModal)
-  const handleOpeningDetailsModal = () => openModal(<DashboardCalendarAppointmentDetailsModal appointmentData={appointment}/>)
-
+  const handleOpeningDetailsModal = () => openModal(<DashboardAppointmentDetailsModal appointmentData={appointment}/>)
   const startHour = getHours(reservationStart)-6;
+
   const startMinutes = getMinutes(reservationStart);
-  const blockHeight = Math.round(duration * 1.31);
-  const top = (startHour * 80 + startMinutes * 1.33)+4;
-  const firstService = service[0].name
-  const numberOfServices = service.length
-  
+  const blockHeight = Math.round(duration * 1.29);
+  const top = (startHour * 80 + startMinutes * 30) + 2;
+
+  const statusColor = status == "finished" ? "#1E6EF3" : "#35C759"
+  const appointmentTitle = service.length == 1 ? `${service[0].name}` : `${service[0].name} i ${service.length} inne usługi`
+
   return (
     <div
       onClick={handleOpeningDetailsModal}
       className="absolute left-1/2 -translate-x-1/2 trans w-[95%] text-white text-sm bg-[#191919] rounded-xl hover:cursor-pointer hover:bg-[#2B2B2B] active:scale-[0.98]"
-      style={{ top:`${top}px`, height: `${blockHeight}px`}}
+      style={{ top:`${top}px`, height: `${blockHeight}px`, backgroundColor: statusColor}}
     >
       {duration <= 30 && 
-        <div className="flex flex-row justify-between items-center px-4 h-full ">
-          <p className="font-medium text-xs text-[#F9F9F9]">{firstService} {numberOfServices > 1 && `+ ${numberOfServices-1} usługa`}</p>
-          <p className="font-normal text-xs text-[#F9F9F9]">{displayAppointmentHours(reservationStart, duration)}</p>
+        <div className="flex flex-row justify-between items-center px-4 h-full text-white text-sm">
+          <p className="font-semibold leading-none">{appointmentTitle}</p>
+          <p className="font-normal leading-none">{displayAppointmentHours(reservationStart, duration)}</p>
         </div>
       }
 
       {( duration > 30 && duration < 60 ) && 
-        <div className="w-full flex flex-row justify-between h-full px-4 items-center">
-          <div className="w-full flex flex-col gap-0.5">
-            <p className="font-medium text-xs text-[#F9F9F9]">{firstService} {numberOfServices > 1 && `+ ${numberOfServices-1} usługa`}</p>
-            <p className="font-normal text-xs text-[#F9F9F9]">{displayAppointmentHours(reservationStart, duration)}</p>
+        <div className="w-full h-full flex flex-row justify-between items-center px-4">
+          <div className="w-full flex flex-col gap-1.5 text-sm">
+            <p className="font-semibold leading-none">{appointmentTitle}</p>
+            <p className="font-normal leading-none">{displayAppointmentHours(reservationStart, duration)}</p>
           </div>
 
           <div className="w-full flex flex-row items-center gap-2 justify-end">
-            <div className="relative min-w-6 min-h-6 max-w-6 max-h-6 overflow-hidden rounded-full aspect-square">
+            <div className="relative min-w-7 min-h-7 max-w-7 max-h-7 overflow-hidden rounded-full aspect-square">
               <Image 
                 src={clientImage || client_profile_picture}
                 alt="client picture"
@@ -47,20 +48,20 @@ export const DashboardCalendarPrimaryDayViewAppointment = ({appointment}:{appoin
                 fill
               />
             </div>
-            <p className="font-normal text-xs text-[#F9F9F9]">{clientName}</p>
+            <p className="font-normal text-sm leading-none">{clientName}</p>
           </div>
         </div>
       }  
 
       {duration >= 60  && 
         <div className="w-full flex flex-row justify-between p-4 ">
-          <div className="h-fit w-full flex flex-col gap-0.5">
-            <p className="font-medium text-xs text-[#F9F9F9]">{firstService} {numberOfServices > 1 && `+ ${numberOfServices-1} usługa`}</p>
-            <p className="font-normal text-xs text-[#F9F9F9]">{displayAppointmentHours(reservationStart, duration)}</p>
+          <div className="w-full flex flex-col gap-1.5 text-sm">
+            <p className="font-semibold leading-none">{appointmentTitle}</p>
+            <p className="font-normal leading-none">{displayAppointmentHours(reservationStart, duration)}</p>
           </div>
 
-          <div className="h-fit w-full flex flex-row  gap-2 justify-end items-center">
-            <div className="relative min-w-6 min-h-6 max-w-6 max-h-6 overflow-hidden rounded-full aspect-square">
+          <div className="w-full flex flex-row items-center gap-2 justify-end">
+            <div className="relative min-w-7 min-h-7 max-w-7 max-h-7 overflow-hidden rounded-full aspect-square">
               <Image 
                 src={clientImage || client_profile_picture}
                 alt="client picture"
@@ -68,7 +69,7 @@ export const DashboardCalendarPrimaryDayViewAppointment = ({appointment}:{appoin
                 fill
               />
             </div>
-            <p className="font-normal text-xs text-[#F9F9F9]">{clientName}</p>
+            <p className="font-normal text-sm leading-none">{clientName}</p>
           </div>
         </div>
       } 

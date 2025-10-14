@@ -8,7 +8,7 @@ import { Trash } from "lucide-react";
 import { checkImageType } from "@/utils";
 import { deleteClientProfileImage, getClientPhotoEditModal, uploadNewClientProfileImage } from "@/app/user/profile/actions";
 
-export default function UserProfileDataEditModalImage(){
+export const UserProfileDataEditModalImage = () => {
   const queryClient = useQueryClient()
   const showToast = useToastStore(store => store.showToast)
 

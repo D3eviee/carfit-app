@@ -1,10 +1,10 @@
 'use client'
-import DashboardUserProfileContainerWrapper from "./dashboard-profile-container-wrapper"
 import { DashboardProfileSecurityEditButton } from "./dasboard-profile-security-edit-button"
+import { DashboardProfileContainerWrapper } from "./dashoboard-profile-container-wrapper"
 
-export const  DashboardProfileSecurity = () => {
+export const DashboardProfileSecurity = () => {
     return (
-        <DashboardUserProfileContainerWrapper>
+        <DashboardProfileContainerWrapper>
             <div className="w-full flex flex-col gap-3">
                 <div className="w-full flex justify-end">
                     <DashboardProfileSecurityEditButton/> 
@@ -16,6 +16,6 @@ export const  DashboardProfileSecurity = () => {
                     </div>
                 </div>
             </div>  
-        </DashboardUserProfileContainerWrapper>
+        </DashboardProfileContainerWrapper>
   )
 }

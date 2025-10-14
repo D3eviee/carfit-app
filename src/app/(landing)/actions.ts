@@ -3,7 +3,7 @@ import { userAuth } from "@/lib/auth"
 import prisma from "@/lib/db"
 import { NewReservation } from "@/lib/types"
 
-// DASHBOARD/CALEMDAR -> MODAL
+// DASHBOARD/CALENDAR -> MODAL
 // THIS FUNCTION GETS EXISTING APPOINTMETS FOR MONTH OF SELECTED DATE
 // IT'S USED IN MODAL TO FILTER THE AVAILABLE APPOINTMENT HOURS
 export const getActiveMonthAppointments = async(activeDate:Date, businessId:string) => {
@@ -16,7 +16,7 @@ export const getActiveMonthAppointments = async(activeDate:Date, businessId:stri
                 businessId: businessId,
                 reservationYear:activeDateYear,
                 reservationMonth: activeDateMonth,
-                status: "Zarezerwowana"
+                status: "reserved"
             },
             select: {
                 reservationStart: true,
@@ -49,6 +49,9 @@ export const getRecommendedServices = async () => {
                         rate: true
                     },
                 },
+                isPublic: true,
+            },
+            where: {
                 isPublic: true,
             },
             take: 15,
@@ -113,6 +116,7 @@ export const addReservation = async (reservation:NewReservation) => {
                     charge: reservation.charge,
                     status: reservation.status,
                     clientMessage: reservation.clientMessage,
+                    clientCar: reservation.clientCar
                 }
             })
 

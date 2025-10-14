@@ -4,7 +4,7 @@ import { BackButton } from "@/components/buttons/back-button";
 import Link from "next/link";
 import { BusinessLoginForm } from "@/components/auth/business/business-login-form";
 
-export default function ClientSignIn() {
+export default function BusinessSignIn() {
   return (
     <div className="w-full h-full flex flex-row overflow-hidden">
       <div className="w-full flex flex-col justify-center items-center">

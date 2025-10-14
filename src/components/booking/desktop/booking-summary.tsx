@@ -1,7 +1,7 @@
 'use client'
 import { BookingSummaryItem } from "@/components/booking/booking-summary-item";
 import { format } from "date-fns";
-import { Calendar, Clock } from "lucide-react";
+import { Calendar, Car, Clock } from "lucide-react";
 import { Service } from "@/lib/types";
 import { useAppointmentStore, useCalendarStore } from "@/lib/store";
 import { pl } from "date-fns/locale";
@@ -22,6 +22,7 @@ export const BookingSummary = ({services, bookingStep, businessId, setNextBookin
   const selectedDate = useCalendarStore(store => store.selectedDate)
   const appointmentTime = useAppointmentStore((store) => store.appointmentTime)
   const clientMessage = useAppointmentStore((store) => store.clientMessage)
+  const clientCar = useAppointmentStore((store) => store.clientCar)
 
   // appointment date and time
   const appointmentTimeFormatted = `${format(appointmentTime, "hh")}:${format(appointmentTime, "mm")}`
@@ -57,9 +58,9 @@ export const BookingSummary = ({services, bookingStep, businessId, setNextBookin
     <div className="w-full flex flex-col gap-5">
       <h1 className="text-main-black text-2xl leading-none font-semibold">Podsumowanie wizyty</h1>
       {selectedServices.length != 0 ?
-        <div className="w-full flex flex-col px-5 py-8 gap-3 ring-[0.5px] ring-[#D4D4D4] rounded-xl">
+        <div className="w-full flex flex-col px-5 py-8 gap-3 ring-[0.5px] ring-[#D4D4D4] rounded-3xl">
           {/* APPOINTMENT DATE AND TIME */}
-          {(selectedDate && appointmentTime) &&
+          {(selectedDate && appointmentTime && clientCar) &&
             <>
               <div className="flex flex-col gap-3">
                 <div className="flex flex-row gap-2 items-center">
@@ -69,6 +70,10 @@ export const BookingSummary = ({services, bookingStep, businessId, setNextBookin
                 <div className="flex flex-row gap-2 items-center">
                   <Clock size={23} color="#555" strokeWidth={1.5}/> 
                   <p className="font-normal text-[#555] text-sm">{`${appointmentTimeFormatted} ${calcDuration()}`}</p>
+                </div>
+                <div className="flex flex-row gap-2 items-center">
+                  <Car size={24} color="#555" strokeWidth={1.5}/> 
+                  <p className="font-normal text-[#555] text-sm">{clientCar}</p>
                 </div>
               </div>
               <hr className="w-full border-1 border-[#F2F2F7]"/>

@@ -21,7 +21,7 @@ export const BookingSummaryItem = ({activeBookingStep, serviceData, resetBooking
   }
 
   return (
-    <div className="flex flex-row justify-between items-center w-full bg-[#F2F2F7] p-2.5 rounded-md">
+    <div className="flex flex-row justify-between items-center w-full bg-[#F2F2F7] p-2.5 rounded-2xl">
         <div className="flex flex-col gap-1.5">
             <h1 className="text-sm text-[#191919] font-normal">{serviceData.name}</h1>
             <div className="flex flex-row items-center">

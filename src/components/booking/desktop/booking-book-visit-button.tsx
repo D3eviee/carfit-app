@@ -22,6 +22,7 @@ export default function BookingBookVisitButton({services, businessId}:BookingBoo
     const selectedServices = useAppointmentStore((store) => store.selectedServices)
     const appointmentTime = useAppointmentStore((store) => store.appointmentTime)
     const clientMessage = useAppointmentStore((store) => store.clientMessage)
+    const clientCar = useAppointmentStore((store) => store.clientCar)
     
     // ZUSTAND STORE FOR RESETING APPOITNMENT BOOKING VALUES
     const resetClientMessage = useAppointmentStore((store) => store.resetClientMessage)
@@ -46,8 +47,9 @@ export default function BookingBookVisitButton({services, businessId}:BookingBoo
                     reservationEnd: addMinutes(appointmentTime, appointmentDuration),
                     duration: appointmentDuration,
                     charge: appointmentCharge,
-                    status: "Zarezerwowana",
+                    status: "reserved",
                     clientMessage: clientMessage,
+                    clientCar: clientCar
                 }
                 
                 const response = await addReservation(newAppointmentData)

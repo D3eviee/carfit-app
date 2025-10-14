@@ -2,38 +2,41 @@
 "use server"
 import { businessAuth, logout } from "@/lib/auth"
 import bcrypt from "bcryptjs"
-import { ChangePasswordInput, changePasswordSchema  } from "@/lib/schema"
+import { ChangePasswordInput, changePasswordSchema, DashboardProfileEditPersonalData  } from "@/lib/schema"
 import prisma from "@/lib/db"
 import { deleteImageFromS3, uploadToS3 } from "@/lib/s3"
 
-type DashboardProfileData = {
-  owner: string
-  email: string
-}
 
 // DASHBARD/PROFILE ->  THIS FUNCTION CHECKS WHAT DATA IS PROVIDED, AND UPDATES DATABASE ACORINGINGLY
-export const updateDashboardProfileData = async (oldProfileData:DashboardProfileData, newProfileData:DashboardProfileData) => {
+export const updateDashboardProfileData = async (oldData:DashboardProfileEditPersonalData, newData:DashboardProfileEditPersonalData) => {
   try {
     const business = await businessAuth()
     if(!business.success) return {success: false, message: "Brak dostępu. Zaloguj się"}
 
-    if (oldProfileData.email !== newProfileData.email) {
-      const existingEmail = await prisma.business.findUnique({ where: { email: newProfileData.email }})
-      if (existingEmail && existingEmail.id !== business.id) return { success: false, message: "Ten adres e-mail jest już zajęty." };
-    }
-    
+    const existingEmail = oldData.email !== newData.email 
+      ? await prisma.business.findUnique({ where: { email: newData.email } })
+      : null;
+    if (existingEmail) return { success: false, message: "Konto z tym adresem email już istnieje" };
+
+    const existingPhone = oldData.phone !== newData.phone 
+      ? await prisma.business.findUnique({ where: { phone: newData.phone } })
+      : null;
+    if (existingPhone) return { success: false, message: "Konto z tym numerem telefonu już istnieje" };
+
     const updateDashboardProfileData = await prisma.business.update({
-      where: { id: business.id },
-      data: {
-        owner: newProfileData.owner,
-        email: newProfileData.email
-      }
-    })
+            where: { id: business.id },
+            data: {
+                owner: newData.owner,
+                email: newData.email,
+                phone: newData.phone,
+            },
+        });
 
     if(!updateDashboardProfileData) return {success: false, message: "Wystąpił problem podczas zapisywania danych."}
     return {success: true, data: updateDashboardProfileData}
   } catch (error) {
-    return {success: false, message: "Wystąpił problem servera:" + error}
+    console.error(error)
+    return {success: false, message: "Wystąpił problem podczas zapisaywania danych." }
   }
 }
 
@@ -101,7 +104,7 @@ export const deleteDashboardProfileImage = async (imageUrl:string) => {
 }
 
 // DASHBARD/PROFILE -> function for changing client password 
-export async function changeDasboardProfilePassword(data: ChangePasswordInput) {
+export async function changeDashboardProfilePassword(data: ChangePasswordInput) {
     try{
         const auth = await businessAuth()
         if (!auth.success) return { success: false, message: "Dostęp zablokowany. Zaloguj się" }

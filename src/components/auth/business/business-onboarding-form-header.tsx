@@ -1,5 +1,3 @@
-import { FormHeader } from "../form-header";
-
 const formHeadings = [
   {
     title: "Witamy w CarFit",
@@ -7,7 +5,7 @@ const formHeadings = [
   },
   {
     title: "Jaki rodzaj biznesu prowadzisz?",
-    subtitle: "Wybierz kategorię, która najlepiej opisuje usługi, które dostarczasz."
+    subtitle: "Wybierz kategorię, która najlepiej opisuje rodzaj usług, które dostarczasz."
   },
   {
     title: "Informacje o biznesie",
@@ -26,9 +24,12 @@ const formHeadings = [
   },
 ]
 
-export default function BusinessOnboardingFormHeader({formPage}:{formPage:number}) {
+export const BusinessOnboardingFormHeader = ({formPage}:{formPage:number}) => {
   return (
-    <FormHeader title={formHeadings[formPage].title} subtitle={formHeadings[formPage].subtitle}/>
+    <div className="w-full flex flex-col gap-1 justify-center items-center">
+      <p className="text-main-black text-xl font-semibold leading-6">{formHeadings[formPage].title}</p>
+      <p className="text-[#555] text-center tracking-tight text-sm">{formHeadings[formPage].subtitle}</p>
+    </div>
   )
 }
 

@@ -1,32 +1,20 @@
 'use client'
-import { useQuery } from "@tanstack/react-query"
 import { Error } from "../../error"
 import { Spinner } from "../../spinner"
-import { useState } from "react"
 import Image from "next/image"
 import default_picture from "@/../public/ananymous_image.jpg"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "@/utils"
-import { getBusinessProfileInformation } from "@/actions/dashboard/actions"
 import { useDashboardSidebar } from "@/lib/store"
+import { useBusinessProfile } from "@/lib/hooks/dashboard/useBusinessProfile"
 
 export const SidebarNavigationProfile = () => {
   const isMenuOpen = useDashboardSidebar(store => store.isMenuOpen)
   const path = usePathname()
-  const [error, setError] = useState<string>()
-
-  const {data, status} = useQuery({
-    queryKey: ["getBusinessProfileInformation"],
-    queryFn: async () => {
-      const result = await getBusinessProfileInformation()
-      if (!result.success) setError(result.message)
-      return result.data
-    }
-  })
-
+  const {data, status} = useBusinessProfile()
   if(status == "pending") return <Spinner/>
-  if(status == "error") return <Error message={error}/>
+  if(status == "error") return <Error/>
 
   return (
       <Link href="/dashboard/profile" >

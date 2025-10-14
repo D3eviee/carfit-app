@@ -3,7 +3,7 @@ import { Review } from "@/lib/types";
 import { ServiceReviewsSummary } from "../service-reviews-summary";
 import { ServiceMobileReviewItem } from "./service-mobile-reviews-item";
 import { useModalStore } from "@/lib/store";
-import { ServiceReviewsModal } from "@/components/modals/service-reviews-modal";
+import { ServiceReviewsModal } from "@/components/modals/user/service/service-reviews-modal";
 
 export const ServiceMobileReviews = ({reviewsData}:{reviewsData: Review[]}) =>  {
   const previewReviews = reviewsData.slice(5)

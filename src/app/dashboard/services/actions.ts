@@ -3,8 +3,9 @@ import { businessAuth } from "@/lib/auth";
 import prisma from "@/lib/db";
 import { Service } from "@/lib/types";
 
-// get categories and services data for business
-export const getServicesForBusiness = async () => {
+// DASHBOARD/SERVICES
+// THIS FUNCTION IS USED TO GET ALL CATEGORIES AND SERVICES OF BUSINESS 
+export const getBusinessServices = async () => {
   try {
     const business = await businessAuth()
     if(!business.success) return {success: false, message: "Brak autoryzacji. Zaloguj się"}
@@ -36,7 +37,8 @@ export const getServicesForBusiness = async () => {
 
       return {success: true, data: categoriesData}
   } catch (error) {
-      return {success: false, message: "Wystąpił problem podczas dodawania kategorii" + error}
+      console.error(error)
+      return {success: false, message: "Wystąpił problem z serwerem podczas pobierania danych o usługach"}
   }
 }
 

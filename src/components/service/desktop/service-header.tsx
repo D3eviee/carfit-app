@@ -1,10 +1,10 @@
+'use client'
 import { ServicePageTitleDataProps } from "@/lib/types"
 import { ServiceHeaderRating } from "../service-header-rating"
 import { Dot } from "lucide-react"
 import { ServiceIsOpenTag } from "../service-is-open-tag"
 
 export const ServiceHeader = ({serviceHeaderData}:{serviceHeaderData:ServicePageTitleDataProps} ) => {
-
   const { name, town, district, street, workingDays, reviews, } = serviceHeaderData 
   const locationFormatted = `${street}, ${district}, ${town}`
 

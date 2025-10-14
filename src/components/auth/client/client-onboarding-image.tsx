@@ -5,7 +5,7 @@ import Image from "next/image"
 export const ClientOnboardingImage = () => {
   return(
     <div className="relative w-full h-full hidden lg:block"> 
-    <Image src={login_image} alt="car image" fill className="object-cover"/>
+      <Image src={login_image} alt="car image" fill className="object-cover"/>
     </div> 
   )
 }

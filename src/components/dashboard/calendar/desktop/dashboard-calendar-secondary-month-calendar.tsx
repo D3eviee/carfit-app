@@ -10,7 +10,6 @@ export const DashboardCalendarSecondaryMonthCalendar = () => {
 
   const activeMonth = getMonth(activeDay)
   const activeYear = getYear(activeDay)
-
   const daysInActiveMonth = getDaysInMonth(activeDay)
   const firstDayOfActiveMonth = getISODay(new Date(activeYear, activeMonth, 1 ))
   const lastDayOfTheActiveMonth = getISODay(lastDayOfMonth(activeDay))
@@ -20,17 +19,9 @@ export const DashboardCalendarSecondaryMonthCalendar = () => {
     end: new Date(activeYear, activeMonth, daysInActiveMonth)
   })
 
-  const handleNextMonth = () => {
-      setActiveDay(addMonths(activeDay, 1))
-  }
-
-  const handlePreviousMonth = () => {
-    setActiveDay(subMonths(activeDay, 1))
-  }
-
-  const handleChoosingDay = (day:Date) => {
-    setActiveDay(day)
-  }
+  const handleNextMonth = () => setActiveDay(addMonths(activeDay, 1))
+  const handlePreviousMonth = () => setActiveDay(subMonths(activeDay, 1))
+  const handleChoosingDay = (day:Date) => setActiveDay(day)
 
   const weekdays= ["P", "W", "Ś", "C","P", "S" ,"S"]
 

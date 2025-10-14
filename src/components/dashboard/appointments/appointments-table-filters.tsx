@@ -1,21 +1,20 @@
-'use client'
-import { Filter } from "lucide-react";
+import { ColumnFiltersState } from "@tanstack/react-table"
 
-export const AppointmentsTableFilters = () => {
+export const AppointmentsTableFilters = ({ columnFilters, setColumnFilters } : 
+  { columnFilters: ColumnFiltersState, 
+  setColumnFilters: React.Dispatch<React.SetStateAction<ColumnFiltersState>> }) => {
+    const clientName = columnFilters.find(( f => f.id == "clientName" ))?.value || ""
+    const onFilterChange = (id:string, value:string) => setColumnFilters(prev => prev.filter(f => f.id != id).concat([{id, value}])) 
+
     return (
       <div className="flex flex-row gap-3 items-center">
-        {/* SEARCH */}
-        
         <input
-        id="search"
-        placeholder="Szukaj"
-        className="max-w-72 w-full bg-[#F6F7FB] px-2 py-1.5 text-md text-[#191919] rounded-lg border outline-none border-transparent focus:border-[#CCC]"
-    />
-        {/* FILTERS */}
-        <div className="flex flex-row items-center gap-1 border border-[#D4D4D4] rounded px-2 py-1.5 hover:bg-[#EEE] hover:cursor-pointer">
-          <Filter color="#D4D4D4" size={20} strokeWidth={2}/>
-          <p className="text-sm font-normal text-[#999]">Filtry</p>
-        </div>
+          id="search"
+          value={String(clientName)}
+          placeholder="Imię i nazwisko"
+          onChange={(e) => onFilterChange("clientName", e.target.value)}
+          className="max-w-72 w-full bg-[#F6F7FB] px-2 py-1.5 text-md text-main-black rounded-xl border outline-none border-transparent focus:border-[#CCC]"
+        />
       </div>
     )
 }

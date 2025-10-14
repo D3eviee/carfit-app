@@ -8,7 +8,7 @@ export default function Layout({children}: {children: ReactNode}) {
     <div className="w-full h-svh flex flex-col overflow-hidden lg:flex-row">
       <DashboardMobileNavbar/>
       <SidebarNavigation/>
-      <div className="flex flex-col w-full h-full overflow-hidden mt-5 lg:mt-0">
+      <div className="flex flex-col w-full h-full overflow-hidden">
         <DashboardContentContainer>
           {children}
         </DashboardContentContainer>

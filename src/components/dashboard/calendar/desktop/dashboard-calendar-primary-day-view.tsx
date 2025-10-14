@@ -8,6 +8,7 @@ import { Spinner } from "@/components/spinner";
 import { Error } from "@/components/error";
 import { pl } from "date-fns/locale";
 import { DashboardCalendarPrimaryDayViewAppointment } from "./dashboard-calendar-primary-day-view-appointment";
+import { useCalendarWeekIntervalAppointments } from "@/lib/hooks/dashboard/useCalendarWeekIntervalAppointments";
 
 export const DashboardCalendarPrimaryDayView = () => {
   const activeDay = useBusinessSmallCallendarStore(store => store.activeDay)
@@ -32,14 +33,7 @@ export const DashboardCalendarPrimaryDayView = () => {
     end: lastDayOfISOWeek(activeDay),
   })
 
-  const { data: reservationsForWeekData, status:reservationsForWeekStatus } = useQuery({
-    queryKey:['getAppointmentsForWeekInterval ', currentWeekInterval],
-    queryFn: async () => {
-      const response = await getAppointmentsForWeekInterval(currentWeekInterval);
-      if(!response.success) return null 
-      return response.data
-    }
-  })
+  const { data, status } = useCalendarWeekIntervalAppointments(currentWeekInterval)
 
   const hours = eachHourOfInterval({
     start: set(new Date(), {
@@ -71,23 +65,23 @@ export const DashboardCalendarPrimaryDayView = () => {
     else setActiveDay(today)
   }
 
-  if(reservationsForWeekStatus == "pending") return <Spinner/>
-  if(reservationsForWeekStatus == "error") return <Error/>
+  if(status == "pending") return <Spinner/>
+  if(status == "error") return <Error/>
 
   return (
     <div className="relative w-full h-full flex flex-col border-[0.5px] border-[#D4D4D4] shadow-lg rounded-2xl min-h-0">
       {/* CALENDAR NAVIGATION */}
-      <div className="relative flex flex-row items-center justify-between p-3">
+      <div className="relative flex flex-row items-center justify-between px-2 py-3">
         <div className="flex items-center gap-3">
           <button 
-            className="flex flex-row items-center bg-[#191919] rounded-xl pr-2 py-1 hover:bg-[#222] hover:cursor-pointer active:scale-95" 
+            className="flex flex-row items-center bg-main-black rounded-xl pr-4 pl-2  py-1 hover:bg-[#333] hover:cursor-pointer active:scale-95" 
             onClick={handlePreviousDay}
           >
             <ChevronLeft size={22} color="#FFF" strokeWidth={1}/>
             <p className="text-white text-xs font-normal">{previousDayFormatted}</p>
           </button>
           <button 
-            className="flex flex-row items-center bg-[#191919] rounded-xl pl-2 py-1 hover:bg-[#222] hover:cursor-pointer active:scale-95" 
+            className="flex flex-row items-center bg-main-black rounded-xl pr-2 pl-4 py-1 hover:bg-[#333] hover:cursor-pointer active:scale-95" 
             onClick={handleNextDay}
           >
             <p className="text-white text-xs font-normal">{nextDayFormatted}</p>
@@ -96,7 +90,7 @@ export const DashboardCalendarPrimaryDayView = () => {
           <p className="text-[#111] text-sm font-medium tracking-wide">{todayFormatted}</p> 
         </div>
         <div 
-          className="flex flex-row items-center bg-[#191919] rounded-xl px-3 py-1.5 text-white text-xs font-normal hover:bg-[#222] hover:cursor-pointer active:scale-[0.98]"
+          className="bg-main-black rounded-xl px-4 py-1.5 text-white text-xs font-normal hover:bg-[#333] hover:cursor-pointer active:scale-[0.98]"
           onClick={handleToday}
         >
           Dzisiaj
@@ -115,7 +109,7 @@ export const DashboardCalendarPrimaryDayView = () => {
           <div className="flex flex-row w-full">
             <div className="relative w-full">
               {hours.map((_, i) => <div key={i} className="border-t-[0.5px] border-[#D4D4D4] h-20"></div>)}
-              {reservationsForWeekData?.map((item, i)=> 
+              {data?.map((item, i)=> 
                 isSameDay(activeDay, item.reservationStart) && <DashboardCalendarPrimaryDayViewAppointment key={i} appointment={item} />
               )}
             </div>

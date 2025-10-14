@@ -1,12 +1,11 @@
 import Link from "next/link"
 
-export default function BusinessSwitchForm() {
+export const BusinessSwitchForm = () => {
   return(
-    <p className="text-center text-[#333] text-sm font-light">Nie posiadasz konta dla swojego biznesu?
-      <Link href='/business/onboarding'>
-        <span className="text-[#007AFF] font-semibold"> Utwórz konto</span>
-      </Link>
-    </p>
+    <div className="w-full flex flex-col gap-1 justify-center items-center">
+      <p className="text-center text-main-black text-sm font-light">Nie posiadasz konta dla swojego biznesu?</p>
+      <Link href='/business/onboarding' className="text-[#007AFF] text-sm font-semibold">Utwórz konto </Link>
+    </div>
   )
 }
 

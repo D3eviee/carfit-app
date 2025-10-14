@@ -1,10 +1,10 @@
 "use client";
 import Link from "next/link";
 import { BackButton } from "@/components/buttons/back-button";
-import BusinessOnboardingForm from "@/components/auth/business/business-onboarding-form";
-import { ClientOnboardingImage } from "@/components/auth/client/client-onboarding-image";
+import { BusinessOnboardingForm } from "@/components/auth/business/business-onboarding-form";
+import { BusinessOnboardingImage } from "@/components/auth/business/business-onboarding-image";
 
-export default function Onboardoarding() {
+export default function BusinessOnboarding() {
   return(
     <div className="w-full h-full flex flex-row overflow-hidden">
       <div className="w-full flex flex-col justify-center items-center">
@@ -15,7 +15,7 @@ export default function Onboardoarding() {
         </div>
         <BusinessOnboardingForm/>
       </div>
-      <ClientOnboardingImage/>
+      <BusinessOnboardingImage/>
     </div>   
   )
 }

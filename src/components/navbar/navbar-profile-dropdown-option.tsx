@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+
 export function NavbarProfileDropdownOption({title, icon, link, close}:{title:string, icon:React.ReactNode, link:string, close: () => void}) {
     return (
       <Link 

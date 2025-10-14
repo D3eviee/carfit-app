@@ -1,15 +1,14 @@
 'use client'
 import {addDays, eachDayOfInterval, eachHourOfInterval, format,isSameDay,isToday,lastDayOfISOWeek,set, startOfISOWeek, subDays } from "date-fns";
-import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { getAppointmentsForWeekInterval } from "@/app/dashboard/calendar/actions";
 import { Error } from "@/components/error";
 import { Spinner } from "@/components/spinner";
 import { pl } from "date-fns/locale";
 import { cn } from "@/utils";
 import { useBusinessSmallCallendarStore } from "@/lib/store";
 import { DashboardCalendarPrimaryWeekViewAppointment } from "./dashboard-calendar-primary-week-view-appointment";
+import { useCalendarWeekIntervalAppointments } from "@/lib/hooks/dashboard/useCalendarWeekIntervalAppointments";
 
 export const DashboardCalendarPrimaryWeekView = () => {
   const activeDay = useBusinessSmallCallendarStore(store => store.activeDay)
@@ -27,14 +26,7 @@ export const DashboardCalendarPrimaryWeekView = () => {
     }))
   }, [activeDay])
 
-  const { data: appointmentsForWeekIntervalData, status: appointmentsForWeekIntervalStatus } = useQuery({
-    queryKey:['getAppointmentsForWeekInterval', currentWeek],
-    queryFn: async () => {
-      const response = await getAppointmentsForWeekInterval(currentWeek);
-      if(!response.success) return null
-      return response.data
-    }
-  })
+  const {data: appointmentsForWeekIntervalData, status: appointmentsForWeekIntervalStatus} = useCalendarWeekIntervalAppointments(currentWeek)
 
   const hours = eachHourOfInterval({
     start: set(new Date(), {
@@ -122,7 +114,7 @@ export const DashboardCalendarPrimaryWeekView = () => {
           <p className="text-[#111] text-sm font-medium tracking-wide">{navigationYearFormatted}</p> 
         </div>
         <div 
-          className="flex flex-row items-center bg-[#191919] rounded-xl px-3 py-1.5 text-white text-xs font-normal hover:bg-[#222] hover:cursor-pointer active:scale-[0.98]"
+          className="bg-main-black rounded-xl px-4 py-1.5 text-white text-xs font-normal hover:bg-[#333] hover:cursor-pointer active:scale-[0.98]"
           onClick={handleToday}
         >
           Dzisiaj

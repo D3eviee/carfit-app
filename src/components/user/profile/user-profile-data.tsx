@@ -1,6 +1,5 @@
-'use client'
-import UserProfileContainerWrapper from "./user-profile-container-wrapper"
-import UserProfileHeaderEditButton from "./user-profile-data-edit-button"
+import { UserProfileContainerWrapper } from "./user-profile-container-wrapper"
+import { UserProfileEditDataButton } from "./user-profile-edit-data-button"
 
 type UserProfileDataProps = {
     userData: {
@@ -12,27 +11,29 @@ type UserProfileDataProps = {
     }
 }
 
-export default function UserProfileData({userData}:UserProfileDataProps){
+export const UserProfileData = ({userData}:UserProfileDataProps) => {
+    const {email, name, phone} =  userData
+
     return (
        <UserProfileContainerWrapper>
             <div className="w-full flex flex-col gap-3">
                 <div className="w-full flex justify-end">
-                    <UserProfileHeaderEditButton userData={userData}/> 
+                    <UserProfileEditDataButton userData={userData}/> 
                 </div>
                 <div className="w-full flex flex-col gap-2 px-2">
                     <div className="w-full flex flex-col gap-0.5 text-middle text-[#111]">
                         <p className="font-semibold">Imię i nazwisko</p>
-                        <p className="font-base">{userData.name}</p>
+                        <p className="font-base">{name}</p>
                     </div>
                     <hr className="w-full border-[0.5px] text-[#D4D4D4]"></hr>
                     <div className="w-full flex flex-col gap-0.5 text-middle text-[#111]">
                         <p className="font-semibold">Email</p>
-                        <p className="font-base">{userData.email}</p>
+                        <p className="font-base">{email}</p>
                     </div>
                     <hr className="w-full border-[0.5px] text-[#D4D4D4]"></hr>
-                    <div className="w-full flex flex-col gap-0.5 text-middle text-[#111">
+                    <div className="w-full flex flex-col gap-0.5 text-middle text-[#111]">
                         <p className="font-semibold">Telefon</p>
-                        <p className="font-base">+48 {userData.phone}</p>
+                        <p className="font-base">+48 {phone}</p>
                     </div>
                 </div>
             </div>  

@@ -2,46 +2,118 @@
 import { userAuth } from "@/lib/auth";
 import prisma from "@/lib/db"
 
+// APPOINTMENTS -> adds client review
+export const addClientReview = async ({rate, title, comment, businessId, appointmentId }) => {
+    try {
+        const user = await userAuth()
+        if(!user.success) return {success: false, message:"Odmowa dostępu. Użytkownik niezalogowany"}
+
+        const newReview = await prisma.review.create({ 
+            data: {
+                reservationId: appointmentId,
+                clientId: user.id,
+                serviceId: businessId,
+                rate: rate,
+                title: title,
+                content: comment,
+            }
+        })
+
+        if(!newReview) return {success: false, message:`Wystąpił problem podczas dodawania opinii`}
+        return { success: true, review: newReview }
+    }catch(error){
+        console.log(error)
+        return {success: false, message: "ystąpił problem podczas dodawania opinii"}
+    }
+}
+
+export const editClientReview = async ({rate, title, comment, businessId, appointmentId }) => {
+    try {
+        const user = await userAuth()
+        if(!user.success) return {success: false, message:"Odmowa dostępu. Użytkownik niezalogowany"}
+
+        const newReview = await prisma.review.update({ 
+            where: {
+                reservationId: appointmentId,
+            },
+            data: {
+                rate: rate,
+                title: title,
+                content: comment,
+            }
+        })
+
+        if(!newReview) return {success: false, message:`Wystąpił problem podczas aktualizowania opinii`}
+        return { success: true, review: newReview }
+    }catch(error){
+        console.log(error)
+        return {success: false, message: "ystąpił problem podczas aktualizowania opinii"}
+    }
+}
+
 // APPOINTMENTS -> getting all client appointments
 export const getClientAppointments = async () => {
     try {
         const user = await userAuth()
+        if(!user.success) return {success: false, message: "UŻytkownik niezalogowany. Odmowa dostępu."}
 
-        if(!user.success) return {success: false, message: "No-authenticated user. Log in."}
+        const rawNow= new Date()
+        const now = new Date(rawNow.getTime() + 2 * 60 * 60 * 1000)
+        
+        await prisma.reservation.updateMany({
+            where: {
+                clientId: user.id,
+                reservationEnd: { lte: now},
+                status: "reserved"
+            },
+            data: { status: "finished" }
+        })
 
         const clientAppointments =  await prisma.reservation.findMany({
-        where: { clientId: user.id },
-        select: {
-            id: true,
-            reservationStart: true,
-            duration: true,
-            status: true,
-            clientMessage: true,
-            services: {
-                select: {
-                    serviceId: true,
-                    service: {
-                        select: {
-                            name: true,
-                            price: true,
+            where: { clientId: user.id },
+            select: {
+                id: true,
+                reservationStart: true,
+                duration: true,
+                status: true,
+                clientMessage: true,
+                services: {
+                    select: {
+                        service: {
+                            select: {
+                                name: true,
+                                price: true,
+                            }
                         }
+                    }
+                },
+                business: {
+                    select: {
+                        id: true,
+                        image: true,
+                        name: true,
+                        street: true,
+                        district: true,
+                        town: true,
+                    }
+                },
+                Review: {
+                    select: {
+                        id: true,
+                        content: true, 
+                        rate: true,
+                        title: true,
+                        reservationId:true,
                     }
                 }
             },
-            business: {
-                select: {
-                    name: true,
-                    street: true,
-                    district: true,
-                    town: true,
-                }
-            },
-        },
-        orderBy: {reservationStart: "desc"}
+            orderBy: {reservationStart: "desc"}
         })
+        
         return {success: true, data: clientAppointments}
     }catch(error){
-        return {success: false, message: "Server problem occured." + error}
+        console.error(error)
+        return {success: false, message: "Błąd podczas ładowaina danych"}
     }
 }
 

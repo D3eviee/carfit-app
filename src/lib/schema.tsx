@@ -130,6 +130,10 @@ export const dashboardProfileEditPersonalData = z
       .string()
       .min(1, "Wprowadź adres e-mail")
       .email({message: "Nieprawidłowy adres email"}),
+    phone: z
+      .string()
+      .transform((val) => val.replace(/\s/g, ''))
+      .refine((val) => /^\d{9}$/.test(val), { message: "Numer telefonu musi składać się z 9 cyfr",})
   })
 export type DashboardProfileEditPersonalData= z.infer<typeof dashboardProfileEditPersonalData>
 
@@ -220,8 +224,11 @@ export const addNewAppointmentManualSchema = z.object({
     .string()
     .transform((val) => val.replace(/\s/g, ''))
     .refine((val) => /^\d{9}$/.test(val), { message: "Numer telefonu musi składać się z 9 cyfr"}),
+  clientCar: z
+    .string()
+    .min(1,  {message:"Podaj informacje o pojeździe"}),
+  description: z.string()
 })
-
 export type AddNewAppointmentManual = z.infer<typeof addNewAppointmentManualSchema>
 
 
@@ -258,3 +265,19 @@ export const businessSocialLinksSchema = z.object({
   ),
 })
 export type BusinessSocialLinks = z.infer<typeof businessSocialLinksSchema>
+
+
+// schema for adding service
+export const addNewCarSchema = z.object({
+  brand: z
+    .string()
+    .min(1,  {message:"Podaj markę pojazdu"}),
+  model: z
+    .string()
+    .min(1,  {message:"Podaj model"}),
+  year: z
+    .string()
+    .regex(/^\d{4}$/, "Data musi zawierać dokładnie 4 cyfry")
+})
+
+export type AddNewCar = z.infer<typeof addNewCarSchema>

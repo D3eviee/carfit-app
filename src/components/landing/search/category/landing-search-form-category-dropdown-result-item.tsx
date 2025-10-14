@@ -1,7 +1,7 @@
 import Image from "next/image";
-import { createLinkFormat } from "@/lib/functions";
 import Link from "next/link";
 import default_image from '@/../public/default_user_image.png'
+import { createLinkFormat } from "@/utils";
 
 type LandingSearchFormDropdownCategoryResultItemProps = {
   businessData : {

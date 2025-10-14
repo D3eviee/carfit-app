@@ -28,9 +28,6 @@ export const SidebarNavigation = () => {
               : <ArrowRightToLine strokeWidth={1.5} onClick={toggleSidebar}  className="text-[#7B7C7E] hover:text-[#000] hover:cursor-pointer  hover:scale-105"/>
             }
           </div>
-          
-          
-          
         </div>
         
         <SidebarNavigationSubpages activePage={activePage}/>

@@ -51,7 +51,6 @@ export type FullServiceData = {
   }[]  
 }
 
-
 export type Service = {
   id: string
   categoryId: string
@@ -116,7 +115,8 @@ export type NewReservation = {
     duration: number
     charge: number
     status: string
-    clientMessage: string
+    clientMessage: string | null
+    clientCar: string | null
 }
 
 export type DashboardReservationListReservations = {
@@ -152,6 +152,7 @@ export type AppoinmentProps = {
   clientName: string
   clientImage: string
   clientMessage: string
+  clientCar: string
   duration: number
   reservationStart: Date
   charge: number
@@ -168,6 +169,7 @@ export type CalendarAppointmentOverviewProps = {
   clientName: string
   clientImage: string
   clientMessage: string
+  clientCar: string,
   duration: number
   reservationStart: Date
   charge: number
@@ -198,6 +200,8 @@ export type AppointmentDetails = {
   id: string
   clientMessage: string
   business: {
+    id: string,
+    image: string
     name: string
     street: string
     district: string
@@ -207,10 +211,25 @@ export type AppointmentDetails = {
   duration: number,
   status: string,
   services: {
-    serviceId: string,
     service: {
       name: string
       price: string
     } 
   }[] 
+  Review?: {
+    id: string
+    title: string
+    content: string
+    rate: number
+    reservationId: string
+  }
+}
+
+export type Announcement = {
+  title: string
+  category: string
+  description: string
+  carId: string
+  town: string
+  district: string
 }

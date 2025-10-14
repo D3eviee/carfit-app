@@ -4,7 +4,7 @@ import Image from "next/image";
 import client_profile_picture from "@/../public/default_user_image.png"
 import { displayAppointmentHours } from "@/utils";
 import { useModalStore } from "@/lib/store";
-import { DashboardCalendarAppointmentDetailsModal } from "@/components/modals/dashboard-calendar-appointment-details-modal";
+import { DashboardAppointmentDetailsModal } from "@/components/modals/dashboard/appointment-details/dashboard-appointment-details-modal";
 
 export const DashboardCalendarMobileDayViewAppointment = ({appointment}:{appointment:CalendarAppointmentOverviewProps}) => {
   const openModal = useModalStore(store => store.openModal)
@@ -18,7 +18,7 @@ export const DashboardCalendarMobileDayViewAppointment = ({appointment}:{appoint
   const firstService = service[0].name
   const numberOfServices = service.length
 
-  const handleOpeningDetailsModal = () => openModal(<DashboardCalendarAppointmentDetailsModal appointmentData={appointment}/>)
+  const handleOpeningDetailsModal = () => openModal(<DashboardAppointmentDetailsModal appointmentData={appointment}/>)
   
   return (
       <div

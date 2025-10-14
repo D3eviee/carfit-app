@@ -5,11 +5,11 @@ import { z } from 'zod';
 import { useBusinessOnboardingStore } from '@/lib/store';
 import { BusinessOnboardingButton } from './business-onboarding-button';
 import { FormError } from '@/components/forms/form-error';
-import TextInput from '@/components/forms/text-input';
-import TextLabel from '@/components/forms/text-label';
 import { useRef } from 'react';
+import { AuthFormLabel } from '../auth-form-label';
+import { AuthFormInput } from '../auth-form-input';
 
-export default function BusinessOnboardingAdress({onNextStepFn}:{onNextStepFn: () => void}) {
+export const BusinessOnboardingAdress = ({onNextStepFn}:{onNextStepFn: () => void}) => {
   const businessOnboardingAdress = businessOnboardingSchema.pick({ businessTown: true, businessZipcode: true, businessDistrict: true, businessStreet: true})
   type BusinessOnboardingAdress = z.infer<typeof businessOnboardingAdress>
 
@@ -39,61 +39,46 @@ export default function BusinessOnboardingAdress({onNextStepFn}:{onNextStepFn: (
     }
 
   return(
-    <form onSubmit={handleSubmit(submitAdressForm)} className="w-full flex flex-col gap-7">
-      <div className="flex flex-col gap-1">
-        <TextLabel htmlFor="businessTown" text="Miasto"/>
-        <TextInput
-          type="text"
-          id="businessTown"
-          {...register("businessTown")}
-        />
-        <FormError error={formState.errors.businessTown?.message}/>
+    <form onSubmit={handleSubmit(submitAdressForm)} className="w-full flex flex-col gap-6">
+      <div className="flex flex-col gap-2.5">
+        <AuthFormLabel htmlFor="businessTown" labelText="Miasto"/>
+        <AuthFormInput type="text" id="businessTown" register={register("businessTown")} />
+        <FormError error={formState.errors.businessTown?.message} />
       </div>
 
-      <div className="flex flex-col gap-1">
-        <TextLabel htmlFor="businessDistrict" text="Dzielnica"/>
-        <TextInput
-          type="text"
-          id="businessDistrict"
-          {...register("businessDistrict")}
-        />
-        <FormError error={formState.errors.businessDistrict?.message}/>
+      <div className="flex flex-col gap-2.5">
+        <AuthFormLabel htmlFor="businessDistrict" labelText="Dzielnica"/>
+        <AuthFormInput type="text" id="businessDistrict" register={register("businessDistrict")} />
+        <FormError error={formState.errors.businessDistrict?.message} />
       </div>
 
-      <div className="flex flex-col gap-1">
-        <TextLabel htmlFor="businessZipcode" text="Kod pocztowy"/>
-        <TextInput
-          type="text"
-          id="businessZipcode"
+      <div className="flex flex-col gap-2.5">
+        <AuthFormLabel htmlFor="businessZipcode" labelText="Kod pocztowy"/>
+        <AuthFormInput 
+          type="text" 
+          id="businessZipcode" 
           inputMode='numeric'
-          {...register("businessZipcode", {
-            onChange: (e) => {
-              let value = e.target.value.replace(/\D/g, "")
-              const isDeleting = previousZipCodeValue.current.length > value.length;
+          {...register("businessZipcode", { onChange: (e) => {
+            let value = e.target.value.replace(/\D/g, "")
+            const isDeleting = previousZipCodeValue.current.length > value.length;
+            if (value.length > 2) {
+              value = value.slice(0, 5)
+              value = `${value.slice(0, 2)}-${value.slice(2)}`;
+            } else if (value.length === 2 && !isDeleting) value = `${value}-`
 
-              if (value.length > 2) {
-                value = value.slice(0, 5)
-                value = `${value.slice(0, 2)}-${value.slice(2)}`;
-              } else if (value.length === 2 && !isDeleting) value = `${value}-`
-
-              previousZipCodeValue.current = value;
-              e.target.value = value;
-            }  
-          })}
-        />
-        <FormError error={formState.errors.businessZipcode?.message}/>
+            previousZipCodeValue.current = value;
+            e.target.value = value;
+          }})}  
+          />
+        <FormError error={formState.errors.businessZipcode?.message} />
       </div>
 
-      <div className="flex flex-col gap-1">
-        <TextLabel htmlFor="businessStreet" text="Ulica"/>
-        <TextInput
-          type="text"
-          id="businessStreet"
-          {...register("businessStreet")}
-        />
-        <FormError error={formState.errors.businessStreet?.message}/>
+      <div className="flex flex-col gap-2.5">
+        <AuthFormLabel htmlFor="businessStreet" labelText="Ulica"/>
+        <AuthFormInput type="text" id="businessStreet" register={register("businessStreet")} />
+        <FormError error={formState.errors.businessStreet?.message} />
       </div>
-
+      
       <BusinessOnboardingButton label="Dalej" disabled={formState.isValidating}/>
     </form>    
   )

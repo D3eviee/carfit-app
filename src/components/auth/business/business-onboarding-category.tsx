@@ -5,7 +5,8 @@ import { BusinessOnboardingCategoryItem } from './business-onboarding-category-i
 type OnboardingCategory = {
   businessCategory: string
 }
-export default function BusinessOnboardingCategory({onNextStepFn}:{onNextStepFn: () => void}) {
+
+export const BusinessOnboardingCategory = ({onNextStepFn}:{onNextStepFn: () => void}) => {
     const setBusinessOnboardingData = useBusinessOnboardingStore((state)=>state.setBusinessOnboardingData)
 
     //FUNCTION FOR HANDLING FORM
@@ -17,10 +18,10 @@ export default function BusinessOnboardingCategory({onNextStepFn}:{onNextStepFn:
 
   return(
     <div className='w-full flex flex-col gap-3'>
-      <p className='text-sm text-[#363638] font-light'>Kategoria</p>
-      <div className='flex flex-col gap-1 overflow-scroll'>
+      <p className='text-sm text-main-black font-light'>Kategoria</p>
+      <div className='flex flex-col overflow-scroll sm:max-h-[330px]'>
         {SERVICES_CATEGORIES.map((category) => 
-          <BusinessOnboardingCategoryItem
+          <BusinessOnboardingCategoryItem 
             key={category.name} 
             categoryName={category.name} 
             onClick={()=>handleChoosingCategory(`${category.name}`)} 

@@ -1,11 +1,10 @@
 'use client'
-
-import DasboardProfileDeleteAccountModal from "@/components/modals/dashboard-profile-delete-account-modal"
+import { DashboardProfileDeleteAccountModal } from "@/components/modals/dashboard/profile/dashboard-profile-delete-account-modal"
 import { useModalStore } from "@/lib/store"
 
 export const DashboardProfileDeleteAccountButton = () => {
     const openModal = useModalStore(store => store.openModal)
-    const handleOpeningDeleteModal = () => openModal(<DasboardProfileDeleteAccountModal/>)
+    const handleOpeningDeleteModal = () => openModal(<DashboardProfileDeleteAccountModal/>)
 
     return (
         <div 

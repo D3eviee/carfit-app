@@ -6,7 +6,6 @@ import { getServiceData } from "../../actions";
 export default async function Service({ params }: { params: Promise<{ business: string }> }){
   // getting business id from url
   const id = (await params).business.slice(-36)
-
   //getting business data
   const response = await getServiceData(id)
   if (!response.success) return <Error/>

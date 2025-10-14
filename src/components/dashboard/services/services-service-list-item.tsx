@@ -22,54 +22,58 @@ export const ServicesServiceListItem = ({ service, categories}: { service: Servi
   const handleOpeningEditModal = () => openModal(<DashboardServiceEditModal categories={categories} service={service}/>)
 
   return (
-    <div className="relative w-full flex flex-row bg-[#F9F9F9] border-[0.5px] border-[#D4D4D4] rounded-xl overflow-hidden">
-      <div className="absolute w-2 h-full bg-[#333] top-0"/>
-      {/* CONTENT */}
-      <div className="w-full flex flex-col gap-1.5 justify-between pl-5 pr-3 py-2">
+    <div className="relative w-full flex flex-row inset-shadow-glass-sm border-1 border-[#E6E6E6] rounded-xl overflow-hidden">
+      {/* LEFT COLOR DECORATION */}
+      <div className="absolute w-2 h-full bg-[#1E6EF3] top-0"/>
+      {/* SERVICE INFORMATION*/}
+      <div className="w-full flex flex-col gap-2 justify-between pl-5 pr-2 py-3">
         {/* TOP */}
         <div className="flex flex-row justify-between items-center">
-          <h1 className="text-[#111] text-base font-medium leading-none">{service.name}</h1>
+          
+          <h1 className="text-main-black font-semibold leading-none">{service.name}</h1>
           <DropdownMenu.Root>
             <DropdownMenu.Trigger asChild>
               <MoreVertical
-                size={20}
-                color="#111"
-                className="hover:cursor-pointer"
+                size={25}
+                color="#999999"
+                className="hover:bg-[#F2F4F6] p-1 rounded-md hover:cursor-pointer"
               />
             </DropdownMenu.Trigger>
 
             <DropdownMenu.Portal>
               <DropdownMenu.Content
-                className="bg-[#FFFFFF] flex flex-col p-1 gap-0.3 border-[0.5px] border-gray-200 shadow-[0px_0px_0px_1px_#D4D4D480] rounded"
+                className="bg-[#FFF] flex flex-col p-1  border-[0.5px] border-[#E6E6E6] inset-shadow-glass-sm rounded-xl w-24"
                 align="end"
+                alignOffset={8}
                 sideOffset={3}
               >
                 <DropdownMenu.Item 
                   onClick={handleOpeningEditModal}
-                  className="p-2 flex flex-row justify-start items-center gap-2 outline-none hover:bg-slate-50 hover:cursor-pointer"
+                  className="p-2 flex flex-row justify-start items-center gap-2 outline-none hover:bg-[#F2F4F6] hover:cursor-pointer rounded-lg"
                 >
-                  <Pen color="#111" strokeWidth={1.5} size={14} />
-                  <p className="text-[#111] text-xs font-normal">Edit</p>
+                  <Pen color="#191919" strokeWidth={1.5} size={14} />
+                  <p className="text-main-black text-xs font-normal">Edytuj</p>
                 </DropdownMenu.Item>
                 <DropdownMenu.Separator className="h-[0.5px] bg-[#D4D4D4] my-1" />
                 <DropdownMenu.Item 
-                  className="p-2 flex flex-row justify-start items-center gap-2 outline-none hover:bg-slate-50 hover:cursor-pointer" 
+                  className="p-2 flex flex-row justify-start items-center gap-2 outline-none hover:bg-[#F2F4F6] hover:cursor-pointer rounded-lg"
                   onClick={handleOpeningDeleteModal}
                 >
-                  <TrashIcon color="#E95E5E" strokeWidth={1.5} size={14} />
-                  <p className="text-[#E95E5E] text-xs font-normal">Delete</p>
+                  <TrashIcon color="#FE6265" strokeWidth={1.5} size={14} />
+                  <p className="text-[#FE6265] text-xs font-normal">Usuń</p>
                 </DropdownMenu.Item>
               </DropdownMenu.Content>
             </DropdownMenu.Portal>
           </DropdownMenu.Root>
         </div>
 
-        <p className="text-xs text-[#2B2B2B]">{service.description}</p>
+        {/* SERVICE DESCRIPTION */}
+        <p className="text-sm text-main-black font-light leading-none">{service.description}</p>
         
-        {/* BOTTOM */}
-        <div className="w-full flex flex-row gap-3">
-          <p className="text-center text-white text-sm font-normal px-2 py-1 bg-[#5D44F8] rounded-md my-auto leading-none">{displayAppointmentTime(service.duration)}</p>
-          <p className="text-center text-white text-sm font-normal px-2 py-1 bg-[#F25287] rounded-md my-auto leading-none">{service.price}PLN</p>
+        {/* SERVICE DETAILS -> PRICE AND DURATION */}
+        <div className="w-full flex flex-row gap-3 mt-1">
+          <p className="text-xs px-2 py-0.5 rounded-lg bg-[#F5F0FF] text-[#6D28D9] border-[0.5px] border-[#E0D4FF]">{displayAppointmentTime(service.duration)}</p>
+          <p className="text-xs px-2 py-0.5 rounded-lg bg-[#FAE8FF] text-[#C026D3] border-[0.5px] border-[#F5D0FE]">{service.price} PLN</p>
         </div>
       </div>
     </div>

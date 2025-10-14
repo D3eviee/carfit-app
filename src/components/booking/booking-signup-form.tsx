@@ -6,8 +6,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ClientOnboardingData, clientOnboardingData } from "@/lib/schema";
 import { useModalStore, useToastStore } from "@/lib/store";
 import { createClientProfile } from "@/app/(auth)/(client)/onboarding/actions";
-import TextLabel from "../forms/text-label";
-import TextInput from "../forms/text-input";
+import TextLabel from "../forms/form-label";
+import TextInput from "../forms/form-input";
 import { FormError } from "../forms/form-error";
 
 

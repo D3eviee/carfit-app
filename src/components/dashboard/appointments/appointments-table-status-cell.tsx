@@ -1,17 +1,14 @@
 import { cn } from "@/utils";
 export const AppointmentTableStatusCell = ({getValue}) => {
     const status = getValue();
+    const statusLabel = status == "reserved" ? "Zarezerwowana" : (status == "canceled" ? "Anulowana" : "Zakończona")
 
-    return (
-        <div className="max-w-30">
-            <p 
-            className={cn("text-xs lg:text-sm font-medium w-fit px-2 py-0.5 rounded-lg", 
-            status == "Odwołana" && "bg-[#FF383C] text-white",
-            status == "Zarezerwowana" &&  "bg-[#52B66E] text-white",
-            status == "Oczekująca" &&  "bg-yellow-500 text-white")}
-            >
-                {status}
-            </p>
-        </div>
+    return (  
+        <div className={cn( "max-w-30 px-3 py-1 rounded-lg text-center h-fit border text-xs font-medium transition",
+            status === "reserved" && "bg-[#E8F9EE] text-[#15803D] border-[#BBF7D0]",
+            status === "finished" && "bg-[#E0ECFF] text-[#1D4ED8] border-[#BFDBFE]",
+            status === "canceled" && "bg-[#FEE2E2] text-[#B91C1C] border-[#FCA5A5]"
+        )}
+        > {statusLabel} </div>       
     )
 }

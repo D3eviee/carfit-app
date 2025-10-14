@@ -1,6 +1,5 @@
 "use client"
-import { useQuery } from "@tanstack/react-query";
-import { useReactTable, getCoreRowModel, getSortedRowModel, flexRender, getFilteredRowModel, getPaginationRowModel } from "@tanstack/react-table";
+import { useReactTable, getCoreRowModel, getSortedRowModel, flexRender, getFilteredRowModel, getPaginationRowModel, ColumnFiltersState } from "@tanstack/react-table";
 import { AppointmentDateCell } from "@/components/dashboard/appointments/appointments-date-cell"
 import { AppointmentTablePriceCell } from "@/components/dashboard/appointments/appointments-table-price-cell"
 import { AppointmentTableStatusCell }  from "@/components/dashboard/appointments/appointments-table-status-cell"
@@ -11,22 +10,16 @@ import { Spinner } from "@/components/spinner";
 import { Error } from "@/components/error";
 import { AppointmentsTableFilters } from "@/components/dashboard/appointments/appointments-table-filters";
 import { useModalStore } from "@/lib/store";
-import { getAppointmentsTableData } from "@/app/dashboard/appointments/actions";
-import { DashboardAppointmentsDetailsModal } from "@/components/modals/dashboard/appointments/dashboard-appointments-details-modal";
+import { DashboardAppointmentDetailsModal } from "@/components/modals/dashboard/appointment-details/dashboard-appointment-details-modal";
+import { useTableAppointments } from "@/lib/hooks/dashboard/useTableAppointments";
+import { useState } from "react";
 
 export const AppointmentsTable = () => {
   // Modal state
   const openModal = useModalStore(store => store.openModal)
 
   //data
-  const {data: appointmentsData, status: appointmentsStatus} = useQuery({
-    queryKey: ["getAppointmentsTableData"],
-    queryFn: async () => {
-      const response = await getAppointmentsTableData()
-      if(!response.success) return null
-      return response.data
-    }
-  })
+  const {data:appointmentsData, status } = useTableAppointments() 
 
   const columns = [
     {
@@ -43,7 +36,7 @@ export const AppointmentsTable = () => {
     {
       accessorKey: "reservationStart",
       header: "Data",
-      cell: AppointmentDateCell 
+      cell: AppointmentDateCell,
     },
     {
       accessorKey: "charge",
@@ -58,27 +51,29 @@ export const AppointmentsTable = () => {
     },
   ]
 
-  // const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>() 
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]) 
+
+  console.log(columnFilters)
 
   const table = useReactTable({
     data: appointmentsData ?? [],
     columns,
-    // state: {
-    //   columnFilters,
-    // },
+    state: {
+      columnFilters,
+    },
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getPaginationRowModel: getPaginationRowModel()
   })
   
-  if(appointmentsStatus === "pending") return <Spinner/>
-  if(appointmentsStatus === "error") return <Error/>
+  if(status === "pending") return <Spinner/>
+  if(status === "error") return <Error/>
 
   return (
     <div className="w-full h-full relative flex flex-col gap-3 overflow-hidden">
       {/* SEARCH AND FILTERS */}
-      <AppointmentsTableFilters/>
+      <AppointmentsTableFilters columnFilters={columnFilters} setColumnFilters={setColumnFilters} />
 
       {/* TABLE */}
       <div className="w-full h-full overflow-scroll">
@@ -99,7 +94,7 @@ export const AppointmentsTable = () => {
                 {table.getRowModel().rows.map((row) => 
                     <tr key={row.id} 
                         className="even:bg-[#F2F2F7]" 
-                        onClick={() => openModal(<DashboardAppointmentsDetailsModal appointmentData={row.original}/> )}
+                        onClick={() => openModal(<DashboardAppointmentDetailsModal appointmentData={row.original}/> )}
                     >
                         {row.getVisibleCells().map(cell => 
                             <td key={cell.id}>

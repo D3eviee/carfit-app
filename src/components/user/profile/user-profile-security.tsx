@@ -1,9 +1,8 @@
 'use client'
-import UserProfileContainerWrapper from "./user-profile-container-wrapper"
-import UserProfileSecutityEditButton from "./user-profile-security-edit-button"
+import { UserProfileContainerWrapper } from "./user-profile-container-wrapper"
+import { UserProfileSecutityEditButton } from "./user-profile-security-edit-button"
 
-
-export default function UserProfileSecurity(){
+export const UserProfileSecurity = () => {
     return (
        <UserProfileContainerWrapper>
             <div className="w-full flex flex-col gap-3">

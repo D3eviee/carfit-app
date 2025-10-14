@@ -1,5 +1,5 @@
 'use client'
-import { ServiceGalleryModal } from "@/components/modals/service-gallery-modal";
+import { ServiceGalleryModal } from "@/components/modals/user/service/service-gallery-modal";
 import { useModalStore } from "@/lib/store";
 import Image from "next/image"
 
