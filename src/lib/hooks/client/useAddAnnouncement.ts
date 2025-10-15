@@ -23,7 +23,7 @@ export const useAddAnnouncement = () => {
       closeModal();
       queryClient.invalidateQueries({queryKey: ["getClientAnnouncements"]}) 
     },
-    onError: (error: any) => {
+    onError: (error) => {
       console.error(error)
       showToast(error.message || "Wystąpił błąd podczas dodawania ogłoszenia")
     },
