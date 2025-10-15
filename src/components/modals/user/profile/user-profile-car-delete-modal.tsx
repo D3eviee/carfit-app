@@ -27,5 +27,3 @@ export const UserProfileCarDeleteModal = ({carId}:{carId:string}) => {
     </div>
   )
 }
-
-    
