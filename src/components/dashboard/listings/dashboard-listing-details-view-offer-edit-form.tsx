@@ -1,42 +1,19 @@
-import { useActiveListingStore, useToastStore } from "@/lib/store"
+import { useActiveListingStore } from "@/lib/store"
 import { FormError } from "@/components/forms/form-error"
-import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useForm } from "react-hook-form"
-import { updateServiceOffer } from "@/app/dashboard/listings/actions"
+import { useEditOffer } from "@/lib/hooks/dashboard/useEditOffer"
 
 type Offer = { offer: string }
 
 export default function DashboardListingsDetailsViewOfferEditForm({offerDescription}:{offerDescription:string}){
-   const queryClient = useQueryClient()
-   const activeOffering = useActiveListingStore(store => store.activeOffering)
-   const updateOffering = useActiveListingStore(store => store.updateOffering)
-   const toggleIsEditing = useActiveListingStore(store => store.toggleIsEditing)
-   const showToast = useToastStore(store => store.showToast)
-   
-   const {register, formState, handleSubmit, reset} = useForm<Offer>({
+  const activeOffering = useActiveListingStore(store => store.activeOffering)
+  
+  const {register, formState, handleSubmit} = useForm<Offer>({
     defaultValues: { offer: offerDescription }
   })
 
-  const {mutate: editOfferMutation} = useMutation({
-      mutationKey: ["saveOffer", activeOffering.id],
-      mutationFn: async (data: Offer) => {
-        try{
-          const response = await updateServiceOffer(activeOffering.offerId, data.offer)
-          return response
-        }catch(error){
-          console.error("Problem podczas dodawania rezerwacji" +  error)
-        }
-      },
-      onSuccess: (response, variables) => {
-        showToast("Zapisano", "success")
-        queryClient.invalidateQueries({queryKey: ["getOfferings", activeOffering.id]})
-        updateOffering(variables.offer)
-        toggleIsEditing()
-        reset()
-      }
-    })
-  
-    const handleSavingOffer = (data) => editOfferMutation(data)
+  const {mutate} = useEditOffer(activeOffering.offerId)
+  const handleSavingOffer = (data) => mutate(data)
 
     return (
       <form className="flex flex-col gap-4" onSubmit={handleSubmit(handleSavingOffer)}>

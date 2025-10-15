@@ -13,7 +13,7 @@ export const DashboardSettingsBusinessDetails = ({settings}:{settings: SettingsB
     const {businessName, country, currency, language } = settings
 
     return(
-      <div className="w-full bg-white flex flex-col gap-1 p-4 border-[0.5px] border-[#D4D4D4] shadow-lg rounded-2xl">
+      <div className="w-full bg-white flex flex-col gap-2 p-5 border-[0.5px] border-[#D4D4D4] shadow-lg rounded-3xl">
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-x-20">
           <SettingBusinessInformationEditable
             fieldName="Nazwa firmy" 

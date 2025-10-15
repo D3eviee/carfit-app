@@ -5,12 +5,12 @@ import { BookingCalendarDay } from "./booking-calendar-day";
 import { useAppointmentStore, useCalendarStore } from "@/lib/store";
 import { cn, useServiceIdFromParams } from "@/utils";
 import { BookingAppointmentAvailableHours } from "./booking-calendar-available-hours";
-import { useQuery } from "@tanstack/react-query";
-import { getActiveMonthAppointments, getBusinessWorkingHours } from "@/app/(landing)/actions";
 import { Service } from "@/lib/types";
 import { Spinner } from "../spinner";
 import { Error } from "../error";
 import { pl } from "date-fns/locale";
+import { useAppointmentForMonth } from "@/lib/hooks/client/useBookingAppointmentsForMonth";
+import { useBookingWokingHours } from "@/lib/hooks/client/useBookingWorkingHours";
 
 export const BookingCalendar = ({servicesData}:{servicesData:Service[]}) => {
     const businessId = useServiceIdFromParams()
@@ -46,27 +46,8 @@ export const BookingCalendar = ({servicesData}:{servicesData:Service[]}) => {
         end: new Date(activeYear, activeMonth, daysInMonthActiveMonth)
     })
 
-    const {data: getActiveMonthAppointmentsData, status: getActiveMonthAppointmentsStatus} = useQuery({
-        queryKey: ["getActiveMonthAppointments", activeDate],
-        queryFn: async () => {
-            const response = await getActiveMonthAppointments(activeDate, businessId)
-            if (!response.success) return
-            return response.data
-        },
-        enabled: !!businessId
-    })
-
-    const { data: businessWorkingHoursData, status: businessWorkingHoursStatus} = useQuery({
-        queryKey: ["getWorkingHours"],
-        queryFn: async () => {
-            const response = await getBusinessWorkingHours(businessId)
-            if (!response.success){
-                return
-            }
-            return response.data
-        },
-        enabled: !!businessId
-    });
+    const {data: getActiveMonthAppointmentsData, status: getActiveMonthAppointmentsStatus} = useAppointmentForMonth(activeDate, businessId)
+    const { data: businessWorkingHoursData, status: businessWorkingHoursStatus} = useBookingWokingHours(businessId)
 
     const isPreviousMonthDisabled = () => {
         if(isSameMonth(todayDate, activeDate) && isSameYear(todayDate, activeDate)) return true

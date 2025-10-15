@@ -1,16 +1,14 @@
 'use client'
-import { editService } from "@/app/dashboard/services/actions";
 import { FormError } from "@/components/forms/form-error";
 import { FormInput } from "@/components/forms/form-input";
 import { FormLabel } from "@/components/forms/form-label";
 import { Spinner } from "@/components/spinner";
 import { AddService, addServiceSchema } from "@/lib/schema";
-import { useModalStore, useToastStore } from "@/lib/store";
 import { Service, ServicesCategory } from "@/lib/types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { ExitModalButton } from "../../exit-modal-button";
+import { useEditService } from "@/lib/hooks/dashboard/useEditService";
 
  const timeOptions = [
   {time: "30min", value: 30}, 
@@ -52,11 +50,7 @@ type DashboardServiceEditModalProps = {
 }
 
 export const DashboardServiceEditModal = ({categories, service}:DashboardServiceEditModalProps) => {
-  const queryClient = useQueryClient()
-  const closeModal = useModalStore(store => store.closeModal)
-  const showToast = useToastStore(store => store.showToast)
-
-  const { register, handleSubmit, reset, formState, watch} = useForm<AddService>({
+  const { register, handleSubmit, formState, watch} = useForm<AddService>({
     resolver: zodResolver(addServiceSchema),
     defaultValues: {
       name: service.name,
@@ -67,25 +61,8 @@ export const DashboardServiceEditModal = ({categories, service}:DashboardService
     }
   })  
   
-  const {mutate: addingNewServiceMutation, isPending: addingNewServiceIsPending} = useMutation({
-    mutationFn: async (data:Service) => {
-      const editedData = { id: service.id, ...data }
-      const addNewServiceResult = await editService(editedData)
-      if(!addNewServiceResult.success){
-        showToast(addNewServiceResult.message, "error")
-        return null
-      }
-      showToast(addNewServiceResult.message, "success")
-      return addNewServiceResult.data
-    }, 
-    onSuccess: () =>{
-      queryClient.invalidateQueries({ queryKey: ["getServicesForBusiness"] })
-      reset()
-      closeModal()
-    } 
-  })
-
-  const onEditService = (newServiceData:Service) => addingNewServiceMutation(newServiceData)
+  const {mutate: addingNewServiceMutation, isPending: addingNewServiceIsPending} = useEditService(service.id)
+  const onEditService = async (newServiceData:Service) => addingNewServiceMutation(newServiceData)
 
   return (
     <form 

@@ -15,9 +15,7 @@ export const DashboardSettingsWorkingDaysEditGridItemToggle = ({day}: {day: stri
       onChange={handleToggle}
     />
     <div
-      className={`w-14 h-6 rounded-full transition-colors duration-300 ${
-        isOpen ? "bg-[#31D158]" : "bg-gray-300"
-      }`}
+      className={`w-14 h-6 rounded-full transition-colors duration-300 ${isOpen ? "bg-[#31D158]" : "bg-gray-300"}`}
     />
     <div
       className={`absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-white shadow-md transform transition-transform duration-300 ${

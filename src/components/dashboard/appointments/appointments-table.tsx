@@ -15,10 +15,9 @@ import { useTableAppointments } from "@/lib/hooks/dashboard/useTableAppointments
 import { useState } from "react";
 
 export const AppointmentsTable = () => {
-  // Modal state
+  // MODAL STATE
   const openModal = useModalStore(store => store.openModal)
-
-  //data
+  // FETCHING DATA
   const {data:appointmentsData, status } = useTableAppointments() 
 
   const columns = [

@@ -1,4 +1,4 @@
-import {DashboardSettingsWorkingDaysGridItem } from './dashboard-settings-working-days-grid-item';
+import { DashboardSettingsWorkingDaysGridItem } from './dashboard-settings-working-days-grid-item';
 
 type WorkingHour = {
   dayOfWeek: string;
@@ -13,7 +13,7 @@ type SettingsBusinessWorkHoursProps = {
 
 export const DashboardSettingsWorkingDaysGrid = ({workingHoursData}:SettingsBusinessWorkHoursProps) => {
   return (
-    <div className="w-full flex flex-col gap-3">
+    <div className="w-full flex flex-col gap-2">
         {workingHoursData.map((day)=> <DashboardSettingsWorkingDaysGridItem key={day.dayOfWeek} day={day} /> )}
     </div>
     )

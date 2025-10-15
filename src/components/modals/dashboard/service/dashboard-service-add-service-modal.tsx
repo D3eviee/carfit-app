@@ -1,16 +1,14 @@
 'use client'
-import { addNewService } from "@/app/dashboard/services/actions";
 import { AddService, addServiceSchema } from "@/lib/schema";
-import { useModalStore, useToastStore } from "@/lib/store";
 import { Service, ServicesCategory } from "@/lib/types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { FormError } from "../../../forms/form-error";
 import { Spinner } from "../../../spinner";
 import { ExitModalButton } from "../../exit-modal-button"
 import { FormLabel } from "@/components/forms/form-label";
 import { FormInput } from "@/components/forms/form-input";
+import { useEditService } from "@/lib/hooks/dashboard/useAddService";
 
  const timeOptions = [
   {time: "30min", value: 30}, 
@@ -40,11 +38,7 @@ import { FormInput } from "@/components/forms/form-input";
 ]
 
 export const DasboardServiceAddServiceModal = ({categories}:{categories:ServicesCategory[]}) => {
-  const queryClient = useQueryClient()
-  const closeModal = useModalStore(store => store.closeModal)
-  const showToast = useToastStore(store => store.showToast)
-
-  const { register, handleSubmit, reset, formState, watch} = useForm<AddService>({
+  const { register, handleSubmit, formState, watch} = useForm<AddService>({
     resolver: zodResolver(addServiceSchema),
     defaultValues: {
       name: "",
@@ -55,24 +49,8 @@ export const DasboardServiceAddServiceModal = ({categories}:{categories:Services
     }
   })  
   
-  const {mutate: addingNewServiceMutation, isPending: addingNewServiceIsPending} = useMutation({
-    mutationFn: async (data:Service) => {
-      const addNewServiceResult = await addNewService(data)
-      if(!addNewServiceResult.success){
-        showToast(addNewServiceResult.message, "error")
-        return null
-      }
-      showToast(addNewServiceResult.message, "success")
-      return addNewServiceResult.data
-    }, 
-    onSuccess: () =>{
-      queryClient.invalidateQueries({ queryKey: ["getServicesForBusiness"] })
-      reset()
-      closeModal()
-    } 
-  })
-
-  const onAddNewService = (newServiceData:Service) => addingNewServiceMutation(newServiceData)
+  const {mutate, isPending} = useEditService()
+  const onAddNewService = (newServiceData:Service) => mutate(newServiceData)
 
   return (
     <form 
@@ -166,7 +144,7 @@ export const DasboardServiceAddServiceModal = ({categories}:{categories:Services
             type="submit"
             className="w-full text-center justify-center py-2.5 bg-main-black rounded-2xl shadow-bnw-y-small hover:cursor-pointer hover:bg-[#222] active:scale-105"
           >
-           {addingNewServiceIsPending ? <Spinner/> : <p className="text-[#FFF]">Dodaj</p>} 
+           {isPending ? <Spinner/> : <p className="text-[#FFF]">Dodaj</p>} 
           </button>
       </div>
     </form>

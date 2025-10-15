@@ -1,26 +1,16 @@
 'use client'
 import SearchResultGrid from "@/components/search/search-result-grid";
-import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
 import { Error } from "@/components/error";
 import { Spinner } from "@/components/spinner";
-import { getSearchedBusinesses, getSearchedBusinessesByLocation, getSearchedBusinessesByType, getSearchedBusinessesByTypeAndCategory } from "@/app/search/actions";
+import { useSearchResults } from "@/lib/hooks/client/search/useSearchResults";
 
 export const SearchClient = () =>  {
   const params = useSearchParams()
   const location = params.get("location")
   const type = params.get("category")
 
-  const { data, status } = useQuery({
-    queryKey: ["getSearchedData", location, type],
-    queryFn: async () => {
-      if (location && type) return (await getSearchedBusinessesByTypeAndCategory(location, type)).data
-      else if (location) return (await getSearchedBusinessesByLocation(location)).data
-      else if (type) return (await getSearchedBusinessesByType(type)).data
-      else return (await getSearchedBusinesses()).data
-    }
-  })
-
+  const { data, status } = useSearchResults(location, type)
   if (status === "pending") return <Spinner />
   if (status === "error") return <Error />
 

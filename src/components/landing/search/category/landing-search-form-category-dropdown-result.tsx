@@ -1,9 +1,9 @@
-import { useQuery } from "@tanstack/react-query";
-import { getServicesForSearch } from "@/app/(landing)/actions";
+"use client"
 import { Error } from "@/components/error";
 import { Spinner } from "@/components/spinner";
 import { LandingSearchFormDropdownCategoryResultItem } from "./landing-search-form-category-dropdown-result-item";
 import { LandingSearchFormCategoryDropdownNoResult } from "./landing-search-form-category-dropdown-no-result";
+import { useServicesForSearch } from "@/lib/hooks/client/search/useServicesForSearch";
 
 type LandingSearchDropdownCategoryResultProps = {
   onClose: () => void
@@ -12,17 +12,7 @@ type LandingSearchDropdownCategoryResultProps = {
 }
 
 export const LandingSearchDropdownCategoryResult = ({onClose, setCategory, categoryInput}: LandingSearchDropdownCategoryResultProps) => {
-  const {data, status} = useQuery({
-    queryKey: ["getServicesForSearch", categoryInput],
-    queryFn: async () =>{
-      const result = await getServicesForSearch(categoryInput)
-      if(!result.success) {
-        return []
-      }
-      return result.data
-    },
-    enabled: categoryInput.length >= 2
-  }) 
+  const {data, status} = useServicesForSearch(categoryInput)
 
   const handleServiceSelection = (serviceName:string) => {
     setCategory(serviceName)

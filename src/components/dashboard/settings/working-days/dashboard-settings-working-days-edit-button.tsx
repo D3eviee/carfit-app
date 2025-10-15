@@ -1,6 +1,7 @@
 'use client'
 import { DashboardSettingsEditWorkingHoursModal } from "@/components/modals/dashboard/settings/dashboard-settings-edit-working-hours-modal"
 import { useModalStore, useSettingsEditingWorkingHours } from "@/lib/store"
+import { DashboardSettingEditButton } from "../dashboard-settings-edit-button"
 
 type DashboardSettingWorkingDaysEditButtonProps = {
   workingHoursData: {
@@ -19,12 +20,5 @@ export const DashboardSettingWorkingDaysEditButton = ({workingHoursData}:Dashboa
       openModal(<DashboardSettingsEditWorkingHoursModal/>)
     }
 
-    return (
-      <div 
-        onClick={handleOpeningEdit}
-        className="w-fit text-center text-sm px-4 py-2 rounded-2xl bg-linear-to-b  from-[#313131] to-[#141414] shadow-md text-[#F2F2F7] hover:cursor-pointer hover:bg-[#333333]"
-      >
-        Edytuj
-      </div>
-    )
+    return ( <DashboardSettingEditButton onClick={handleOpeningEdit}/>)
 }

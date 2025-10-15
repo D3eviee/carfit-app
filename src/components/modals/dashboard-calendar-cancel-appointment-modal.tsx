@@ -1,36 +1,12 @@
 'use client'
-import { cancelAppointment } from "@/app/dashboard/actions";
 import { Spinner } from "@/components/spinner";
-import { useModalStore, useToastStore } from "@/lib/store";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useCancelAppointment } from "@/lib/hooks/dashboard/useCancelAppointment";
+import { useModalStore } from "@/lib/store";
 
 export const  DashboardCalendarCancelAppointmetModal = ({ appointmentId }: {appointmentId: string}) => {
-  const queryClient = useQueryClient()
   const closeModal = useModalStore(store => store.closeModal)
-  const showToast = useToastStore(store => store.showToast)
-
-  const {mutate:deleteAppointmentMutation, isPending:deleteAppointmentIsPending } = useMutation({
-    mutationKey: ["cancelAppointment", appointmentId],
-    mutationFn: async () => {
-      const deleteResponse = await cancelAppointment(appointmentId)
-      if(!deleteResponse.success){
-        showToast(deleteResponse.message, "error")
-        return 
-      }
-      showToast(deleteResponse.message, "success")
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        predicate: (query) => { return query.queryKey[0] === 'getAppointmentsForWeekInterval' }
-      })
-      closeModal()
-      closeModal()
-    }
-  })
-
-  const handleDeletingCategory = () => {
-    deleteAppointmentMutation()
-  }
+  const {cancelAppointment, isPending }= useCancelAppointment(appointmentId)
+  const handleDeletingCategory = () => cancelAppointment()
   
   return(
     <div className="w-[360px] flex flex-col px-3 pt-5 pb-3 bg-white ring-1 ring-white inset-shadow-white rounded-2xl text-black space-y-5">
@@ -47,7 +23,7 @@ export const  DashboardCalendarCancelAppointmetModal = ({ appointmentId }: {appo
           onClick={handleDeletingCategory}
           className="w-full text-center justify-center py-2 bg-[#FF453A] backdrop- text-white rounded-3xl shadow-inner-glass hover:cursor-pointer hover:bg-[#333] active:scale-105"
         >
-         {deleteAppointmentIsPending ? <Spinner/>  : "Odwołaj"} 
+         {isPending ? <Spinner/>  : "Odwołaj"} 
         </div>
       </div>
     </div>

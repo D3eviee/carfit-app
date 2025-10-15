@@ -8,7 +8,7 @@ export const DashboardSettingsGalleryGridItemDeleteButton = ({id}:{id:string}) =
 
   return ( 
     <button 
-      className=' bg-[#2B2B2B] text-white py-1.5 rounded-xl  shadow-black border hover:bg-[#EE3420] hover:cursor-pointer'
+      className=' bg-main-black text-white py-1.5 rounded-2xl  shadow-black border hover:bg-[#333] hover:cursor-pointer'
       onClick={handleOpeningModal}
     >
       Usuń

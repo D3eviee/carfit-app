@@ -3,7 +3,7 @@ import { getClientProfileData } from "@/app/user/profile/actions";
 
 export const useClientCars = () => {
   return useQuery({
-    queryKey: ["userProfileData"],
+    queryKey: ["useClientCars"],
     queryFn: async () => {
       const response = await getClientProfileData();
       if (!response.success) return

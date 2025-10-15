@@ -63,11 +63,9 @@ export const updateBusinessSocialMediaLinks = async (linksData:BusinessSocialLin
     if(!isDataValid.success)  return {success: false, message: "Wystąpił problem podczas walidacji danych"}
 
     const editResult = await prisma.business.update({
-          where: {
-            id: business.id,
-          },
+          where: { id: business.id },
           data: {
-            facebookUrl:linksData.facebookUrl ,
+            facebookUrl:linksData.facebookUrl,
             instagramUrl: linksData.instagramUrl,
             websiteUrl: linksData.websiteUrl,
         }
@@ -115,7 +113,8 @@ export const getBusinessWorkingHours = async () => {
       return {success: true, data: sortedWeek}
   }
   catch (error) {
-    return {success: false, message: "Wystąpił problem podczas pobierania danych: " + error}
+    console.error(error)
+    return {success: false, message: "Wystąpił problem podczas pobierania danych"}
   }
 }
 
@@ -185,16 +184,16 @@ export const deleteBusinessGalleryImage = async (photoId: string) => {
   }
 }
 
-// DASHBOARD/SETTINGS/VISIBILITY => used in modal, to edit woking time hours
+// READY
+// DASHBOARD/SETTINGS/VISIBILITY 
+// TAKES CURRENT STATE OF ADDED IAMGES, ADDED SERVICES, AND CURRENT PUBLICITY STATE
 export const getDataForPublicityCheck = async () => {
   try {
     const business = await businessAuth()
     if(!business.success) return {success: false, message: "Brak autoryzacji. Zaloguj się"}
 
-    const visibilityCheckResult = await prisma.business.findFirst({
-      where: {
-        id: business.id
-      },
+    const response = await prisma.business.findFirst({
+      where: { id: business.id },
       select: {
         _count: {
           select: {
@@ -210,31 +209,37 @@ export const getDataForPublicityCheck = async () => {
       }
     })
 
-    return {images:visibilityCheckResult._count.images, services:visibilityCheckResult._count.services, isPublic:visibilityCheckResult.isPublic}
+    const data = {
+      imageCount:response._count.images,
+      serviceCount: response._count.services,
+      isPublic: response.isPublic
+    }
+    
+    return {  success: true, data: data }
   } catch (error) {
-    console.log("Error occured" + error)
+    console.error(error)
+    console.log("Wystąpił błąd podczas pobierania danych")
   }
 }
 
-// DASHBOARD/SETTINGS/VISIBILITY => used in modal, to edit woking time hours
-export const toggleBusinessPublicStatus = async (previousPublicState:boolean) => {
+// READY
+// DASHBOARD/SETTINGS/VISIBILITY 
+// TAKES CURRENT BUSINESS PUBLICITY STATE, AND REVESES IT
+export const toggleIsBusinessPublic = async (previousPublicState:boolean) => {
   try {
     const business = await businessAuth()
     if(!business.success) return {success: false, message: "Brak autoryzacji. Zaloguj się"}
 
-    const businesssStatusChangeResult = await prisma.business.update({
+    const response = await prisma.business.update({
       where: { id: business.id },
-      data: {
-        isPublic: !previousPublicState
-      },
-      select:{
-        isPublic: true
-      }
+      data: { isPublic: !previousPublicState },
+      select:{ isPublic: true }
     })
 
-    if(!businesssStatusChangeResult) return { success: false, message: "Wystąpił problem podczas publikowania serwisu"}
-    return { success: true, isPublic: businesssStatusChangeResult.isPublic }
+    if(!response) return { success: false, message: "Wystąpił problem podczas zmiany statusu serwisu"}
+    return { success: true, isPublic: response.isPublic }
   } catch (error) {
-    return { success: false, message: "Wystąpił problem podczas publikowania serwisu" + error}
+    console.error(error)
+    return { success: false, message: "Wystąpił problem podczas zmiany statusu serwisu" }
   }
 }

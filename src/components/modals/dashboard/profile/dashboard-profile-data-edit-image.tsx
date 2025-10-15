@@ -1,61 +1,20 @@
 'use client'
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import default_user_image from '@/../public/default_user_image.png'
 import { Spinner } from "@/components/spinner";
 import { useToastStore } from "@/lib/store";
 import { Trash } from "lucide-react";
 import { checkImageType } from "@/utils";
-import { deleteDashboardProfileImage, getDashboardProfilePhotoEditModal, uploadNewDashboardProfileImage } from "@/app/dashboard/profile/actions";
+import { useDashboardProfilePhoto } from "@/lib/hooks/dashboard/useDashboardProfilePhoto";
+import { useUploadDashboardProfilePhoto } from "@/lib/hooks/dashboard/useUploadDashboardProfilePhoto";
+import { useRemoveDashboardProfilePhoto } from "@/lib/hooks/dashboard/useRemoveDashboardProfilePhoto";
 
 export const DashboardProfileDataEditImage = () => {
-  const queryClient = useQueryClient()
   const showToast = useToastStore(store => store.showToast)
 
-  const {data: dashboardProfileImage, isPending: dashboardProfileImageIsPending} = useQuery({
-    queryKey: ["getUserPhotoEditModal"],
-    queryFn: async () => {
-      const userImage = await getDashboardProfilePhotoEditModal()
-      if(!userImage.success) return showToast(userImage.message, "error")
-      return userImage.data
-    }
-  })
-
-  const {mutate: uploadImageMutation, isPending: uploadImageIsPending} = useMutation({
-    mutationKey: ["uploadNewProfileImage"],
-    mutationFn: async (data:FormData) => {
-      const result = await uploadNewDashboardProfileImage(data)
-      if(!result.success){
-        showToast(result.message, "error")
-        return result.message
-      }
-      return result.data
-    },
-    onSuccess: () => { 
-      queryClient.invalidateQueries({ queryKey: ["getUserPhotoEditModal"] })
-      queryClient.invalidateQueries({ queryKey: ["getBusinessProfile"] })
-    }
-  })
-
-  const {mutate: deleteImageMutation, isPending: deleteImageIsPending} = useMutation({
-    mutationKey: ["deleteImageMutation"],
-    mutationFn: async (imageLink:string) => {
-      try {
-        const result =  await deleteDashboardProfileImage(imageLink)
-        if(!result.success) {
-          showToast(result.message, "error")
-          return result.data
-        }
-        return 
-      }catch (error) {
-        showToast(error, "error")
-      }
-    },
-    onSuccess: () =>{
-      queryClient.invalidateQueries({ queryKey: ["getUserPhotoEditModal"] })
-      queryClient.invalidateQueries({ queryKey: ["getBusinessProfile"] })
-    } 
-  })  
+  const {data: dashboardProfileImage, isPending: dashboardProfileImageIsPending} = useDashboardProfilePhoto()
+  const {mutate: uploadImageMutation, isPending: uploadImageIsPending} = useUploadDashboardProfilePhoto()
+  const {mutate: deleteImageMutation, isPending: deleteImageIsPending} = useRemoveDashboardProfilePhoto()
 
   const handleImageUpload = (e:React.ChangeEvent<HTMLInputElement>) => {
     const uploadedImage = e.target.files[0]

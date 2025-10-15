@@ -17,7 +17,7 @@ export const DashboardSettingsBreadcrumb = ({parentPage, thisPage}:SettingsBread
             {/* BREADCRUMB */}
             <div className="flex flex-row items-center gap-1">
                 <p className="text-[#333] text-sm font-light">{`${parentPage} |`}</p>
-                <p className="text-[#111] text-sm font-light">{thisPage}</p>
+                <p className="text-[#111] text-sm font-normal">{thisPage}</p>
             </div>
         </div>
     )

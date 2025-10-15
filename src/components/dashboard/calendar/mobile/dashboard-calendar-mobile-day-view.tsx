@@ -1,13 +1,12 @@
 'use client'
 import {addDays, eachDayOfInterval, eachHourOfInterval, format,getDate ,isSameDay,lastDayOfISOWeek,set, startOfISOWeek, subDays } from "date-fns";
-import { useQuery } from "@tanstack/react-query";
 import { useBusinessSmallCallendarStore } from "@/lib/store";
-import { getAppointmentsForWeekInterval } from "@/app/dashboard/calendar/actions";
 import { Spinner } from "@/components/spinner";
 import { Error } from "@/components/error";
 import { pl } from "date-fns/locale";
 import { cn } from "@/utils";
 import { DashboardCalendarMobileDayViewAppointment } from "./dashboard-calendar-mobile-day-view-appointment";
+import { useAppointmentForWeek } from "@/lib/hooks/dashboard/useAppointmentsForWeek";
 
 const weekdays= ["P", "W", "Ś", "C","P", "S" ,"S"]
 
@@ -20,14 +19,7 @@ export const DashboardCalendarMobileDayView = () => {
     end: lastDayOfISOWeek(activeDay),
   })
 
-  const { data: reservationsForWeekData, status:reservationsForWeekStatus } = useQuery({
-    queryKey:['getAppointmentsForWeekInterval', currentWeekInterval],
-    queryFn: async () => {
-      const response = await getAppointmentsForWeekInterval(currentWeekInterval);
-      if(!response.success) return null 
-      return response.data
-    }
-  })
+  const { data: reservationsForWeekData, status:reservationsForWeekStatus } = useAppointmentForWeek(currentWeekInterval)
 
   const hours = eachHourOfInterval({
     start: set(new Date(), {

@@ -25,7 +25,7 @@ export const LogoutModal = () => {
                 <ExitModalButton/>
                 <div 
                     onClick={() => handleLogout()}
-                    className="w-full text-center justify-center py-2.5 bg-[#F95A59] rounded-2xl shadow-bnw-y-small hover:cursor-pointer hover:bg-[#E84948] active:scale-105"
+                    className="w-full text-center justify-center py-2.5 bg-[#F95A59] rounded-2xl shadow-bnw-y-small hover:cursor-pointer hover:bg-[#E84948] active:scale-xs"
                 >
                     <p className="text-[#FFF]">Wyloguj</p>
                 </div>

@@ -27,7 +27,7 @@ export const DashboardSettingsWorkingDaysEditGridItemSelect = ({day}:{day:string
   return (
     <div className="w-full flex flex-row gap-5">
       <select 
-        className="ring-1 py-1.5 px-8 ring-[#D4D4D4]  rounded-xl text-center text-sm" 
+        className="ring-1 py-2 px-8 ring-[#D4D4D4]  rounded-xl text-center text-sm" 
         defaultValue={String(open)}
         onChange={(e) => handleOpenSelectOnChange(e.target.value)}
         >

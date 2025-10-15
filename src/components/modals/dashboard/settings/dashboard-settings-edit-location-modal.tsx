@@ -1,126 +1,73 @@
 'use client'
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useModalStore, useToastStore } from "@/lib/store";
 import { ModalBackButton } from "@/components/buttons/modal-back-button";
-import { Spinner } from "@/components/spinner";
 import { FormError } from "@/components/forms/form-error";
-import { updateBusinessLocation } from "@/app/dashboard/settings/actions";
 import { LocationSettings, locationSettingsSchema } from "@/lib/schema";
+import { FormLabel } from "@/components/forms/form-label";
+import { FormInput } from "@/components/forms/form-input";
+import { useSettingUpdateLocation } from "@/lib/hooks/dashboard/useSettingsUpdateLocation";
+import { DashboardSettingSaveButton } from "./dashboard-settings-save-button";
 
 type DashboardSettingsEditLocationModalProps = {
-  town: string
-  district: string
-  street: string
-  zipcode: string               
+  locationData: {
+    town: string
+    district: string
+    street: string
+    zipcode: string            
+  }              
 }
 
-export const DashboardSettingsEditLocationModal = ({district, street, town, zipcode}:DashboardSettingsEditLocationModalProps) => {
-  const queryClient = useQueryClient()
-  const closeModal = useModalStore(store => store.closeModal)
-  const showToast = useToastStore(store => store.showToast)
-
+export const DashboardSettingsEditLocationModal = ({locationData}:DashboardSettingsEditLocationModalProps) => {
+  const { district, street, town, zipcode } = locationData
   const {register, formState, handleSubmit, watch} = useForm<LocationSettings>({
     resolver: zodResolver(locationSettingsSchema),
-    defaultValues: {
-      district: district,
-      street: street, 
-      town: town,
-      zipcode: zipcode
-    }
+    defaultValues: { district, street, town, zipcode }
   })
 
   const watchDistrict = watch("district")
   const watchStreet = watch("street")
   const watchTown = watch("town")
   const watchZipcode = watch("zipcode")
-
-  const {mutate: editLocationMutation, isPending:editBusinessLocationIsPending} = useMutation({
-    mutationKey: ["editBusinessLocation"],
-    mutationFn: async (data:LocationSettings) => {
-      const result = await updateBusinessLocation(data)
-      if(!result.success) {
-        showToast(result.message, "error")
-        return null
-      }
-      showToast("Zapisano", "success")
-      closeModal()
-      return result.data
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({queryKey: ["getBusinessInformationForSettings"]})
-    }
-  })
-  
-  const onEditLocationSubmit: SubmitHandler<LocationSettings> = async (data) => {
-    editLocationMutation(data)
-  }
-  
   const isSaveButtonDisabled = watchDistrict == district && watchStreet == street && watchTown == town && watchZipcode == zipcode
 
+  const {mutate, isPending} = useSettingUpdateLocation()
+  const onEditLocationSubmit: SubmitHandler<LocationSettings> = async (data) => { mutate(data)}  
+  
   return(
-    <div className="w-full h-full flex flex-col gap-10 bg-white sm:max-w-[400px] sm:h-fit sm:rounded-2xl sm:inset-shadow-glass sm:shadow-xs sm:ring sm:ring-[#D4D4D4] sm:py-5">
+    <div className="w-full h-full flex flex-col gap-10 bg-white sm:max-w-[400px] sm:h-fit sm:rounded-4xl sm:inset-shadow-glass sm:shadow-xs sm:ring sm:ring-[#D4D4D4] sm:py-5">
       {/* NAV */}
       <div className="w-full px-4 py-4">
         <ModalBackButton/>
       </div>
 
-      {/* EDIT FIELDS */}
-      <div className="px-8 flex flex-col gap-10">
-
+      <div className="px-8 flex flex-col gap-6">
         <form onSubmit={handleSubmit(onEditLocationSubmit)} className="w-full flex flex-col gap-6">
-          <div className="flex flex-col gap-1">
-            <label htmlFor="name" className="text-[#191919] text-sm pl-1">Miasto</label>
-             <input 
-              id="town"
-              {...register("town")}
-              type="text"
-              className="w-full bg-[#F6F7FB] px-2 py-2 text-md text-[#191919] rounded-lg border outline-none border-transparent focus:border-[#CCC]"
-            />
+          <div className="flex flex-col gap-2.5">
+            <FormLabel htmlFor="town" labelText="Miasto"/>
+            <FormInput  id="town" type="text" {...register("town")}/>
             <FormError error={formState.errors.town?.message}/>
           </div>
 
-          <div className="flex flex-col gap-1">
-            <label htmlFor="email" className="text-[#191919] text-sm pl-1">Dzielnica</label>
-             <input 
-              id="district"
-              {...register("district")}
-              type="text"
-              className="w-full bg-[#F6F7FB] px-2 py-2 text-md text-[#191919] rounded-lg border outline-none border-transparent focus:border-[#CCC]"
-            />
-            <FormError error={formState.errors.district?.message}/>
+          <div className="flex flex-col gap-2.5">
+            <FormLabel htmlFor="district" labelText="Dzielnica"/>
+            <FormInput  id="district" type="text" {...register("district")}/>
+             <FormError error={formState.errors.district?.message}/>
           </div>
 
-          <div className="flex flex-col gap-1">
-            <label htmlFor="email" className="text-[#191919] text-sm pl-1">Kod pocztowy</label>
-             <input 
-              id="zipcode"
-              {...register("zipcode")}
-              type="text"
-              className="w-full bg-[#F6F7FB] px-2 py-2 text-md text-[#191919] rounded-lg border outline-none border-transparent focus:border-[#CCC]"
-            />
+          <div className="flex flex-col gap-2.5">
+            <FormLabel htmlFor="zipcode" labelText="Kod pocztowy"/>
+            <FormInput  id="zipcode" type="text" {...register("zipcode")}/>
             <FormError error={formState.errors.zipcode?.message}/>
           </div>
 
-          <div className="flex flex-col gap-1">
-            <label htmlFor="phone" className="text-[#191919] text-sm pl-1">Ulica</label>
-             <input 
-              id="street"
-              {...register("street")}
-              type="text"
-              className="w-full bg-[#F6F7FB] px-2 py-2 text-md text-[#191919] rounded-lg border outline-none border-transparent focus:border-[#CCC]"
-            />
+          <div className="flex flex-col gap-2.5">
+            <FormLabel htmlFor="street" labelText="Ulica"/>
+            <FormInput  id="street" type="text" {...register("street")}/>
             <FormError error={formState.errors.street?.message}/>
           </div>
 
-          <button
-            type="submit" 
-            disabled={isSaveButtonDisabled || editBusinessLocationIsPending}
-            className="w-full text-center font-semibold text-sm py-3 rounded-xl bg-[#242426] shadow-md text-white hover:cursor-pointer hover:bg-[#333333] disabled:bg-[#CCCCCC] disabled:cursor-not-allowed active:scale-105" 
-          >
-            {editBusinessLocationIsPending ? <Spinner/> : "Zapisz"}
-          </button> 
+          <DashboardSettingSaveButton type="submit" isPending={isPending} disabled={isSaveButtonDisabled || isPending}/>
         </form>
       </div>
     </div>

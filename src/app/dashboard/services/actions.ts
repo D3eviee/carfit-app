@@ -143,7 +143,7 @@ export const addNewService = async (serviceData:Service) => {
     })
 
     if(!addNewServiceResult) return {success: false, message: "Wystąpił problem podczas dodawania usługi"}
-    return { success: false, message: "Dodano usługę", data: addNewServiceResult }
+    return { success: true, message: "Dodano usługę", data: addNewServiceResult }
   }catch (error) {
     return {success: false, message: "Wystąpił problem podczas dodawania usługi" + error}
   }
@@ -169,7 +169,7 @@ export const editService = async (serviceData:Service) => {
     })
 
     if(!editServiceResult) return {success: false, message: "Wystąpił problem podczas modyfikowania usługi"}
-    return { success: false, message: "Zapisano", data: editServiceResult }
+    return { success: true, message: "Zapisano", data: editServiceResult }
   }catch (error) {
     return {success: false, message: "Wystąpił problem podczas modyfikowania usługi" + error}
   }

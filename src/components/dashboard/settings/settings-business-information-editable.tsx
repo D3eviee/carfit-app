@@ -14,11 +14,11 @@ export const SettingBusinessInformationEditable = ({fieldName, fieldValue, editM
   const handleOpeningModal = () =>  openModal(editModal)
 
   return (
-    <div className="flex flex-col gap-1">
-      <h1 className="text-[#111] text-sm font-normal">{fieldName}</h1>
-      <div className="flex items-start justify-between py-1">
-        <p className="text-[#555] text-sm font-light">{fieldValue}</p>
-          <Pencil size={16} strokeWidth={2} className="text-[#111] cursor-pointer" onClick={handleOpeningModal}/>
+    <div className="flex flex-col">
+      <p className="text-main-black text-sm font-medium">{fieldName}</p>
+      <div className="flex items-center justify-between">
+        <p className="text-main-black text-sm font-light">{fieldValue || "Brak"}</p>
+          <Pencil size={16} strokeWidth={1} className="text-main-black cursor-pointer" onClick={handleOpeningModal}/>
       </div>
     </div>
   )

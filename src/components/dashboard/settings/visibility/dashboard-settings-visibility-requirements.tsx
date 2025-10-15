@@ -3,15 +3,10 @@ import { cn } from "@/utils"
 import { Check, X } from "lucide-react"
 import Link from "next/link"
 
-type DashboardSettingsVisibilityRequirementsProps = {
-    imageCount:number
-    serviceCount:number
-}
-
-export const DashboardSettingsVisibilityRequirements = ({imageCount, serviceCount}:DashboardSettingsVisibilityRequirementsProps) => {
+export const DashboardSettingsVisibilityRequirements = ({imageCount, serviceCount}:{imageCount:number, serviceCount:number}) => {
   return (
     <div className="flex flex-col gap-5">
-        <p className='text-middle text-[#191919]'>Z myślą o zapewnieniu państwa klientom, jak najlepszej usługi rezerwacji, w celu udostępnienia biznesu zakończona musi zostać podstawowa konfiguracja konta: </p>
+        <p className='text-md text-main-black'>Z myślą o zapewnieniu państwa klientom, jak najlepszej usługi rezerwacji, w celu udostępnienia biznesu zakończona musi zostać podstawowa konfiguracja konta: </p>
         <div className="flex flex-col gap-3 px-2">
             <div className="flex flex-row justify-between items-center">
                 <div className='flex flex-row gap-2'>
@@ -20,7 +15,7 @@ export const DashboardSettingsVisibilityRequirements = ({imageCount, serviceCoun
                 </div>
                 <Link
                  href="/dashboard/settings/gallery"
-                 className="w-fit px-3 py-1 rounded-2xl hover:bg-[#F2F2F7] active:scale-105 hover:cursor-pointer"
+                 className="w-fit px-3 py-1 rounded-lg hover:bg-[#F2F2F7] active:scale-105 hover:cursor-pointer"
                 >
                     <p className="text-xs text-[#242426] font-medium">Zarządzaj galerią</p>
                 </Link>
@@ -34,7 +29,7 @@ export const DashboardSettingsVisibilityRequirements = ({imageCount, serviceCoun
                 </div>
                 <Link
                  href="/dashboard/services"
-                 className="w-fit px-3 py-1 rounded-2xl hover:bg-[#F2F2F7] active:scale-105 hover:cursor-pointer"
+                 className="w-fit px-3 py-1 rounded-lg hover:bg-[#F2F2F7] active:scale-105 hover:cursor-pointer"
                 >
                     <p className="text-xs text-[#242426] font-medium">Dodaj usługi</p>
                 </Link>

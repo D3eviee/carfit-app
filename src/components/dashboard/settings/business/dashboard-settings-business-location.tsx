@@ -12,7 +12,7 @@ export const DashboardSettingsBusinessLocation = ({locationData}:{locationData: 
     const { town, district, street, zipcode} = locationData
 
     return(
-        <div className="w-full bg-white flex flex-col gap-1 p-4 border-[0.5px] border-[#D4D4D4] shadow-lg rounded-2xl">
+        <div className="w-full bg-white flex flex-col gap-2 p-5 border-[0.5px] border-[#D4D4D4] shadow-lg rounded-3xl">
             <div className="w-full flex justify-end">
                 <DashboardSettingsLocationEditButton locationData={locationData}/>
             </div>

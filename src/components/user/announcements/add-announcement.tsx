@@ -1,15 +1,14 @@
 'use client'
 import { CloseButton } from "@/components/buttons/close-button";
 import { FormError } from "@/components/forms/form-error";
-import TextInput from "@/components/forms/form-input";
-import TextLabel from "@/components/forms/form-label";
 import { useModalStore } from "@/lib/store";
 import { useForm } from "react-hook-form";
 import { SERVICES_CATEGORIES } from '@/lib/data'; 
 import { Spinner } from "@/components/spinner";
 import { Error } from "@/components/error";
-import { getClientCars } from "@/app/user/announcements/actions";
-import { useQuery } from "@tanstack/react-query";
+import { FormLabel } from "@/components/forms/form-label";
+import { FormInput } from "@/components/forms/form-input";
+import { useClientCars } from "@/lib/hooks/client/useClientCars";
 
 export default function AddAnnouncementsModal(){
   const closeModal = useModalStore(store => store.closeModal)
@@ -25,16 +24,7 @@ export default function AddAnnouncementsModal(){
     }
   })
 
-  const {data: userCarsData, status: userCarsDataStatus} = useQuery({
-      queryKey: ["userProfileData"],
-      queryFn: async () => {
-        const response =  await getClientCars()
-        if(!response.success) return null
-        return response.data
-      }
-    })
-
-
+  const {data: userCarsData, status: userCarsDataStatus} = useClientCars()
   if(userCarsDataStatus == "pending") return <Spinner/>
   if(userCarsDataStatus == "error") return <Error/>
 
@@ -46,9 +36,9 @@ export default function AddAnnouncementsModal(){
       </div>
 
       <div className="flex flex-col gap-4">
-        <div className="flex flex-col gap-1">
-          <TextLabel htmlFor="title" text="Temat"/>
-          <TextInput
+        <div className="flex flex-col gap-2.5">
+          <FormLabel htmlFor="title" labelText="Temat"/>
+          <FormInput
             id="title"
             type="text"
             {...register("title")}
@@ -58,7 +48,7 @@ export default function AddAnnouncementsModal(){
 
         <div className="w-full flex flex-row gap-5">
           <div className="w-full flex flex-col gap-1">
-            <TextLabel htmlFor="title" text="Kategoria"/>
+            <FormLabel htmlFor="title" labelText="Kategoria"/>
             <select
               className="w-full bg-[#F6F7FB] px-2 py-1.5 text-md text-[#191919] rounded-lg border outline-none border-transparent focus:border-[#CCC]"
             >
@@ -76,7 +66,7 @@ export default function AddAnnouncementsModal(){
           </div>
 
           <div className="w-full flex flex-col gap-1">
-            <TextLabel htmlFor="car" text="Samochód"/>
+            <FormLabel htmlFor="car" labelText="Samochód"/>
             <select
               {...register("car")}
               className="w-full bg-[#F6F7FB] px-2 py-1.5 text-md text-[#191919] rounded-lg border outline-none border-transparent focus:border-[#CCC]"
@@ -96,9 +86,9 @@ export default function AddAnnouncementsModal(){
         </div>
 
         <div className="w-full flex flex-row gap-5">
-          <div className="w-full flex flex-col gap-1">
-            <TextLabel htmlFor="town" text="Miejscowość"/>
-            <TextInput
+          <div className="w-full flex flex-col gap-2.5">
+            <FormLabel htmlFor="town" labelText="Miejscowość"/>
+            <FormInput
               id="title"
               type="text"
               {...register("town")}
@@ -106,9 +96,9 @@ export default function AddAnnouncementsModal(){
             <FormError error={formState.errors.title?.message}/>
           </div>
 
-          <div className="w-full flex flex-col gap-1">
-            <TextLabel htmlFor="district" text="Dzielnica"/>
-            <TextInput
+          <div className="w-full flex flex-col gap-2.5">
+            <FormLabel htmlFor="district" labelText="Dzielnica"/>
+            <FormInput
               id="district"
               type="text"
               {...register("district")}
@@ -118,7 +108,7 @@ export default function AddAnnouncementsModal(){
         </div>
 
         <div className="flex flex-col gap-1">
-          <TextLabel htmlFor="description" text="Opis"/>
+          <FormLabel htmlFor="description" labelText="Opis"/>
           <textarea
             id="description"
             rows={6}

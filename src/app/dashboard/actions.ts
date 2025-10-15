@@ -291,10 +291,11 @@ export const getActiveMonthAppointments = async(date:Date) => {
   }
 }
 
-export const getSettingsDataForBusiness = async () => {
+export const getSettingsBusinessData = async () => {
   try {
     const business = await businessAuth()
-
+    if(!business.success) return {success: false, message: "Brak autoryzacji. Zaloguj się."}
+    
     const serviceSettingsData = await prisma.business.findFirst({
       where: {
         id: business.id
@@ -317,9 +318,10 @@ export const getSettingsDataForBusiness = async () => {
       }
     })
     
-    return serviceSettingsData
+    return {success: false, data: serviceSettingsData}
   } catch (error) {
-    console.log("Error occured" + error)
+    console.error(error)
+    return {success: false, message: "Wystąpił problem podczas pobierania danych"}
   }
 }
 

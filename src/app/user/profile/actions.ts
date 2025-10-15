@@ -47,7 +47,7 @@ export const getClientProfileData = async () => {
 }
 
 // PROFILE -> get user photo for modal view
-export const getClientPhotoEditModal = async () => {
+export const getClientPhoto = async () => {
     try {
         const user = await userAuth()
         if(!user.success) return {success: false, message: "Brak dostępu. Zaloguj się"}

@@ -1,7 +1,7 @@
-import { useQuery } from "@tanstack/react-query";
-import { getLocationsForSearch } from "@/app/(landing)/actions";
+"use client"
 import { Error } from "@/components/error";
 import { Spinner } from "@/components/spinner";
+import { useLocationsForSearch } from "@/lib/hooks/client/search/useLocationsForSearch";
 
 type LandingSearchFormLocationDropdownResultProps = {
   onClose: () => void
@@ -10,17 +10,7 @@ type LandingSearchFormLocationDropdownResultProps = {
 }
 
 export const LandingSearchFormLocationDropdownResult = ({onClose, setLocation, locationInput}: LandingSearchFormLocationDropdownResultProps) => {
-  const {data, status} = useQuery({
-    queryKey: ["getServicesForSearch", locationInput],
-    queryFn: async () =>{
-      const result = await getLocationsForSearch(locationInput)
-      if(!result.success) {
-        return []
-      }
-      return result.data
-    },
-    enabled: locationInput.length >= 3
-  }) 
+  const {data, status} = useLocationsForSearch(locationInput)
 
   const handleLocationSelection = (town:string) => {
     setLocation(town)

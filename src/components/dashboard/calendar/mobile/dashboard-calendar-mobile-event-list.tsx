@@ -1,11 +1,10 @@
 'use client'
 import { useBusinessSmallCallendarStore } from "@/lib/store";
 import { eachDayOfInterval, isSameDay, lastDayOfISOWeek, startOfISOWeek } from "date-fns";
-import { useQuery } from "@tanstack/react-query";
-import { getAppointmentsForWeekInterval } from "@/app/dashboard/calendar/actions";
 import { Spinner } from "@/components/spinner";
 import { Error } from "@/components/error";
 import { DashboardCalendarEventListItem } from "../dashboard-calendar-event-list-item";
+import { useAppointmentForWeek } from "@/lib/hooks/dashboard/useAppointmentsForWeek";
 
 export const DashboardCalendarMobileEventList =() => {
   const activeDay = useBusinessSmallCallendarStore(store => store.activeDay)
@@ -16,15 +15,7 @@ export const DashboardCalendarMobileEventList =() => {
     end: lastDayOfISOWeek(activeDay),
   })
 
-  const { data: weeklyAppointmentsData, status:weeklyAppointmentsStatus } = useQuery({
-    queryKey:['getAppointmentsForWeekInterval', currentWeekInterval],
-    queryFn: async () => {
-      const response = await getAppointmentsForWeekInterval(currentWeekInterval);
-      if(!response.success) return null 
-      return response.data
-    }
-  })
-
+  const { data: weeklyAppointmentsData, status:weeklyAppointmentsStatus } = useAppointmentForWeek(currentWeekInterval)
   if(weeklyAppointmentsStatus == "pending") return <Spinner/>
   if(weeklyAppointmentsStatus == "error") return <Error/>
 

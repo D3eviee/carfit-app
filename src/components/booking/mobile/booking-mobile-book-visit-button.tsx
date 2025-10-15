@@ -48,6 +48,7 @@ export default function BookingMobileBookVisitButton({services, businessId}:Book
                     charge: appointmentCharge,
                     status: "reserved",
                     clientMessage: clientMessage,
+                    clientCar: ""
                 }
                 
                 const response = await addReservation(newAppointmentData)

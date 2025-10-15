@@ -1,62 +1,21 @@
 'use client'
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import default_user_image from '@/../public/default_user_image.png'
 import { Spinner } from "@/components/spinner";
 import { useToastStore } from "@/lib/store";
 import { Trash } from "lucide-react";
 import { checkImageType } from "@/utils";
-import { deleteClientProfileImage, getClientPhotoEditModal, uploadNewClientProfileImage } from "@/app/user/profile/actions";
+import { useClientProfilePhoto } from "@/lib/hooks/client/useClientProfilePhoto";
+import { useUploadClientProfilePhoto } from "@/lib/hooks/client/useUploadClientProfilePhoto";
+import { useRemoveClientProfilePhoto } from "@/lib/hooks/client/useRemoveClientProfilePhoto";
 
 export const UserProfileDataEditModalImage = () => {
-  const queryClient = useQueryClient()
+  
   const showToast = useToastStore(store => store.showToast)
-
-  const {data: userProfileImage, isPending: userProfileImagePending} = useQuery({
-    queryKey: ["getUserPhotoEditModal"],
-    queryFn: async () => {
-      const userImage = await getClientPhotoEditModal()
-      if(!userImage.success) return showToast(userImage.message, "error")
-      return userImage.data
-    }
-  })
-
-  const {mutate: uploadImageMutation, isPending: uploadImageIsPending} = useMutation({
-    mutationKey: ["uploadNewImage"],
-    mutationFn: async (data:FormData) => {
-      const result = await uploadNewClientProfileImage(data)
-      if(!result.success){
-        showToast(result.message, "error")
-        return result.message
-      }
-      return result.data
-    },
-    onSuccess: () => { 
-      queryClient.invalidateQueries({ queryKey: ["getUserPhotoEditModal"] })
-      queryClient.invalidateQueries({ queryKey: ["userProfileData"] })
-    }
-  })
-
-  const {mutate: deleteImageMutation, isPending: deleteImageMutationPending} = useMutation({
-    mutationKey: ["deleteImage"],
-    mutationFn: async (imageLink:string) => {
-      try {
-        const result =  await deleteClientProfileImage(imageLink)
-        if(!result.success) {
-          showToast(result.message, "error")
-          return result.data
-        }
-        return 
-      }catch (error) {
-        showToast(error, "error")
-      }
-    },
-    onSuccess: () =>{
-      queryClient.invalidateQueries({ queryKey: ["getUserPhotoEditModal"] })
-      queryClient.invalidateQueries({ queryKey: ["userProfileData"] })
-    } 
-  })  
-
+  const {data: userProfileImage, isPending: userProfileImagePending} = useClientProfilePhoto()
+  const {mutate: uploadImageMutation, isPending: uploadImageIsPending} = useUploadClientProfilePhoto()
+  const {mutate: deleteImageMutation, isPending: deleteImageMutationPending} = useRemoveClientProfilePhoto()
+  
   const handleImageUpload = (e:React.ChangeEvent<HTMLInputElement>) => {
     const uploadedImage = e.target.files[0]
     const imageTypeCheck = checkImageType(uploadedImage)

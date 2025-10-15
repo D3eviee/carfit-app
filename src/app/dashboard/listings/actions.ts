@@ -110,15 +110,17 @@ export const addServiceOffer = async (announcementId, offer) => {
 
 }
 
-export const updateServiceOffer = async (offerId, offerDescription) => {
+export const updateServiceOffer = async (offerId: string, offerDescription: string) => {
     try {
         const business = await businessAuth()
-        if(!business.success) return {success: false, message: "No-authenticated user"}
+        if(!business.success) return {success: false, message: "Odmowa dostępu. Użytkownik niezalogowany"}
 
         const newOfferResponse = await prisma.offer.update({
             where: { id: offerId },
             data:{ description: offerDescription }
         })
+
+        console.log(newOfferResponse)
       
         if(!newOfferResponse) return {success: false, message: "There was a problem with updating your data"}
         return {success: true, data: newOfferResponse}

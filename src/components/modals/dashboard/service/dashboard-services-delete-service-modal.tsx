@@ -1,32 +1,11 @@
 'use client'
-import { useModalStore, useToastStore } from "@/lib/store";
-import { deleteService } from "@/app/dashboard/services/actions";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Spinner } from "@/components/spinner";
 import { ExitModalButton } from "../../exit-modal-button";
+import { useRemoveService } from "@/lib/hooks/dashboard/useRemoveService";
 
 export const DashboardServicesDeleteServiceModal = ({serviceId}: {serviceId:string}) => {
-  const queryClient = useQueryClient()
-  const closeModal = useModalStore(store => store.closeModal)
-  const showToast = useToastStore(store => store.showToast)
-
-  const { mutate: deleteServiceMutation, isPending:deleteCategoryMutationIsPending } = useMutation({
-    mutationFn: async (categoryId: string) => {
-      const response = await deleteService(categoryId)
-      if(!response.success) {
-        showToast(response.message, "error")
-        return 
-      }
-      closeModal()
-      showToast(response.message, "success")
-      return response.data
-    },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["getServicesForBusiness"] })
-  })
-
-  const handleDeletingService = () => {
-    deleteServiceMutation(serviceId)
-  }
+  const { mutate: deleteServiceMutation, isPending:deleteCategoryMutationIsPending } = useRemoveService()
+  const handleDeletingService = () => deleteServiceMutation(serviceId)
 
   return(
     <div className="w-[360px] flex flex-col gap-8 px-4 pb-4 pt-8 bg-[#F2F2F7] rounded-4xl">
