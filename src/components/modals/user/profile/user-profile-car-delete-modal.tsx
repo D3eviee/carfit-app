@@ -5,7 +5,6 @@ import { ExitModalButton } from "../../exit-modal-button";
 import { useDeleteClientCar } from "@/lib/hooks/client/useDeleteClientCar";
 
 export const UserProfileCarDeleteModal = ({carId}:{carId:string}) => {
-  const closeModal = useModalStore(store => store.closeModal)
   const {mutate, isPending } = useDeleteClientCar()
   const handleDeletingCar = () => mutate(carId)
 

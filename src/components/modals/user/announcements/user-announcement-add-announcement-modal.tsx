@@ -1,6 +1,5 @@
 'use client'
 import { FormError } from "@/components/forms/form-error";
-import { useModalStore } from "@/lib/store";
 import { useForm } from "react-hook-form";
 import { SERVICES_CATEGORIES } from '@/lib/data'; 
 import { Spinner } from "@/components/spinner";
@@ -14,7 +13,6 @@ import { ExitModalButton } from "../../exit-modal-button";
 import { useAddAnnouncement } from "@/lib/hooks/client/useAddAnnouncement";
 
 export const UserAnnouncementAddAnnouncementModal = () => {
-  const closeModal = useModalStore(store => store.closeModal)
   const {register, formState, handleSubmit} = useForm<Announcement>({
     defaultValues: {
       title: "",

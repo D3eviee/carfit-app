@@ -1,11 +1,9 @@
 'use client'
-import { useModalStore } from "@/lib/store";
 import { Spinner } from "../../../spinner";
 import { ExitModalButton } from "../../exit-modal-button";
 import { useCloseAnnouncement } from "@/lib/hooks/client/useCloseAnnouncement";
 
 export const UserAnnouncmentPageCloseAnnouncementModal = ({announcementId}:{announcementId:string}) => {
-  const closeModal = useModalStore(store => store.closeModal)
   const {mutate:closeAnnouncement, isPending} = useCloseAnnouncement()
 
   return(
