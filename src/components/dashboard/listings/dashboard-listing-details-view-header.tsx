@@ -1,5 +1,5 @@
 import { useActiveListingStore } from "@/lib/store"
-import DashboardListingsDetailsViewTags from "./dashboard-listing-details-view-tags"
+import { DashboardListingsDetailsViewTags } from "./dashboard-listing-details-view-tags"
 
 export default function DashboardListingsDetailsViewHeader(){
     const activeOffering = useActiveListingStore(store => store.activeOffering)

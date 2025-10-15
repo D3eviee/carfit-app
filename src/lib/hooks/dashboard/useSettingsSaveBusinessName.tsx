@@ -1,4 +1,4 @@
-import { editBusinessName, toggleIsBusinessPublic } from "@/app/dashboard/settings/actions"
+import { editBusinessName } from "@/app/dashboard/settings/actions"
 import { useModalStore, useToastStore } from "@/lib/store"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 

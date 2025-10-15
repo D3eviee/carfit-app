@@ -1,6 +1,6 @@
 import { useActiveListingStore } from "@/lib/store"
-import DashboardListingEditOfferButton from "./dashboard-listings-edit-offer-button"
-import DashboardListingDeleteOfferButton from "./dashboard-listings-delete-offer-button"
+import { DashboardListingEditOfferButton } from "./dashboard-listings-edit-offer-button"
+import { DashboardListingDeleteOfferButton } from "./dashboard-listings-delete-offer-button"
 
 export default function DashboardListingsDetailsViewOffer(){
   const activeOffering = useActiveListingStore(store => store.activeOffering)

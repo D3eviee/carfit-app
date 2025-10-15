@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { addNewCategory, deleteCategory } from "@/app/dashboard/services/actions";
+import { deleteCategory } from "@/app/dashboard/services/actions";
 import { useModalStore, useToastStore } from "../../store";
 
 export const useDeleteServiceCategory = () => {
@@ -21,6 +21,6 @@ export const useDeleteServiceCategory = () => {
       closeModal();
       queryClient.invalidateQueries({ queryKey: ["getServicesForBusiness"] })
     },
-    onError: (err: any) => showToast(err.message || "Wystąpił błąd podczas dodawania kategorii", "error"),
+    onError: (err) => showToast(err.message || "Wystąpił błąd podczas dodawania kategorii", "error"),
   });
 }

@@ -1,11 +1,8 @@
 import { Service } from "@/lib/types";
 import { ModalBackButton } from "../../../buttons/modal-back-button";
 import { displayAppointmentTime } from "@/utils";
-import { BackButton } from "@/components/buttons/back-button";
-import { useModalStore } from "@/lib/store";
 
 export const ServiceDetailsModal = ({service}: {service:Service}) =>  {
-  const closeModal = useModalStore(store => store.closeModal)
   const {name, description, duration, price} = service
 
   return (  

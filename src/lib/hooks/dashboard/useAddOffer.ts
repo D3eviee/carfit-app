@@ -1,6 +1,5 @@
 "use client"
-
-import { addServiceOffer, updateServiceOffer } from "@/app/dashboard/listings/actions"
+import { addServiceOffer } from "@/app/dashboard/listings/actions"
 import { useActiveListingStore, useModalStore, useToastStore } from "@/lib/store"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 

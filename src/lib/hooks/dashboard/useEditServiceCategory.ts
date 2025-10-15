@@ -18,6 +18,6 @@ export const useEditServiceCategory = (categoryId: string) => {
       closeModal();
       queryClient.invalidateQueries({ queryKey: ["getServicesForBusiness"] })
     },
-    onError: (err: any) => showToast(err.message || "Wystąpił błąd podczas edycji kategorii", "error"),
+    onError: (err) => showToast(err.message || "Wystąpił błąd podczas edycji kategorii", "error"),
   });
 }

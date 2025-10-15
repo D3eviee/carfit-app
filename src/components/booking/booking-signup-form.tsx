@@ -6,8 +6,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ClientOnboardingData, clientOnboardingData } from "@/lib/schema";
 import { useModalStore, useToastStore } from "@/lib/store";
 import { createClientProfile } from "@/app/(auth)/(client)/onboarding/actions";
-import TextLabel from "../forms/form-label";
-import TextInput from "../forms/form-input";
+import { FormLabel} from "../forms/form-label";
+import { FormInput } from "../forms/form-input";
 import { FormError } from "../forms/form-error";
 
 
@@ -44,9 +44,9 @@ export const BookingSignupForm = () =>  {
       }
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5 w-full">
-      <div className="flex flex-col gap-1">
-        <TextLabel htmlFor="name" text="Imię i nazwisko"/>
-         <TextInput
+      <div className="flex flex-col gap-2.5">
+        <FormLabel htmlFor="name" labelText="Imię i nazwisko"/>
+         <FormInput
           {...register('name')}
           type="text"
           id="name"
@@ -56,8 +56,8 @@ export const BookingSignupForm = () =>  {
       </div>
 
       <div className="flex flex-col gap-1">
-        <TextLabel htmlFor="email" text="Email"/>
-         <TextInput
+        <FormLabel htmlFor="email" labelText="Email"/>
+         <FormInput
           {...register('email')}
           type="text"
           id="email"
@@ -67,8 +67,8 @@ export const BookingSignupForm = () =>  {
       </div>
 
       <div className="flex flex-col gap-1">
-        <TextLabel htmlFor="phone" text="Number telefonu"/>
-         <TextInput
+        <FormLabel htmlFor="phone" labelText="Number telefonu"/>
+         <FormInput
           type="text"
           {...register('phone')}
           id="phone"
@@ -78,8 +78,8 @@ export const BookingSignupForm = () =>  {
       </div>
 
       <div className="flex flex-col gap-1">
-        <TextLabel htmlFor="password" text="Hasło"/>
-         <TextInput
+        <FormLabel htmlFor="password" labelText="Hasło"/>
+         <FormInput
           type="password"
           {...register('password')}
           id="email"

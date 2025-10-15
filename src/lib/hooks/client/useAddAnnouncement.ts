@@ -3,14 +3,6 @@ import { useModalStore, useToastStore } from "@/lib/store";
 import { Announcement } from "@/lib/types";
 import { addNewAnnouncement } from "@/app/user/announcements/actions";
 
-type Review = {
-  title: string
-  comment: string
-  rate: number
-  businessId: string
-  appointmentId: string
-}
-
 export const useAddAnnouncement = () => {
   const queryClient = useQueryClient();
   const showToast = useToastStore(store => store.showToast);

@@ -5,7 +5,7 @@ export async function GET() {
     const rawNow = new Date();
     const now = new Date(rawNow.getTime() + 2 * 60 * 60 * 1000); // +2h dla PL
 
-    const result = await prisma.reservation.updateMany({
+    await prisma.reservation.updateMany({
       where: {
         reservationEnd: { lte: now },
         status: "reserved",

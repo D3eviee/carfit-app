@@ -24,7 +24,7 @@ export const useCancelAnnouncement = () => {
       closeModal()
       closeModal()
     },
-    onError: (err: any) => showToast(err.message || "Wystąpił błąd podczas dodawania opinii", "error"),
+    onError: (err) => showToast(err.message || "Wystąpił błąd podczas dodawania opinii", "error"),
   });
 }
 

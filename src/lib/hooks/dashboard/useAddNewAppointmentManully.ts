@@ -33,7 +33,7 @@ export const useAddNewAppointmentManually = () => {
         showToast("Ogłoszenie zostało dodane", "success");
         closeModal();
     },
-    onError: (error: any) => {
+    onError: (error) => {
       console.error(error)
       showToast(error.message || "Wystąpił błąd podczas dodawania wizyty")
     },

@@ -15,7 +15,7 @@ export const useChangeClientPassword = () => {
       if (!response.success) throw new Error(response.message);
       showToast(response.message, "success");
       closeModal();
-    } catch (err: any) {
+    } catch (err) {
       showToast(err.message || "Nie udało się zmienić hasła", "error");
     } finally {
       setIsLoading(false);

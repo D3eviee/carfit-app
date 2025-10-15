@@ -10,6 +10,37 @@ type Review = {
   appointmentId: string
 }
 
+
+type OldData = {
+  id: string;
+  reservationStart: Date;
+  duration: number;
+  status: string;
+  clientMessage: string;
+  Review: {
+    id: string;
+    title: string;
+    content: string;
+    rate: number;
+    reservationId: string;
+  };
+  business: {
+    name: string;
+    id: string;
+    image: string;
+    town: string;
+    district: string;
+    street: string;
+  };
+  services: {
+    service: {
+      name: string;
+      price: string;
+    };
+  }[];
+}[];
+
+
 export const useEditClientReview = () => {
   const toggleIsEditing = useEditReviewStore(store => store.toggleIsEditing)
   const queryClient = useQueryClient();
@@ -29,11 +60,11 @@ export const useEditClientReview = () => {
       showToast("Zapisano zmiany", "success");
 
       // update cache without refetching
-      queryClient.setQueryData(["getClientAppointments"], (old: any) => {
+      queryClient.setQueryData(["getClientAppointments"], (old: OldData) => {
         if (!old) return old;
 
         // return data with new Review values
-        return old.map((appointment: any) =>
+        return old.map((appointment) =>
           appointment.id === variables.appointmentId
             ? { ...appointment, Review: { ...appointment.Review, ...updatedReview }}
             : appointment
@@ -41,6 +72,6 @@ export const useEditClientReview = () => {
       })
       toggleIsEditing();
     },
-    onError: (err: any) => showToast(err.message || "Wystąpił błąd podczas dodawania opinii", "error"),
+    onError: (err) => showToast(err.message || "Wystąpił błąd podczas dodawania opinii", "error"),
   });
 }

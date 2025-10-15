@@ -20,6 +20,6 @@ export const useEditClientProfileData = (oldData: ChangeClientProfileData) => {
       closeModal();
       queryClient.invalidateQueries({queryKey: ["userProfileData"]})
     },
-    onError: (err: any) => showToast(err.message || "Wystąpił błąd podczas zapisywania", "error"),
+    onError: (err) => showToast(err.message || "Wystąpił błąd podczas zapisywania", "error"),
   });
 }

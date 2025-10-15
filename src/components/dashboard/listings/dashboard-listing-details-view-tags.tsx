@@ -1,7 +1,7 @@
 import { useActiveListingStore } from "@/lib/store"
 import { User, ArrowDownToDot, Phone, Library, CarFront } from "lucide-react";
 
-export default function DashboardListingsDetailsViewTags(){
+export const DashboardListingsDetailsViewTags = () => {
     const activeOffering = useActiveListingStore(store => store.activeOffering)
     const offerDetails = [
         {label: "Klient", icon: User, data: activeOffering.clientName},

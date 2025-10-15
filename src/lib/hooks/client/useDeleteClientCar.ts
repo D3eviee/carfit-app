@@ -1,6 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { AddNewCar } from "@/lib/schema";
-import { addClientCar, deleteClientCar } from "@/app/user/profile/actions";
+import { deleteClientCar } from "@/app/user/profile/actions";
 import { useModalStore, useToastStore } from "@/lib/store";
 
 export const useDeleteClientCar = () => {
@@ -24,6 +23,6 @@ export const useDeleteClientCar = () => {
       closeModal()
       queryClient.invalidateQueries({queryKey: ["userProfileData"]}) 
     },
-    onError: (err: any) => showToast(err.message || "Wystąpił błąd podczas dodawania kategorii", "error"),
+    onError: (err) => showToast(err.message || "Wystąpił błąd podczas dodawania kategorii", "error"),
   });
 }

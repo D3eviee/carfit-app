@@ -1,7 +1,7 @@
 'use client'
 import { useActiveListingStore } from "@/lib/store"
 
-export default function DashboardListingEditOfferButton() {
+export const DashboardListingEditOfferButton = () => {
   const toggleIsEditing = useActiveListingStore(store => store.toggleIsEditing)
 
   return (

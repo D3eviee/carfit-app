@@ -29,6 +29,6 @@ export const useAddClientCar = () => {
       closeModal();
       queryClient.invalidateQueries({queryKey: ["userProfileData"]}) 
     },
-    onError: (err: any) => showToast(err.message || "Wystąpił błąd podczas dodawania kategorii", "error"),
+    onError: (err) => showToast(err.message || "Wystąpił błąd podczas dodawania kategorii", "error"),
   });
 }

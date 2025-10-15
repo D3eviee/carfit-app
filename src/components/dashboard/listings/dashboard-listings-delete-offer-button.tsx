@@ -1,7 +1,7 @@
 'use client'
 import DashboardListingsDeleteOfferModal from "@/components/modals/dashboard-listings-delete-offer-modal"
 import { useModalStore } from "@/lib/store"
-export default function DashboardListingDeleteOfferButton({offerId}:{offerId:string}) {
+export const DashboardListingDeleteOfferButton = ({offerId}:{offerId:string}) => {
     const openModal = useModalStore(store => store.openModal)
     const handleOpeningModal = () => openModal(<DashboardListingsDeleteOfferModal offerId={offerId}/>)
     

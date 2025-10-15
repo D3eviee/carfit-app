@@ -1,10 +1,8 @@
 'use client'
 import { FormError } from "@/components/forms/form-error";
-import TextLabel from "@/components/forms/form-label";
 import { AddNewAppointmentManual } from "@/lib/schema";
 import { UseFormRegister } from "react-hook-form";
 import { DashboardCalendarModalLabel } from "./dashboard-calendar-modal-label";
-
 
 type DashboardCalendarModalCategorySelectProps = {
   businessCategoriesData:{

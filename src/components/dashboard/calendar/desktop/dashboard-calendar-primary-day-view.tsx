@@ -1,9 +1,7 @@
 'use client'
 import {addDays, eachDayOfInterval, eachHourOfInterval, format,isSameDay,lastDayOfISOWeek,set, startOfISOWeek, subDays } from "date-fns";
-import { useQuery } from "@tanstack/react-query";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useBusinessSmallCallendarStore } from "@/lib/store";
-import { getAppointmentsForWeekInterval } from "@/app/dashboard/calendar/actions";
 import { Spinner } from "@/components/spinner";
 import { Error } from "@/components/error";
 import { pl } from "date-fns/locale";

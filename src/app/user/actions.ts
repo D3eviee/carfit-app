@@ -22,12 +22,12 @@ export const addClientReview = async ({rate, title, comment, businessId, appoint
         if(!newReview) return {success: false, message:`Wystąpił problem podczas dodawania opinii`}
         return { success: true, review: newReview }
     }catch(error){
-        console.log(error)
+        console.error(error)
         return {success: false, message: "ystąpił problem podczas dodawania opinii"}
     }
 }
 
-export const editClientReview = async ({rate, title, comment, businessId, appointmentId }) => {
+export const editClientReview = async ({rate, title, comment, appointmentId }) => {
     try {
         const user = await userAuth()
         if(!user.success) return {success: false, message:"Odmowa dostępu. Użytkownik niezalogowany"}

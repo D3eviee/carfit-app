@@ -20,6 +20,6 @@ export const useEditDashboardProfileData = (oldData: DashboardProfileEditPersona
       closeModal();
       queryClient.invalidateQueries({queryKey: ["getBusinessProfile"]})
     },
-    onError: (err: any) => showToast(err.message || "Wystąpił błąd podczas zapisywania", "error"),
+    onError: (err) => showToast(err.message || "Wystąpił błąd podczas zapisywania", "error"),
   });
 }
