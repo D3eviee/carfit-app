@@ -16,7 +16,7 @@ export const UserProfileCarDeleteModal = ({carId}:{carId:string}) => {
         <p className=" text-main-black text-sm leading-none">Czynność ta jest nieodwracalna.</p>
       </div>
       <div className="w-full flex flex-row gap-2.5">
-        <ExitModalButton exitFn={closeModal}/>
+        <ExitModalButton/>
         <div 
           onClick={handleDeletingCar}
           className="w-full text-center justify-center py-2.5 bg-[#F95A59] rounded-2xl shadow-bnw-y-small hover:cursor-pointer hover:bg-[#E84948] active:scale-xs transition duration-75"

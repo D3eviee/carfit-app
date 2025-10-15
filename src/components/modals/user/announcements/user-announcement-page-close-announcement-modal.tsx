@@ -16,7 +16,7 @@ export const UserAnnouncmentPageCloseAnnouncementModal = ({announcementId}:{anno
       </div>
 
       <div className="w-full flex flex-row gap-2.5">
-        <ExitModalButton exitFn={closeModal}/>
+        <ExitModalButton/>
       
         <div 
           onClick={() => closeAnnouncement(announcementId)}

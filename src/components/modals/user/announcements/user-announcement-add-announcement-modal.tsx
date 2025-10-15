@@ -112,7 +112,7 @@ export const UserAnnouncementAddAnnouncementModal = () => {
         </div>
 
         <div className="w-full flex flex-row gap-8">
-          <ExitModalButton exitFn={closeModal}/>
+          <ExitModalButton/>
           <button 
             type="submit" 
             className="w-full text-center justify-center py-2.5 bg-main-black rounded-2xl shadow-bnw-y-small hover:cursor-pointer hover:bg-[#222] active:scale-xs transition duration-75"
