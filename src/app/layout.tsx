@@ -19,7 +19,7 @@ export default function RootLayout({children}: Readonly<{children: React.ReactNo
   return (
     <html lang="pl">
       <head>
-        <Script src={`https://www.googletagmanager.com/gtag/js?id=G-5WK3M9TK0Y`}
+        <Script src={`https://www.googletagmanager.com/gtag/js?id=G-4ZB8ENTJZQ`}
         strategy="afterInteractive" />
         
         <Script id="google-analytics" strategy="afterInteractive">
@@ -27,9 +27,10 @@ export default function RootLayout({children}: Readonly<{children: React.ReactNo
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
 
-          gtag('config', 'G-5WK3M9TK0Y');`}
+          gtag('config', 'G-4ZB8ENTJZQ');`}
         </Script>
       
+
       </head>
 
       <body className={`${inter.className} antialiased bg-[#FFF] overflow-x-hidden h-full`}>
