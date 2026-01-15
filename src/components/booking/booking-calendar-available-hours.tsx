@@ -25,8 +25,6 @@ export const BookingAppointmentAvailableHours = ({services, reservations, workin
     }, 0) || 0;
 
     const activeDayOpeningData = workingHours.find((day) => day.dayOfWeek == selectedDateDayOfWeekFormatted)
-    console.log(selectedDateDayOfWeek)
-    console.log(workingHours)
 
     const [serviceOpeningHour, serviceOpeningMinutes] = activeDayOpeningData.open.split(":")
     const [serviceClosingHour, serviceClosingMinutes] = activeDayOpeningData.close.split(":")

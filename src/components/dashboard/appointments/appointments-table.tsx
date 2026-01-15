@@ -52,8 +52,6 @@ export const AppointmentsTable = () => {
 
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]) 
 
-  console.log(columnFilters)
-
   const table = useReactTable({
     data: appointmentsData ?? [],
     columns,

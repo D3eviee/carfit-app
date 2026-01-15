@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 import { getClientProfileData } from "@/app/user/profile/actions";
-import { ca } from "date-fns/locale";
 
 export const useClientCars = () => {
   return useQuery({

@@ -6,7 +6,6 @@ export const useTodayAppointments = () => {
     queryKey: ["getTodayAppointments"],
     queryFn: async () => {
       const response = await getTodayAppointments();
-      console.log(response)
       if (!response.success) return
       return response.data;
     },

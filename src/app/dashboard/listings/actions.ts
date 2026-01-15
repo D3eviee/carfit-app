@@ -119,8 +119,6 @@ export const updateServiceOffer = async (offerId: string, offerDescription: stri
             where: { id: offerId },
             data:{ description: offerDescription }
         })
-
-        console.log(newOfferResponse)
       
         if(!newOfferResponse) return {success: false, message: "There was a problem with updating your data"}
         return {success: true, data: newOfferResponse}
