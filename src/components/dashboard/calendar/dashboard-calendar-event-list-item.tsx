@@ -14,7 +14,7 @@ export const DashboardCalendarEventListItem = ({appointmentData}:{appointmentDat
   const eventStartFormated = `${format(reservationStart, 'kk')}:${format(reservationStart, 'mm')}`
   const eventEndFormated = `${format(eventEnd, 'kk')}:${format(eventEnd, 'mm')}`
   const appointmentTitle = service.length == 1 ? `${service[0].name}` : service.length == 2 ? `${service[0].name} i 1 inna usługi` : `${service[0].name} i ${service.length-1} inne usługi`
-  const statusColor = status == "finished" ? "#1E6EF3" : status == "reserved" ? "#35C759" : "#FE6265"
+  const statusColor = (status == "finished") ? "#1E6EF3" : "#35C759"
 
   const handleOpeningDetailsModal = () => openModal(<DashboardAppointmentDetailsModal appointmentData={appointmentData}/>)
 

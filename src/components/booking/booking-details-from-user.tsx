@@ -25,7 +25,7 @@ export const BookingDetailsFromUser = () => {
       </div>
       
        <div className="w-full flex flex-col gap-10">
-        {cars.length > 0 &&
+        {cars && cars.length > 0 &&
           <div className="w-full flex flex-col gap-2.5">
             <label htmlFor="car" className="text-main-black text-sm pl-1.5 font-medium leading-none">Pojazd</label>
             <select

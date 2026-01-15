@@ -10,11 +10,11 @@ export const DashboardAppointmentDetailsModal = ({appointmentData}:{appointmentD
   const {appointmentId, charge, service, clientPhone, clientName, clientImage, duration, reservationStart, status, clientMessage, clientCar} = appointmentData
 
   return(
-    <div className="w-full h-full flex flex-col bg-white md:shadow-2xl md:rounded-4xl md:max-w-[85%] md:h-fit lg:max-w-3/4 xl:max-w-1/2">
+    <div className="w-full h-full pb-4 flex flex-col bg-white md:shadow-2xl md:rounded-4xl md:max-w-[85%] md:h-fit lg:max-w-3/4 xl:max-w-1/2 overflow-scroll">
       <DashboardAppointmentDetailsModalNav/>
       
       {/* APPOINTMENT DETAILS */}
-      <div className="w-full h-full flex flex-col py-6 px-10 gap-6">
+      <div className="w-full h-full flex flex-col py-6 px-4 sm:px-10 gap-6">
         <DashboardAppointmentDetailsModalHeader
           reservationStart={reservationStart} 
           duration={duration} 

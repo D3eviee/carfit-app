@@ -64,7 +64,7 @@ export default function Booking() {
         </div>
       </div>
 
-      {/* MOBILE SUMMARY BAR FOR SMALL SCREENS*/}
+      {/* MOBILE SUMMARY BAR FOR SMALL SCREENS */}
       {(bookingStep == 1 || bookingStep == 2 || bookingStep == 3) &&
         <BookingStatusBarMobile
           bookingStep={bookingStep} 

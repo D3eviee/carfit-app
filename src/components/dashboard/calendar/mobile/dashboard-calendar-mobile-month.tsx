@@ -3,6 +3,7 @@ import { addMonths, eachDayOfInterval, format, getDate, getDaysInMonth, getISODa
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { cn } from "@/utils"
 import { useBusinessSmallCallendarStore } from "@/lib/store"
+import { pl } from "date-fns/locale";
 
 const weekdays= ["P", "W", "Ś", "C","P", "S" ,"S"]
 export const DashboardCalendarMobileMonth = () => {
@@ -30,7 +31,7 @@ export const DashboardCalendarMobileMonth = () => {
       {/* CALENDAR NAVIGATION */}
       <div className="w-full flex items-center items justify-between px-3 py-4">
         {/* MONTH AND YEAR */}
-        <p className="text-sm text-[#191919] font-medium">{`${format(activeDay, "MMMM")} ${format(activeDay, "y")}`}</p>
+        <p className="text-sm text-[#191919] font-medium">{`${format(activeDay, "MMMM", {locale: pl})} ${format(activeDay, "y")}`}</p>
         {/* BUTTONS FOR MONTH NAVIGATION */}
         <div className="flex flex-row gap-2">
           <button 

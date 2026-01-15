@@ -5,11 +5,10 @@ import { LandingNewServicesSection } from "@/components/landing/landing-new-serv
 
 export default function LandingPage() {
   return (
-    <div className="flex flex-col gap-24 md:gap-32 ">
+    <div className="flex flex-col gap-24 md:gap-60 ">
       {/* HEADER */}
-      <div className="mt-32 flex flex-col gap-5 px-4 md:gap-10 md:px-12 lg:gap-14 xl:px-40 2xl:px-60">
+      <div className="pt-32 lg:pt-60 flex flex-col gap-5 px-4 md:gap-10 md:px-12 lg:gap-14 xl:px-40 2xl:px-60">
         <LandingHeader/>
-        {/* SEARCH FORM */}
         <LandingSearchForm/>
       </div>
 

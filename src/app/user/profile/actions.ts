@@ -9,7 +9,7 @@ import bcrypt from "bcryptjs"
 export const getClientProfileData = async () => {
     try {
         const user = await userAuth()
-        if(!user.success) return {success: false, message: "No-authenticated user. Log in"}
+        if(!user.success) return {success: false, message: "Brak dostępu. Zaloguj się"}
         
         const userData = await prisma.client.findUnique({
             where: { id: user.id },
