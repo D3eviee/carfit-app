@@ -204,3 +204,13 @@ model Offer {
   announcementId String
   announcement   Announcement @relation(fields: [announcementId], references: [id], onDelete: Cascade)
 }
+
+model Article {
+  id        String   @id @default(uuid())
+  title     String
+  image     String
+  layout    String
+  content   Json
+  status    String
+  createdAt DateTime @default(now())
+}

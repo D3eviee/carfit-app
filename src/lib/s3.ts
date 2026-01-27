@@ -51,6 +51,26 @@ export const uploadToGalleryS3 = async ({file, businessId}:{file: File, business
     }
 }
 
+export const uploadPostImageToGallery = async ({file, title}:{file: File, title:string}) => {
+    const arrayBuffer = await file.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
+
+    const key = `Post/${title}/${uuid()}`
+    const command = new PutObjectCommand({
+        Bucket: BUCKET, 
+        Key: key, 
+        Body: buffer,
+        ContentType: file.type,
+    })
+
+    try {
+        await s3.send(command)
+        return {key}
+    }catch(error) {
+        return {error}
+    }
+}
+
 export const deleteImageFromS3 = async (imageUrl:string) => {
     const key = imageUrl.replace("https://carfitapp.s3.eu-north-1.amazonaws.com/", "")
     try{

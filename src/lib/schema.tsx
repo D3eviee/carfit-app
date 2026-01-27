@@ -266,7 +266,6 @@ export const businessSocialLinksSchema = z.object({
 })
 export type BusinessSocialLinks = z.infer<typeof businessSocialLinksSchema>
 
-
 // schema for adding service
 export const addNewCarSchema = z.object({
   brand: z
