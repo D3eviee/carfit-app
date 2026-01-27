@@ -29,39 +29,32 @@ export async function POST(request: Request) {
     const layout = formData.get('layout') as string;
     const mainImage = formData.get('mainImage') as File | null;
     
-    // Upload głównego zdjęcia (jeśli jest)
     let postImageKey = "";
     if (mainImage) {
         const uploaded = await uploadPostImageToGallery({ file: mainImage, title: title });
         postImageKey = uploaded.key; // Zakładam, że zwracasz obiekt z kluczem/url
     }
 
-    // 2. Przetwarzanie treści (Promise.all jest konieczne przy async map!)
     const contentRaw = formData.get('content') as string;
     const contentJson = JSON.parse(contentRaw);
 
-    // Promise.all czeka, aż WSZYSTKIE obrazki z bloków się wyślą
     const processedContent = await Promise.all(contentJson.map(async (block: any) => {
         
         if (block.type === "image") {
-            // Szukamy pliku w FormData używając tego samego klucza co na froncie
             const fileKey = `block_image_${block.id}`;
             const blockFile = formData.get(fileKey) as File | null;
 
             if (blockFile) {
-                // Wysyłamy na S3
                 const s3Data = await uploadPostImageToGallery({ 
                     file: blockFile, 
                     title: `${title}-${block.id}` 
                 });
 
-                // Zwracamy zaktualizowany blok z nowym URLem z S3
                 return {
                     ...block,
                     data: {
-                        ...block.data,
-                        imageUrl: s3Data.key, // lub s3Data.key zależnie jak masz w uploadPostImageToGallery
-                        imageFile: undefined // Czyścimy śmieci
+                        imageUrl: s3Data.key,
+                        alt: block.data.alt
                     }
                 };
             }
