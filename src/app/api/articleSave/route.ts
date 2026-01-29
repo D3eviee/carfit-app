@@ -30,7 +30,7 @@ export async function POST(request: Request) {
 
     if (mainImage) {
         const imageKey = await uploadPostImageToGallery({ file: mainImage, title: title });
-        postImageKey = imageKey.key
+        postImageKey = `https://carfitapp.s3.eu-north-1.amazonaws.com${imageKey.key}`
     }
 
     const contentRaw = formData.get('content') as string;
@@ -50,7 +50,7 @@ export async function POST(request: Request) {
                 return {
                     ...block,
                     data: {
-                        imageUrl: s3Data.key,
+                        imageUrl: `https://carfitapp.s3.eu-north-1.amazonaws.com${s3Data.key}` ,
                         alt: block.data.alt
                     }
                 };
