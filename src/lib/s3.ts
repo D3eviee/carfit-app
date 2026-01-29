@@ -55,7 +55,8 @@ export const uploadPostImageToGallery = async ({file, title}:{file: File, title:
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
 
-    const key = `Posts/${title}/${uuid()}`
+    const titleRow = title.replace(" ", "-")
+    const key = `posts/${titleRow}/${uuid()}`
     const command = new PutObjectCommand({
         Bucket: BUCKET, 
         Key: key, 
