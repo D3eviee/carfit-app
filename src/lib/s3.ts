@@ -51,13 +51,11 @@ export const uploadToGalleryS3 = async ({file, businessId}:{file: File, business
     }
 }
 
-export const uploadPostImageToGallery = async ({file, title}:{file: File, title:string}) => {
+export const uploadPostImageToGallery = async ({file, articleId}:{file: File, articleId:string}) => {
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
-
-    const slug = title.toLowerCase().replaceAll(" ", "-")
     
-    const key = `posts/${slug}/${uuid()}`
+    const key = `posts/${articleId}/${uuid()}`
     const command = new PutObjectCommand({
         Bucket: BUCKET, 
         Key: key, 

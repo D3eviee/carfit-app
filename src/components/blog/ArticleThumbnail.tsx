@@ -1,4 +1,5 @@
 import { format } from "date-fns";
+import Image from "next/image";
 export const ArticleThumbnail = ({article}) => {
     const { id, image, createdAt, title, content, layout } = article
 
@@ -21,9 +22,12 @@ export const ArticleThumbnail = ({article}) => {
         href={`articles/${createSlug(title)}`}
     >  
         <div className="relative w-full aspect-[16/10] h-48 overflow-hidden min-h-1/2">
-            <img 
+            <Image
+                width={100}
+                height={100}
                 src={image}
-                alt="alt"
+                alt={image}
+                unoptimized
                 className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
             />
         </div>
