@@ -46,10 +46,12 @@ export async function POST(request: Request) {
                     title: title 
                 });
 
+                const s3key= s3Data.key
+
                 return {
                     ...block,
                     data: {
-                        imageUrl: `https://carfitapp.s3.eu-north-1.amazonaws.com/${s3Data.key}` ,
+                        imageUrl: `https://carfitapp.s3.eu-north-1.amazonaws.com/${s3key}` ,
                         alt: block.data.alt
                     }
                 };

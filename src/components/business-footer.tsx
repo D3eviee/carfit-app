@@ -20,6 +20,7 @@ const SmallFooterLayout = () => {
             </div>
             <div className="flex flex-col gap-2 items-end px-4">
                 <Link href="/business"><p className="text-small text-main-black font-light w-fit hover:text-[#000] hover:cursor-pointer">Aplikacja dla biznesu</p></Link>
+                <Link href="/blog"><p className="text-small text-[#000] font-light w-fit">Blog</p></Link>
                 <Link href="/support"><p className="text-small text-main-black font-light w-fit hover:text-[#000] hover:cursor-pointer">Kontakt</p></Link>
             </div>
         </div>
