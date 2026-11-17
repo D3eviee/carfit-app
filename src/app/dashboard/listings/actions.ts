@@ -14,7 +14,6 @@ export const isBusinessPublic = async ()=> {
 
         return {status: true, data: response}
     }catch(error){
-        console.log(error)
         return {success: false, message: "Wystąpił problem z serwerem, proszę spróbuj później"}
     }
 }

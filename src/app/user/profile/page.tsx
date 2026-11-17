@@ -17,7 +17,7 @@ export default function Profile(){
   const headerData = { image, name, createdAt };
 
   return (
-    <div className="pb-4 w-full h-full flex flex-col gap-5 px-4 sm:px-[100px] md:px-[150px] lg:px-[300px]">
+    <div className="w-full h-full pb-4  flex flex-col gap-5 px-4 sm:px-[100px] md:px-[150px] lg:px-[300px]">
       <UserProfileHeader headerData={headerData}/>  
       <div className="flex flex-col lg:flex-row gap-5">
         <div className="w-full lg:w-2/3 flex flex-col gap-5">     

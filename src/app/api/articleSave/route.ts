@@ -1,6 +1,5 @@
 import prisma from "@/lib/db";
-import { uploadPostImageToGallery } from "@/lib/s3";
-import { randomUUID } from "crypto";
+import { uploadArticleImage  } from "@/lib/s3";
 import { NextResponse } from "next/server";
 
 function setCorsHeaders(res: NextResponse) {
@@ -22,15 +21,15 @@ export async function POST(request: Request) {
   }
 
   try {
+    const id = crypto.randomUUID()
     const formData = await request.formData();
-    const id = randomUUID()
     const title = formData.get('title') as string;
     const layout = formData.get('layout') as string;
     const mainImage = formData.get('image') as File | null;
     let postImageKey:string;
 
     if (mainImage) {
-        const imageKey = await uploadPostImageToGallery({ file: mainImage, articleId: id });
+        const imageKey = await uploadArticleImage({ file: mainImage, articleId: title });
         postImageKey = `https://carfitapp.s3.eu-north-1.amazonaws.com/${imageKey.key}`
     }
 
@@ -43,7 +42,7 @@ export async function POST(request: Request) {
             const blockFile = formData.get(fileKey) as File | null;
 
             if (blockFile) {                
-                const s3Data = await uploadPostImageToGallery({ 
+                const s3Data = await uploadArticleImage({ 
                     file: blockFile, 
                     articleId: id 
                 });
@@ -65,7 +64,6 @@ export async function POST(request: Request) {
 
     await prisma.article.create({
       data: { 
-        id: id,
         title: title,
         image: postImageKey,
         layout: layout,

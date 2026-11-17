@@ -1,14 +1,19 @@
-import { useQuery } from "@tanstack/react-query";
-import { getSearchedBusinesses, getSearchedBusinessesByLocation, getSearchedBusinessesByType, getSearchedBusinessesByTypeAndCategory } from "@/app/search/actions";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { unwrapResult } from "./unwrapResult";
+import { searchBusinesses } from "@/actions/search/actions";
 
-export const useSearchResults = (location: string, type: string) => {
+export const useSearchResults = (location: string, category: string) => {
+  const normalizedLocation = location.trim()
+  const normalizedCategory = category.trim()
+
   return useQuery({
-    queryKey: ["getSearchResults", location, type],
-    queryFn: async () => {
-      if (location && type) return (await getSearchedBusinessesByTypeAndCategory(location, type)).data
-      else if (location) return (await getSearchedBusinessesByLocation(location)).data
-      else if (type) return (await getSearchedBusinessesByType(type)).data
-      else return (await getSearchedBusinesses()).data
-    }
-  });
+    queryKey: ["searchResults", normalizedLocation, normalizedCategory],
+    queryFn: async () =>
+      unwrapResult(
+        await searchBusinesses(normalizedLocation, normalizedCategory),
+        "Nie udało się pobrać wyników wyszukiwania"
+      ),
+    placeholderData: keepPreviousData,
+    staleTime: 60_000,
+  })
 }

@@ -15,9 +15,7 @@ export const useEditOffer = (offerId:string) => {
 
     return useMutation({
         mutationKey: ["editOffer", offerId],
-        mutationFn: async (data: Offer) => {  
-            console.log(data)  
-            console.log(offerId)  
+        mutationFn: async (data: Offer) => {   
         const response = await updateServiceOffer(offerId, data.offer)
         
         if(!response.success){

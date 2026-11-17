@@ -208,7 +208,6 @@ export const addClientCar = async ({brand, model, year}) => {
         if(!newCar) return {success: false, message:`Wystąpił problem podczas dodawania pojazdu`}
         return { success: true, car: newCar }
     }catch(error){
-        console.log(error)
         return {success: false, message: "Wystąpił problem podczas dodawania pojazdu"}
     }
 }

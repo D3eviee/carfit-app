@@ -1,14 +1,18 @@
-import { useQuery } from "@tanstack/react-query";
-import { getLocationsForSearch } from "@/app/(landing)/actions";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { getLocationSuggestions } from "@/actions/search/suggestions";
+import { unwrapResult } from "./unwrapResult";
 
-export const useLocationsForSearch = (location: string) => {
+const MIN_CHARS = 3
+
+export const useLocationsForSearch = (input: string) => {
+  const query = input.trim()
+
   return useQuery({
-    queryKey: ["getlocationsForSearch", location],
-    queryFn: async () => {
-      const result = await getLocationsForSearch(location)
-      if(!result.success) return []
-      return result.data
-    },
-    enabled: location.length >= 3
-  });
+    queryKey: ["locationSuggestions", query],
+    queryFn: async () =>
+      unwrapResult(await getLocationSuggestions(query), "Nie udało się pobrać lokalizacji"),
+    enabled: query.length >= MIN_CHARS,
+    placeholderData: keepPreviousData,
+    staleTime: 5 * 60_000,
+  })
 }

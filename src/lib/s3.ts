@@ -51,7 +51,7 @@ export const uploadToGalleryS3 = async ({file, businessId}:{file: File, business
     }
 }
 
-export const uploadPostImageToGallery = async ({file, articleId}:{file: File, articleId:string}) => {
+export const uploadArticleImage = async ({file, articleId}:{file: File, articleId:string}) => {
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
     

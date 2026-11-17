@@ -32,50 +32,6 @@ export const getActiveMonthAppointments = async(activeDate:Date, businessId:stri
     }
 }
 
-// function for getting recomeneded services on landing page
-export const getRecommendedServices = async () => {
-    try {
-        const recomenededServices = await prisma.business.findMany({
-            select:{
-                id: true,
-                name: true,
-                image: true,
-                category: true,
-                town: true,
-                district: true,
-                street: true,  
-                reviews:{
-                    select: {
-                        rate: true
-                    },
-                },
-                isPublic: true,
-            },
-            where: {
-                isPublic: true,
-            },
-            take: 15,
-        })
-
-        if(!recomenededServices){
-            return {
-                success: false,
-                message: "Brak polecanych serwisów"
-            }
-        }
-
-        return {
-            success: true,
-            data: recomenededServices
-        }
-    }catch (error) {
-        return {
-            success: false,
-            message: `Wystąpił problem podczas pobierania danych :(  ${error}`
-        }   
-    }
-}
-
 // function for getting categories and services for booking page
 export const getBusinessCategoriesAndServices = async (id:string) => {
     try{
@@ -160,54 +116,6 @@ export const getBusinessWorkingHours = async (businessId: string) => {
     }
     catch{
        return {success: false, error: "There was a problem while getting your data"}
-    }
-}
-
-//SEARCH FUNCTIONS
-// gets services matching service search input 
-export const getServicesForSearch = async (serviceSearchInput: string) => {
-    const businessName = serviceSearchInput[0].toUpperCase() + serviceSearchInput.slice(1)
-
-    try{
-        const result = await prisma.business.findMany({
-            where: {
-                name: { startsWith: businessName}
-            },
-            select: {
-                id: true,
-                name: true,
-                image: true,
-                isPublic: true,
-            },
-            take: 10
-        })
-        
-        return {success: true, data: result}
-    }catch(error){
-        return {success: false, message: "Wystąpił problem podczas wyszukiwania" + error}
-    }
-}
-
-// gets cities matching location search input 
-export const getLocationsForSearch = async (locationSearchInput: string) => {
-    const businessLocation = locationSearchInput[0].toUpperCase() + locationSearchInput.slice(1)
-
-    try{
-        const result = await prisma.business.findMany({
-            where: {
-                town: { startsWith: businessLocation}
-            },
-            select: {
-                id: true,
-                town: true,
-                isPublic: true,
-            },
-            take: 10
-        })
-        
-        return {success: true, data: result}
-    }catch(error){
-        return {success: false, message: "Wystąpił problem podczas wyszukiwania" + error}
     }
 }
 

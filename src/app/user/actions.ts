@@ -46,7 +46,6 @@ export const editClientReview = async ({rate, title, comment, appointmentId }) =
         if(!newReview) return {success: false, message:`Wystąpił problem podczas aktualizowania opinii`}
         return { success: true, review: newReview }
     }catch(error){
-        console.log(error)
         return {success: false, message: "ystąpił problem podczas aktualizowania opinii"}
     }
 }

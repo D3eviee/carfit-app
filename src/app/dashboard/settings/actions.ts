@@ -217,8 +217,7 @@ export const getDataForPublicityCheck = async () => {
     
     return {  success: true, data: data }
   } catch (error) {
-    console.error(error)
-    console.log("Wystąpił błąd podczas pobierania danych")
+    console.log("Wystąpił błąd podczas pobierania danych" + error)
   }
 }
 

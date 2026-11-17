@@ -1,5 +1,5 @@
+import { SERVICES_CATEGORIES } from "@/lib/constants/search"
 import { BusinessPageWeAreForuSectionItem } from "./business-foru-section-item"
-import { SERVICES_CATEGORIES } from '@/lib/data'; 
 
 export const BusinessPageWeAreForuSection = () => {
   return (
