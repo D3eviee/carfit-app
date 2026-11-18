@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
-import Navbar from "@/components/navbar/navbar";
-import { ClientFooter } from "@/components/client-footer";
+import { ClientFooter } from "@/components/ClientFooter";
+import { Navbar } from "@/components/navbar/Navbar";
 
 export default function RootLayout({children}: Readonly<{children: ReactNode}>) {
   return (
@@ -11,5 +11,3 @@ export default function RootLayout({children}: Readonly<{children: ReactNode}>) 
     </div>
   );
 }
-
-

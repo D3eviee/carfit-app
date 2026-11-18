@@ -1,4 +1,4 @@
-import Navbar from "@/components/navbar/navbar";
+import { Navbar } from "@/components/navbar/Navbar";
 import "../globals.css";
 
 export default  function RootLayout({children}: Readonly<{children: React.ReactNode}>) {

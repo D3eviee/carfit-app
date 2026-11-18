@@ -3,7 +3,7 @@ import {eachDayOfInterval, format, getDaysInMonth, getISODay, getMonth, isSameMo
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { BookingCalendarDay } from "./booking-calendar-day";
 import { useAppointmentStore, useCalendarStore } from "@/lib/store";
-import { cn, useServiceIdFromParams } from "@/utils";
+import { cn } from "@/utils";
 import { BookingAppointmentAvailableHours } from "./booking-calendar-available-hours";
 import { Service } from "@/lib/types";
 import { Spinner } from "../spinner";
@@ -11,6 +11,7 @@ import { Error } from "../error";
 import { pl } from "date-fns/locale";
 import { useAppointmentForMonth } from "@/lib/hooks/client/useBookingAppointmentsForMonth";
 import { useBookingWokingHours } from "@/lib/hooks/client/useBookingWorkingHours";
+import { useServiceIdFromParams } from "@/lib/hooks/useServiceIdFromParams";
 
 export const BookingCalendar = ({servicesData}:{servicesData:Service[]}) => {
     const businessId = useServiceIdFromParams()

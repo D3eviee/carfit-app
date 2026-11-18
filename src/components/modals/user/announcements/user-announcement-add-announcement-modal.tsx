@@ -1,7 +1,6 @@
 'use client'
 import { FormError } from "@/components/forms/form-error";
 import { useForm } from "react-hook-form";
-import { SERVICES_CATEGORIES } from '@/lib/data'; 
 import { Spinner } from "@/components/spinner";
 import { Error } from "@/components/error";
 import { Announcement } from "@/lib/types";
@@ -11,6 +10,7 @@ import { UserAnnouncementModalInput } from "./user-announcement-modal-input.";
 import TextareaAutosize from "react-textarea-autosize"
 import { ExitModalButton } from "../../exit-modal-button";
 import { useAddAnnouncement } from "@/lib/hooks/client/useAddAnnouncement";
+import { SERVICES_CATEGORIES } from "@/lib/constants/search";
 
 export const UserAnnouncementAddAnnouncementModal = () => {
   const {register, formState, handleSubmit} = useForm<Announcement>({

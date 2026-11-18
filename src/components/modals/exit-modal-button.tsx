@@ -7,7 +7,7 @@ export const ExitModalButton = () =>  {
     <button 
         type="button"
         onClick={closeModal}
-        className="w-full text-center justify-center py-2.5 bg-[#E0E0E2] rounded-2xl shadow-bnw-y-small hover:cursor-pointer hover:bg-[#D0D0D1] active:scale-xs transition duration-75"
+        className="w-full text-center justify-center py-2.5 bg-[#E0E0E2] rounded-2xl shadow-bnw-y-small hover:cursor-pointer hover:bg-[#D0D0D1] active:scale-xs transition duration-75 text-xs"
     >
         <p className="text-main-black">Wyjdź</p>
     </button>

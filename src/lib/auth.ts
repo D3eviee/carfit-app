@@ -5,66 +5,46 @@ import { cookies } from "next/headers";
 import prisma from './db';
 import { createBusinessSession } from './session'
 
-export const businessAuth = async () => {
-    const cookieSession = await cookies();
-    const token = cookieSession.get("ServiceToken")?.value
+type AuthResult =
+  | { success: true; id: string }
+  | { success: false; message: string }
 
-    if(!token) return { success: false, id: null}
+export type AuthRole =
+  | { role: "CLIENT"; id: string }
+  | { role: "BUSINESS"; id: string }
+  | { role: "NONAUTHORIZED"; id: "" }
+
+const verifyTokenCookie = async (cookieName: string): Promise<AuthResult> => {
+    const cookieSession = await cookies()
+    const token = cookieSession.get(cookieName)?.value
+    if (!token) return { success: false, message: "Odmowa dostępu. Użytkownik niezalogowany" }
 
     try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as jwt.JwtPayload;
-        const { id } = decoded;
-        return { success: true, id: id}
-    } catch (err) {
-        return {success: false,  error: `There was an error with your authorization: ${err}` };
+        const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as jwt.JwtPayload
+        if (typeof decoded.id !== "string") return { success: false, message: "Nieprawidłowy token" }
+        return { success: true, id: decoded.id }
+    } catch {
+        return { success: false, message: "Sesja wygasła. Zaloguj się ponownie" }
     }
 }
 
-type AuthResult = { success: boolean, id?: string, message?: string}
+export const userAuth = async (): Promise<AuthResult> => verifyTokenCookie("ClientToken")
+export const businessAuth = async (): Promise<AuthResult> => verifyTokenCookie("ServiceToken")
 
-export const userAuth = async (): Promise<AuthResult> => {
-    const cookieSession = await cookies();
-    const token = cookieSession.get("ClientToken")?.value
-    if (!token) return { success: false, message:"Odmowa dostępu. Użytkownik niezalogowany"};
-
-    try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as jwt.JwtPayload;
-        const { id } = decoded;
-        return { success: true, id: id}
-    } catch (err) {
-        return {success: false,  message: `Wystąpił problem: ${err}` };
-    }
+export const authRole = async (): Promise<AuthRole> => {
+    const [user, business] = await Promise.all([userAuth(), businessAuth()])
+    
+    if (user.success) return { role: "CLIENT", id: user.id }
+    if (business.success) return { role: "BUSINESS", id: business.id }
+    return { role: "NONAUTHORIZED", id: "" }
 }
-
-export const authRole = async () => {
-    const user = await userAuth()
-    const business = await businessAuth()
-
-
-    if(user.success){
-        return {
-            role: "CLIENT",
-            id: user.id
-        }
-    }
-    else if(business.success){
-        return {
-            role: "BUSINESS",
-            id: business.id,
-        }
-    }
-    else return {id: "", role: "NONAUTHORIZED"}
-} 
 
 export const logout = async () => {
-    const cookieSession = await cookies()
-
-    const serviceToken = cookieSession.get("ServiceToken")?.value
-    const clientToken = cookieSession.get("ClientToken")?.value
-
-    if(clientToken) cookieSession.delete('ClientToken')   
-    if(serviceToken) cookieSession.delete('ServiceToken')
+  const cookieSession = await cookies()
+  cookieSession.delete("ClientToken")
+  cookieSession.delete("ServiceToken")
 }
+
 
 export const businessSignIn = async (data: { email: string; password: string }) => {
     try{

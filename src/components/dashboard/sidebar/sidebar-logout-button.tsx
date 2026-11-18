@@ -1,7 +1,7 @@
 'use client'
 import { LogOut } from "lucide-react"
 import { useDashboardSidebar, useModalStore } from "@/lib/store"
-import { LogoutModal } from "@/components/modals/logout-modal"
+import { LogoutModal } from "@/components/modals/LogoutModal"
 import { cn } from "@/utils"
 
 export const SidebarLogoutButton = () => {

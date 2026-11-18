@@ -1,5 +1,5 @@
 "use client"
-import { LogoutModal } from "@/components/modals/logout-modal";
+import { LogoutModal } from "@/components/modals/LogoutModal";
 import { useModalStore } from "@/lib/store";
 import { LogOut } from "lucide-react";
 

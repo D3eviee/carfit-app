@@ -204,11 +204,11 @@ export const useModalStore = create<ModalState>((set, get) => ({
     document.body.style.overflow = "hidden"
     set((state) => ({ stack: [...state.stack, element] }))
   },
-  closeModal: () =>{
-    const currentStackSize = get().stack.length;
+  closeModal: () => {
+    const wasLast = get().stack.length <= 1
     set((state) => ({ stack: state.stack.slice(0, -1) }))
-    if(currentStackSize == 1) document.body.style.overflow = ""
-  }
+    if (wasLast && !useMobileNavigationStore.getState().menu) document.body.style.overflow = ""
+  },
 }));
 
 
@@ -250,7 +250,6 @@ export const useToastStore = create<ToastStore>((set) => ({
     })),
 }))
 
-
 // MOBILE NAVIGATION STORE
 type MobileNavigationStore = {
   menu: ReactNode;
@@ -259,16 +258,16 @@ type MobileNavigationStore = {
 };
 
 export const useMobileNavigationStore = create<MobileNavigationStore>((set) => ({
-  menu:null,
+  menu: null,
   openMenu: (element) => {
     document.body.style.overflow = "hidden"
     set(() => ({ menu: element }))
   },
-  closeMenu: () =>{
+  closeMenu: () => {
     set(() => ({ menu: null }))
-    document.body.style.overflow = ""
-  }
-}))
+    if (useModalStore.getState().stack.length === 0) document.body.style.overflow = ""
+  },
+}));
 
 // DASHBOARD SIDEBAR
 type DashboardSidebar = {

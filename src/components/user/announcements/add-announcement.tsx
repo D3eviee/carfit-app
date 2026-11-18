@@ -3,12 +3,12 @@ import { CloseButton } from "@/components/buttons/close-button";
 import { FormError } from "@/components/forms/form-error";
 import { useModalStore } from "@/lib/store";
 import { useForm } from "react-hook-form";
-import { SERVICES_CATEGORIES } from '@/lib/data'; 
 import { Spinner } from "@/components/spinner";
 import { Error } from "@/components/error";
 import { FormLabel } from "@/components/forms/form-label";
 import { FormInput } from "@/components/forms/form-input";
 import { useClientCars } from "@/lib/hooks/client/useClientCars";
+import { SERVICES_CATEGORIES } from "@/lib/constants/search";
 
 export default function AddAnnouncementsModal(){
   const closeModal = useModalStore(store => store.closeModal)

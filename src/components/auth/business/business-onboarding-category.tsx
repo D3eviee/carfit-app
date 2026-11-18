@@ -1,6 +1,6 @@
 import { useBusinessOnboardingStore } from '@/lib/store';
-import { SERVICES_CATEGORIES } from '@/lib/data'; 
 import { BusinessOnboardingCategoryItem } from './business-onboarding-category-item';
+import { SERVICES_CATEGORIES } from '@/lib/constants/search';
 
 type OnboardingCategory = {
   businessCategory: string

@@ -1,5 +1,5 @@
-import { ClientFooter } from "@/components/client-footer";
-import Navbar from "@/components/navbar/navbar";
+import { ClientFooter } from "@/components/ClientFooter";
+import { Navbar } from "@/components/navbar/Navbar";
 
 export default function RootLayout({children}: Readonly<{children: React.ReactNode}>) {
   return (

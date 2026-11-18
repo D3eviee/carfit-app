@@ -1,50 +1,6 @@
 'use server'
 import prisma from "@/lib/db";
-import { authRole, businessAuth } from "@/lib/auth";
-
-// NAVBARS
-// returning data for navbar profile menu, depending on the type of logged user
-export const getNavbarUserData = async () => {
-    const auth = await authRole()
-    if(auth.role == "NONAUTHORIZED") return  {role: "NONAUTHORIZED"}
-
-    if(auth.role === "CLIENT"){        
-        const userData = await prisma.client.findUnique({
-            where: {
-                id: auth.id
-            },
-            select: {
-                name: true,
-                phone: true,
-                image: true
-            }
-        })
-
-        if (!userData) return
-
-        return {
-            ...userData,
-            role: auth.role
-        }
-    }
-
-    if(auth.role === "BUSINESS"){        
-        const businessData = await prisma.business.findUnique({
-            where: {
-                id: auth.id
-            },
-            select: {
-                name: true,
-                phone: true,
-                image: true,
-            }
-        })
-
-        if (!businessData) return
-
-        return { ...businessData, role: auth.role}
-    }
-}
+import { businessAuth } from "@/lib/auth";
 
 // getting data for sidebar navigation profile view
 export const getSideNavigationProfileData = async () => {

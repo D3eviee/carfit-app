@@ -9,12 +9,18 @@ export type UserProfileData = {
 }
 
 // type for navbar profile menu
-export type NavbarProfileProps = {
-  name?:string
-  phone?: string
-  image?:string | null
-  role: string
+export type NavbarProfileData = {
+  name: string
+  phone: string | null
+  image: string | null
 }
+
+export type NavbarUser =
+  | { role: "NONAUTHORIZED" }
+  | ({ role: "CLIENT" } & NavbarProfileData)
+  | ({ role: "BUSINESS" } & NavbarProfileData)
+
+export type SignedInNavbarUser = Exclude<NavbarUser, { role: "NONAUTHORIZED" }>
 
 //type for business cards on landing and search page
 export type BusinessCardProps = {
