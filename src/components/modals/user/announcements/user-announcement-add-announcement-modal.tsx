@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { Spinner } from "@/components/spinner";
 import { Error } from "@/components/error";
 import { Announcement } from "@/lib/types";
-import { useClientCars } from "@/lib/hooks/client/useClientCars";
+import { useClientCars } from "@/lib/hooks/client/cars/useClientCars";
 import { UserAnnouncementModalLabel } from "./user-announcement-modal-label";
 import { UserAnnouncementModalInput } from "./user-announcement-modal-input.";
 import TextareaAutosize from "react-textarea-autosize"

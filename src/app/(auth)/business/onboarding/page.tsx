@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { BackButton } from "@/components/buttons/back-button";
+import { BackButton } from "@/components/buttons/ButtonBack";
 import { BusinessOnboardingForm } from "@/components/auth/business/business-onboarding-form";
 import { BusinessOnboardingImage } from "@/components/auth/business/business-onboarding-image";
 

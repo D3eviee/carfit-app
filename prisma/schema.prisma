@@ -146,8 +146,6 @@ model Categories {
 model Reservation {
   id                String   @id @default(uuid())
   businessId        String
-  reservationYear   Int
-  reservationMonth  Int
   reservationStart  DateTime
   reservationEnd    DateTime
   duration          Int

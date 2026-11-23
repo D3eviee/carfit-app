@@ -57,12 +57,13 @@ export const useWorkingDays = create<WorkingDaysStore>()((set) => ({
     }
 }))
   
-
+//REFACTORED
+// THIS STORE IS USED ON CLIENT SIDE WHEN BOOKING APPOINTMENT
 type CalendarStoreProps = {
   todayDate: Date
   activeDate: Date
   selectedDate: Date | null
-  setSelectedDate: (day:Date) => void
+  setSelectedDate: (day: Date) => void
   setNextActiveMonth: (date: Date) => void
   setPreviousActiveMonth: (date: Date) => void
   resetCalendarStore: () => void
@@ -72,47 +73,50 @@ export const useCalendarStore = create<CalendarStoreProps>((set) => ({
   todayDate: new Date(),
   activeDate: new Date(),
   selectedDate: new Date(),
-  setSelectedDate : (day) => set(()=>({selectedDate : day})),
-  setNextActiveMonth: (date) => set(()=>({activeDate : addMonths(date, 1), selectedDate:null})),
-  setPreviousActiveMonth: (date) => set(()=>({activeDate : subMonths(date, 1), selectedDate: null})),
-  resetCalendarStore: () => set(({activeDate : new Date(), selectedDate: new Date()}))
-}));
+  setSelectedDate: (day) => set(() => ({ selectedDate: day })),
+  setNextActiveMonth: (date) => set(() => ({ activeDate: addMonths(date, 1), selectedDate: null })),
+  setPreviousActiveMonth: (date) => set(() => ({ activeDate: subMonths(date, 1), selectedDate: null })),
+  resetCalendarStore: () => set(() => ({ todayDate: new Date(), activeDate: new Date(), selectedDate: new Date() })),
+}))
 
-// Booking appointmentState
+//REFACTORED
+// Booking appointment state
 type AppointmentStoreProps = {
-  clientMessage: string | null
-  clientCar: string | null
+  clientMessage: string
+  clientCar: string
   appointmentTime: Date | null
   selectedServices: string[]
-  setAppointmentTime: (time:Date | null) => void
+  setAppointmentTime: (time: Date | null) => void
   setClientMessage: (text: string) => void
   setClientCar: (text: string) => void
-  toggleSelectedService: (serviceId) => void
+  setSelectedServices: (serviceIds: string[]) => void
+  toggleSelectedService: (serviceId: string) => void
   resetSelectedServices: () => void
   resetAppointmentTime: () => void
   resetClientMessage: () => void
+  resetBooking: () => void
 }
 
 export const useAppointmentStore = create<AppointmentStoreProps>((set) => ({
   selectedServices: [],
   clientMessage: "",
-  clientCar: "", 
+  clientCar: "",
   appointmentTime: null,
-  toggleSelectedService: (serviceId) => set((state) => {
-    const isSelected = state.selectedServices.includes(serviceId);
-    
-    return {
-      selectedServices: isSelected
-        ? state.selectedServices.filter((id) => id !== serviceId) // delete if already selected
-        : [...state.selectedServices, serviceId], // add if not selected
-    }}
-  ),
-  resetSelectedServices: () => set(()=>({selectedServices : []})),
-  setAppointmentTime : (time) => set(()=>({appointmentTime : time})),
-  setClientCar : (car) => set(()=>({clientCar : car})),
-  setClientMessage: (text) => set(() => ({clientMessage: text})),
-  resetAppointmentTime: () => set(() => ({appointmentTime: null})),
-  resetClientMessage: () => set(() => ({clientMessage: null}))
+  setAppointmentTime: (time) => set(() => ({ appointmentTime: time })),
+  setClientMessage: (text) => set(() => ({ clientMessage: text })),
+  setClientCar: (car) => set(() => ({ clientCar: car })),
+  setSelectedServices: (serviceIds) => set(() => ({ selectedServices: serviceIds })),
+  toggleSelectedService: (serviceId) =>
+    set((state) => ({
+      // if service is already selected -> remove, otherwise add
+      selectedServices: state.selectedServices.includes(serviceId)
+        ? state.selectedServices.filter((id) => id !== serviceId)
+        : [...state.selectedServices, serviceId],
+    })),
+  resetSelectedServices: () => set(() => ({ selectedServices: [] })),
+  resetAppointmentTime: () => set(() => ({ appointmentTime: null })),
+  resetClientMessage: () => set(() => ({ clientMessage: "" })),
+  resetBooking: () => set(() => ({ selectedServices: [], appointmentTime: null, clientMessage: "", clientCar: "" })),
 }))
 
 //REFACTORED

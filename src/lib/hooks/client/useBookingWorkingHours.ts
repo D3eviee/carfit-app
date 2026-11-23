@@ -1,14 +1,16 @@
-import { getBusinessWorkingHours } from "@/app/(landing)/actions";
+"use client"
+import { getBusinessWorkingHours } from "@/actions/booking/availability"
 import { useQuery } from "@tanstack/react-query";
 
 export const useBookingWokingHours = (businessId: string) => {
     return useQuery({
-        queryKey: ["getBookingWorkingHours"],
+        queryKey: ["booking-working-hours", businessId],
         queryFn: async () => {
             const response = await getBusinessWorkingHours(businessId)
-            if (!response.success) return
+            if (!response.success) throw new Error(response.message)
             return response.data
         },
-        enabled: !!businessId
+        enabled: !!businessId,
+        staleTime: 5 * 60 * 1000,
     });
-} 
+}

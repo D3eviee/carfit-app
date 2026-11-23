@@ -49,15 +49,6 @@ export function checkImageType(uploadedFile: File): FormData | null {
   return formData
 }
 
-// Polish plural forms: 1 minuta, 2–4 minuty (except 12–14), 5+ minut
-function pluralPl(n: number, one: string, few: string, many: string) {
-  if (n === 1) return one
-  const mod10 = n % 10
-  const mod100 = n % 100
-  if (mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14)) return few
-  return many
-}
-
 const ago = (n: number, one: string, few: string, many: string) =>
   `${n} ${pluralPl(n, one, few, many)} temu`
 
@@ -84,7 +75,7 @@ export function displayAddedTime(createdAt: Date) {
   return ago(diffYears, "rok", "lata", "lat")
 }
 
-const DAYS_OF_WEEK = [
+export const DAYS_OF_WEEK = [
   "Poniedziałek",
   "Wtorek",
   "Środa",
@@ -98,4 +89,44 @@ export function sortScheduleByDay<T extends { dayOfWeek: string }>(schedule: T[]
   return [...schedule].sort(
     (a, b) => DAYS_OF_WEEK.indexOf(a.dayOfWeek) - DAYS_OF_WEEK.indexOf(b.dayOfWeek)
   )
+}
+
+// Polish plural forms: 1 usługa, 2–4 usługi (except 12–14), 5+ usług
+export function pluralPl(n: number, one: string, few: string, many: string) {
+  if (n === 1) return one
+  const mod10 = n % 10
+  const mod100 = n % 100
+  if (mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14)) return few
+  return many
+}
+
+// Date parts in Poland's timezone, regardless of where the code runs.
+// dayIndex: 0 = Poniedziałek ... 6 = Niedziela, month: 0–11
+export function getWarsawTime(date: Date = new Date()) {
+  const parts = new Intl.DateTimeFormat("en-GB", {
+    timeZone: "Europe/Warsaw",
+    year: "numeric",
+    month: "numeric",
+    weekday: "short",
+    hour: "2-digit",
+    minute: "2-digit",
+    hourCycle: "h23",
+  }).formatToParts(date)
+
+  const get = (type: string) => parts.find((p) => p.type === type)?.value ?? ""
+
+  return {
+    year: Number(get("year")),
+    month: Number(get("month")) - 1,
+    dayIndex: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].indexOf(get("weekday")),
+    minutes: Number(get("hour")) * 60 + Number(get("minute")),
+  }
+}
+
+export const getWarsawNow = () => getWarsawTime(new Date())
+
+// "07:30" → 450
+export const timeToMinutes = (time: string) => {
+  const [h, m] = time.split(":").map(Number)
+  return h * 60 + (m || 0)
 }

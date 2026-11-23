@@ -1,7 +1,7 @@
 'use client'
 import { ClientOnboardingForm } from "@/components/auth/client/client-onboarding-form";
 import { ClientOnboardingImage } from "@/components/auth/client/client-onboarding-image";
-import { BackButton } from "@/components/buttons/back-button";
+import { BackButton } from "@/components/buttons/ButtonBack";
 import Link from "next/link";
 
 export default function ClientOnboarding() {

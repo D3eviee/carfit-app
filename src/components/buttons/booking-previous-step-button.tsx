@@ -1,5 +1,5 @@
 "use client";
-import { BackButton } from "./back-button";
+import { BackButton } from "./ButtonBack";
 
 type BookingPreviousStepButtonProps = {
   bookingStep: number

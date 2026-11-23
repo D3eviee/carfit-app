@@ -1,7 +1,7 @@
 'use client'
 import DashboardMobileNavbarMenuItem from "./dashboard-mobile-navbar-menu-item";
 import { useMobileNavigationStore } from "@/lib/store";
-import { CloseButton } from "@/components/buttons/close-button";
+import { CloseButton } from "@/components/buttons/ButtonClose";
 import DashboardMobileNavbarMenuLogoutButton from "./dashboard-mobile-navbar-menu-logout-button";
 
 const DASHBOARD_ROUTES = [

@@ -115,8 +115,6 @@ export type NewReservation = {
     businessId: string
     servicesIds: string[]
     reservationStart: Date 
-    reservationYear: number
-    reservationMonth: number
     reservationEnd: Date
     duration: number
     charge: number

@@ -3,35 +3,6 @@ import { userAuth } from "@/lib/auth"
 import prisma from "@/lib/db"
 import { NewReservation } from "@/lib/types"
 
-// DASHBOARD/CALENDAR -> MODAL
-// THIS FUNCTION GETS EXISTING APPOINTMETS FOR MONTH OF SELECTED DATE
-// IT'S USED IN MODAL TO FILTER THE AVAILABLE APPOINTMENT HOURS
-export const getActiveMonthAppointments = async(activeDate:Date, businessId:string) => {
-    const activeDateYear = activeDate.getFullYear()
-    const activeDateMonth = activeDate.getMonth()+1
-    
-    try{
-        const reservationForSelectedMonth = await prisma.reservation.findMany({
-            where: {
-                businessId: businessId,
-                reservationYear:activeDateYear,
-                reservationMonth: activeDateMonth,
-                status: "reserved"
-            },
-            select: {
-                reservationStart: true,
-                reservationEnd: true,
-                duration: true
-           }
-        })
-
-        if(!reservationForSelectedMonth) return {success: false, message: "Wystąpił problem podczas pobierania danych"}
-        return  {success: true, data: reservationForSelectedMonth }
-    }catch(error){
-       return {success: false, message: "Wystąpił problem podczas pobierania danych"+ error}
-    }
-}
-
 // function for getting categories and services for booking page
 export const getBusinessCategoriesAndServices = async (id:string) => {
     try{

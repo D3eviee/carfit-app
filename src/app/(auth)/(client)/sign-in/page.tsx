@@ -1,5 +1,5 @@
 'use client'
-import { BackButton } from "@/components/buttons/back-button";
+import { BackButton } from "@/components/buttons/ButtonBack";
 import Link from "next/link";
 import { ClientLoginForm } from "@/components/auth/client/client-login-form";
 import { ClientOnboardingImage } from "@/components/auth/client/client-onboarding-image";

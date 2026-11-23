@@ -1,6 +1,6 @@
 'use client'
 import { useModalStore } from "@/lib/store";
-import { BackButton } from "../buttons/back-button";
+import { BackButton } from "../buttons/ButtonBack";
 
 export const OnboardingClientPolicyModal = () => {
   const closeModal = useModalStore(store => store.closeModal)

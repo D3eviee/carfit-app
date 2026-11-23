@@ -1,6 +1,6 @@
 import { Review } from "@/lib/types";
 import { ServiceReviewItem } from "../../../service/service-reviews-item";
-import { ServiceReviewsSummary } from "../../../service/service-reviews-summary";
+import { ServiceReviewsSummary } from "../../../service/ServiceReviewsSummary";
 import { ModalBackButton } from "../../../buttons/modal-back-button";
 
 type ServiceReviewsModalProps = {

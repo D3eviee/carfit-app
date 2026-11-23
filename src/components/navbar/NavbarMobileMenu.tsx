@@ -1,5 +1,4 @@
 'use client'
-import { CloseButton } from "../buttons/close-button";
 import { useMobileNavigationStore, useModalStore } from "@/lib/store";
 import { useEffect } from "react";
 import { NavbarAvatar } from "./NavbarAvatar";
@@ -8,6 +7,7 @@ import { LogOut } from "lucide-react";
 import { LogoutModal } from "../modals/LogoutModal";
 import { NavbarUser } from "@/lib/types";
 import { BUSINESS_ROUTES, CLIENT_ROUTES, GUEST_ROUTES, NavRoute, SUPPORT_ROUTE } from "./NavbarRoutes";
+import { ButtonClose } from "../buttons/ButtonClose";
 
 const routesFor = (user: NavbarUser): NavRoute[] => {
   if (user.role === "CLIENT") return [...CLIENT_ROUTES, SUPPORT_ROUTE]
@@ -33,7 +33,7 @@ export const NavbarMobileMenu = ({ user }:{ user: NavbarUser }) => {
   return ( 
     <div role="dialog" aria-modal="true" aria-label="Menu" className="flex h-full w-full flex-col bg-white">
       <div className="flex w-full justify-end px-4 py-2">
-        <CloseButton onCloseFn={closeMenu} />
+        <ButtonClose onCloseFn={closeMenu} />
       </div>
 
       {isSignedIn && (

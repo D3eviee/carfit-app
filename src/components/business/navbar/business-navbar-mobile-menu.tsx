@@ -10,7 +10,7 @@ type NavbarMobileMenuProps = {
     onClose: () => void
 }
 
-export default function BusinessNavbarMobileMenu({isOpen, onClose}:NavbarMobileMenuProps) {
+export const BusinessNavbarMobileMenu = ({isOpen, onClose}:NavbarMobileMenuProps) => {
     //bocking scroll while menu is open
     const handleClose = () => {
         document.body.style.overflow = ""

@@ -1,6 +1,6 @@
 'use client'
 import { useState } from "react";
-import BusinessNavbarMobileMenu from "./business-navbar-mobile-menu";
+import { BusinessNavbarMobileMenu } from "./business-navbar-mobile-menu";
 
 // this component provides button for opening mobile navigation menu
 export default function BusinessNavbarMobileMenuButton() {

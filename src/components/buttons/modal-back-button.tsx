@@ -1,6 +1,6 @@
 "use client";
 import { useModalStore, useToastStore } from "@/lib/store";
-import { BackButton } from "./back-button";
+import { BackButton } from "./ButtonBack";
 
 export const ModalBackButton = () => {
   const closeModal = useModalStore(store => store.closeModal)

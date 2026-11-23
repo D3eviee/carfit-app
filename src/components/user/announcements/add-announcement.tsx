@@ -1,5 +1,5 @@
 'use client'
-import { CloseButton } from "@/components/buttons/close-button";
+import { CloseButton } from "@/components/buttons/ButtonClose";
 import { FormError } from "@/components/forms/form-error";
 import { useModalStore } from "@/lib/store";
 import { useForm } from "react-hook-form";
@@ -7,7 +7,7 @@ import { Spinner } from "@/components/spinner";
 import { Error } from "@/components/error";
 import { FormLabel } from "@/components/forms/form-label";
 import { FormInput } from "@/components/forms/form-input";
-import { useClientCars } from "@/lib/hooks/client/useClientCars";
+import { useClientCars } from "@/lib/hooks/client/cars/useClientCars";
 import { SERVICES_CATEGORIES } from "@/lib/constants/search";
 
 export default function AddAnnouncementsModal(){
