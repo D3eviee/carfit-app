@@ -2,7 +2,7 @@
 import { FormError } from "@/components/forms/form-error";
 import { useForm } from "react-hook-form";
 import { Spinner } from "../../../spinner";
-import { ModalBackButton } from "../../../buttons/modal-back-button";
+import { ModalButtonBack } from "../../../buttons/modal-back-button";
 import { AddNewCar, addNewCarSchema } from "@/lib/schema";
 import { UserProfileModalLabel } from "./user-profile-modal-label";
 import { UserProfileModalInput } from "./user-profile-modal-input";
@@ -27,7 +27,7 @@ export const UserProfileAddCarModal = () => {
     <div className="w-full h-full flex flex-col bg-white sm:max-w-[420px] sm:h-fit sm:rounded-4xl">
       {/* NAV */}
       <div className="w-full p-6">
-        <ModalBackButton/>
+        <ModalButtonBack/>
       </div>
 
       <div className="px-8 flex flex-col gap-10 pb-8">

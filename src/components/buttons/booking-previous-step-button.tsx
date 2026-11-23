@@ -1,5 +1,5 @@
 "use client";
-import { BackButton } from "./ButtonBack";
+import { ButtonBack } from "./ButtonBack";
 
 type BookingPreviousStepButtonProps = {
   bookingStep: number
@@ -8,5 +8,5 @@ type BookingPreviousStepButtonProps = {
 
 export const BookingPreviousStepButton = ({bookingStep, previouStepFn}:BookingPreviousStepButtonProps) => {    
   if(bookingStep == 1) return null
-  return  <BackButton onBackFn={previouStepFn}/>
+  return  <ButtonBack onBackFn={previouStepFn}/>
 }

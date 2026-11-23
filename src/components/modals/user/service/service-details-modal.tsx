@@ -1,5 +1,5 @@
 import { Service } from "@/lib/types";
-import { ModalBackButton } from "../../../buttons/modal-back-button";
+import { ModalButtonBack } from "../../../buttons/modal-back-button";
 import { displayAppointmentTime } from "@/utils";
 
 export const ServiceDetailsModal = ({service}: {service:Service}) =>  {
@@ -8,7 +8,7 @@ export const ServiceDetailsModal = ({service}: {service:Service}) =>  {
   return (  
     <div className="h-[320px] overflow-scroll bg-white rounded-4xl w-[85%] sm:w-[420px] md:w-[520px]">
       <div className="w-full p-6">
-        <ModalBackButton />
+        <ModalButtonBack />
       </div>
       <div className="flex flex-col gap-4 px-8">
         <div className="w-full flex flex-row gap-4">

@@ -1,6 +1,6 @@
 'use client'
 import { AppointmentDetails} from "@/lib/types";
-import { ModalBackButton } from "@/components/buttons/modal-back-button";
+import { ModalButtonBack } from "@/components/buttons/modal-back-button";
 import { UserAppointmentDetailsModalHeader } from "./user-appointment-details-modal-header";
 import { UserAppointmentDetailsModalServices } from "./user-appointment-details-modal-services";
 import { UserAppointmentDetailsModalNotes } from "./user-appointment-details-modal-notes";
@@ -19,7 +19,7 @@ export const UserAppointmentDetailsModal = ({appointmentDetails}:{appointmentDet
   return (  
     <div className="w-full h-full flex flex-col bg-white md:shadow-2xl md:rounded-4xl md:max-w-[85%] md:h-fit lg:max-w-3/4 xl:max-w-1/2">
       <div className="w-full px-10 py-6">
-        <ModalBackButton />
+        <ModalButtonBack />
       </div>
 
       <div className="w-full h-full flex flex-col py-6 px-10 gap-6">

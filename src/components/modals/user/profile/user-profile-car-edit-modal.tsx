@@ -1,7 +1,7 @@
 'use client'
 import { FormError } from "@/components/forms/form-error";
 import { useForm } from "react-hook-form";
-import { ModalBackButton } from "../../../buttons/modal-back-button";
+import { ModalButtonBack } from "../../../buttons/modal-back-button";
 import { AddNewCar, addNewCarSchema } from "@/lib/schema";
 import UserProfileDeleteCarButton from "../../../user/profile/user-profile-delete-car-button";
 import { UserProfileModalLabel } from "./user-profile-modal-label";
@@ -41,7 +41,7 @@ export const UserProfileCarEditModal = ({car}:UserProfileEditCarModalProps) => {
     <div className="w-full h-full flex flex-col bg-white sm:max-w-[420px] sm:h-fit sm:rounded-4xl">
       {/* NAV */}
       <div className="w-full p-6">
-        <ModalBackButton/>
+        <ModalButtonBack/>
       </div>
 
       <form onSubmit={handleSubmit(handleUpdatingCarInformation)} className="w-full flex flex-col gap-6 pb-8 px-8">

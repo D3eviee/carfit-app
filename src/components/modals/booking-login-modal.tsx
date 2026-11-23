@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { BookingLoginForm } from "../booking/booking-login-form";
 import { BookingSignupForm } from "../booking/booking-signup-form";
-import { ModalBackButton } from "../buttons/modal-back-button";
+import { ModalButtonBack } from "../buttons/modal-back-button";
 import { FormSwitcher } from "../form-switcher";
 
 export const BookinLoginModal = () =>  {
@@ -12,7 +12,7 @@ export const BookinLoginModal = () =>  {
   return (
     <div className="w-full h-full flex flex-col gap-10 bg-white sm:max-w-[400px] sm:h-fit sm:rounded-2xl sm:inset-shadow-glass sm:shadow-xs sm:ring sm:ring-[#D4D4D4] sm:py-5">
       <div className="w-full px-4">
-        <ModalBackButton/>
+        <ModalButtonBack/>
       </div>
 
       <div className="px-8 flex flex-col gap-10">

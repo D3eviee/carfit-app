@@ -2,7 +2,7 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { ChangeClientProfileData, changeClientProfileData } from "@/lib/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ModalBackButton } from "../../../buttons/modal-back-button";
+import { ModalButtonBack } from "../../../buttons/modal-back-button";
 import { UserProfileDataEditModalImage } from "./user-profile-data-edit-modal-image";
 import { FormError } from "../../../forms/form-error";
 import { UserProfileModalSubmitButton } from "./user-profile-modal-submit-button";
@@ -34,7 +34,7 @@ export const UserProfileDataEditModal = ({name, phone, email}:UserProfileDataEdi
     <div className="w-full h-full flex flex-col bg-white sm:max-w-[420px] sm:h-fit sm:rounded-4xl">
       {/* NAV */}
       <div className="w-full p-6">
-        <ModalBackButton/>
+        <ModalButtonBack/>
       </div>
 
       {/* EDIT FIELDS */}

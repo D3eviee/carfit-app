@@ -1,7 +1,7 @@
 'use client'
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ModalBackButton } from "@/components/buttons/modal-back-button";
+import { ModalButtonBack } from "@/components/buttons/modal-back-button";
 import { FormError } from "@/components/forms/form-error";
 import { BusinessSocialLinks, businessSocialLinksSchema } from "@/lib/schema";
 import { FormLabel } from "@/components/forms/form-label";
@@ -32,7 +32,7 @@ export const DashboardSettingsEditLinksModal = ({facebookUrl, instagramUrl, webs
     <div className="w-full h-full flex flex-col gap-10 bg-white sm:max-w-[600px] sm:h-fit sm:rounded-4xl sm:inset-shadow-glass sm:shadow-xs sm:ring sm:ring-[#D4D4D4] sm:py-5">
       {/* NAV */}
       <div className="w-full px-4 py-4">
-        <ModalBackButton/>
+        <ModalButtonBack/>
       </div>
 
       {/* EDIT FIELDS */}

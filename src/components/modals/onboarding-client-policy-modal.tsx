@@ -1,6 +1,6 @@
 'use client'
 import { useModalStore } from "@/lib/store";
-import { BackButton } from "../buttons/ButtonBack";
+import { ButtonBack } from "../buttons/ButtonBack";
 
 export const OnboardingClientPolicyModal = () => {
   const closeModal = useModalStore(store => store.closeModal)
@@ -8,7 +8,7 @@ export const OnboardingClientPolicyModal = () => {
   return(
    <div className="w-full h-full flex flex-col gap-5 bg-white sm:max-w-[600px] sm:max-h-3/4 sm:h-fit sm:pb-10 sm:rounded-4xl sm:inset-shadow-glass sm:shadow-xs sm:ring sm:ring-[#D4D4D4]">
       <div className="w-full px-8 py-8">
-        <BackButton onBackFn={closeModal}/>
+        <ButtonBack onBackFn={closeModal}/>
       </div>
       
       <div className="px-6 flex flex-col gap-8  overflow-scroll">

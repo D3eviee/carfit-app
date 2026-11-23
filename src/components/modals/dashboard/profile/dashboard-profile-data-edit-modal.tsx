@@ -7,7 +7,7 @@ import { DashboardProfileModalInput } from "./dashboard-profile-modal-input";
 import { DashboardProfileModalSubmitButton } from "./dashboard-profile-modal-submit-button";
 import { DashboardProfileDataEditImage } from "./dashboard-profile-data-edit-image";
 import { FormError } from "@/components/forms/form-error";
-import { ModalBackButton } from "@/components/buttons/modal-back-button";
+import { ModalButtonBack } from "@/components/buttons/modal-back-button";
 import { useEditDashboardProfileData } from "@/lib/hooks/dashboard/useEditDashboardProfileData";
 
 type DashboardProfileDataEditModalProps = {
@@ -34,7 +34,7 @@ export const DashboardProfileDataEditModal = ({ owner, email, phone }:DashboardP
     <div className="w-full h-full flex flex-col bg-white sm:max-w-[420px] sm:h-fit sm:rounded-4xl">
       {/* NAV */}
       <div className="w-full p-6">
-        <ModalBackButton/>
+        <ModalButtonBack/>
       </div>
 
       {/* EDIT FIELDS */}

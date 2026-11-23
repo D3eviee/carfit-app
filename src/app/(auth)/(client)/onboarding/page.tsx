@@ -1,7 +1,7 @@
 'use client'
 import { ClientOnboardingForm } from "@/components/auth/client/client-onboarding-form";
 import { ClientOnboardingImage } from "@/components/auth/client/client-onboarding-image";
-import { BackButton } from "@/components/buttons/ButtonBack";
+import { ButtonBack } from "@/components/buttons/ButtonBack";
 import Link from "next/link";
 
 export default function ClientOnboarding() {
@@ -10,7 +10,7 @@ export default function ClientOnboarding() {
       <div className="w-full flex flex-col items-center mt-30">
         <div className="absolute top-4 left-4 sm:top-8 sm:left-8 lg:top-10 lg:left-10">
           <Link href="/"> 
-            <BackButton/> 
+            <ButtonBack/> 
           </Link>
         </div>
         <ClientOnboardingForm/>

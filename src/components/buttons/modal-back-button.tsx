@@ -1,8 +1,8 @@
 "use client";
 import { useModalStore, useToastStore } from "@/lib/store";
-import { BackButton } from "./ButtonBack";
+import { ButtonBack } from "./ButtonBack";
 
-export const ModalBackButton = () => {
+export const ModalButtonBack = () => {
   const closeModal = useModalStore(store => store.closeModal)
   const removeToast = useToastStore(store => store.removeToast)
   const toasts = useToastStore(store => store.toasts)
@@ -13,6 +13,6 @@ export const ModalBackButton = () => {
   }
 
   return (
-    <BackButton onBackFn={handleExitModal}/>
+    <ButtonBack onBackFn={handleExitModal}/>
   )
 }
