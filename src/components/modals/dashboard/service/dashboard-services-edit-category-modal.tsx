@@ -2,7 +2,7 @@
 import { CategoryName, categoryNameSchema } from "@/lib/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { FormError } from "../../../forms/form-error";
+import { FormError } from "../../../forms/FormError";
 import { Spinner } from "../../../spinner";
 import { ExitModalButton } from "../../exit-modal-button";
 import { useEditServiceCategory } from "@/lib/hooks/dashboard/useEditServiceCategory";;

@@ -8,7 +8,7 @@ import { useModalStore, useToastStore } from "@/lib/store";
 import { createClientProfile } from "@/app/(auth)/(client)/onboarding/actions";
 import { FormLabel} from "../forms/form-label";
 import { FormInput } from "../forms/form-input";
-import { FormError } from "../forms/form-error";
+import { FormError } from "../forms/FormError";
 
 
 export const BookingSignupForm = () =>  {

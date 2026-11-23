@@ -5,7 +5,7 @@ import { businessOnboardingSchema } from "@/lib/schema";
 import { useBusinessOnboardingStore, useToastStore } from "@/lib/store";
 import { BusinessOnboardingButton } from "./business-onboarding-button";
 import { isBusinessPhoneAvailable } from "@/app/(auth)/business/onboarding/actions";
-import { FormError } from "@/components/forms/form-error";
+import { FormError } from "@/components/forms/FormError";
 import { AuthFormLabel } from "../auth-form-label";
 import { AuthFormInput } from "../auth-form-input";
 

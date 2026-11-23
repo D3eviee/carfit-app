@@ -1,6 +1,6 @@
 'use client'
 import { Error } from "@/components/error"
-import { FormError } from "@/components/forms/form-error"
+import { FormError } from "@/components/forms/FormError"
 import { DashboardCalendarModalLabel } from "@/components/modals/dashboard/calendar/dashboard-calendar-modal-label"
 import { Spinner } from "@/components/spinner"
 import { useCalendarSelectedDateAppointments } from "@/lib/hooks/dashboard/useCalendarSelectedDateAppointments"

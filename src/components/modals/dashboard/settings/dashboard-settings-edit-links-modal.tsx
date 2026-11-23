@@ -2,7 +2,7 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ModalButtonBack } from "@/components/buttons/modal-back-button";
-import { FormError } from "@/components/forms/form-error";
+import { FormError } from "@/components/forms/FormError";
 import { BusinessSocialLinks, businessSocialLinksSchema } from "@/lib/schema";
 import { FormLabel } from "@/components/forms/form-label";
 import { FormInput } from "@/components/forms/form-input";

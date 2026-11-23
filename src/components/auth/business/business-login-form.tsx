@@ -6,7 +6,7 @@ import { loginDataSchema, LoginDataSchema } from "@/lib/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Spinner } from "@/components/spinner";
 import { useToastStore } from "@/lib/store";
-import { FormError } from "@/components/forms/form-error";
+import { FormError } from "@/components/forms/FormError";
 import { BusinessSwitchForm } from "./business-switch-form";
 import { signInBusiness } from "@/app/(auth)/business/sign-in/actions";
 import { useState } from "react";

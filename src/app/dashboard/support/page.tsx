@@ -4,10 +4,10 @@ import { SupportFormSchema, supportFormSchema } from "@/lib/schema";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
-import { FormError } from "@/components/forms/form-error";
+import { FormError } from "@/components/forms/FormError";
 import { useToastStore } from "@/lib/store";
-import { SupportLabel } from "@/components/support/support-label";
-import { SupportInput } from "@/components/support/support-input";
+import { SupportLabel } from "@/components/support/SupportLabel";
+import { SupportInput } from "@/components/support/SupportInput";
 
 export default function Support() {
   const showToast = useToastStore(store => store.showToast)

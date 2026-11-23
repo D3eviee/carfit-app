@@ -3,7 +3,7 @@ import { AddService, addServiceSchema } from "@/lib/schema";
 import { Service, ServicesCategory } from "@/lib/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { FormError } from "../../../forms/form-error";
+import { FormError } from "../../../forms/FormError";
 import { Spinner } from "../../../spinner";
 import { ExitModalButton } from "../../exit-modal-button"
 import { FormLabel } from "@/components/forms/form-label";

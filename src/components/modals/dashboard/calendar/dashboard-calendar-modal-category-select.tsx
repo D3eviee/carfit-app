@@ -1,5 +1,5 @@
 'use client'
-import { FormError } from "@/components/forms/form-error";
+import { FormError } from "@/components/forms/FormError";
 import { AddNewAppointmentManual } from "@/lib/schema";
 import { UseFormRegister } from "react-hook-form";
 import { DashboardCalendarModalLabel } from "./dashboard-calendar-modal-label";

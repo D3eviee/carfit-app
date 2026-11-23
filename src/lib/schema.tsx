@@ -8,12 +8,14 @@ export const supportFormSchema = z.object({
     .max(120, "Imię może mieć maksymalnie 120 znaków"),
   email: z
     .string()
+    .trim()
     .min(1, "Podaj email")
-    .max(50, "Email może mieć maksymalnie 50 znaków")
+    .max(254, "Email może mieć maksymalnie 254 znaki")
     .email({ message: "Niepoprawny format adresu email" })
     .toLowerCase(),
   title: z
     .string()
+    .trim()
     .min(1, "Podaj tytuł zgłoszenia")
     .max(100, "Tytuł może mieć maksymalnie 100 znaków"),
   content: z
@@ -21,9 +23,9 @@ export const supportFormSchema = z.object({
     .trim()
     .min(10, "Opisz dokładnie, czego dotyczy zgłoszenie")
     .max(1000, "Opis może mieć maksymalnie 1000 znaków"),
-});
+})
 
-export type SupportFormSchema = z.infer<typeof supportFormSchema>;
+export type SupportFormSchema = z.infer<typeof supportFormSchema>
 
 export const clientOnboardingData = z.object({
   name: z

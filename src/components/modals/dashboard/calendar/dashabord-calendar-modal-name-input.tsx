@@ -1,5 +1,5 @@
 'use client'
-import { FormError } from "@/components/forms/form-error";
+import { FormError } from "@/components/forms/FormError";
 import { DashboardCalendarModalInput } from "@/components/modals/dashboard/calendar/dashboard-calendar-modal-input";
 import { DashboardCalendarModalLabel } from "@/components/modals/dashboard/calendar/dashboard-calendar-modal-label";
 import { AddNewAppointmentManual } from "@/lib/schema";

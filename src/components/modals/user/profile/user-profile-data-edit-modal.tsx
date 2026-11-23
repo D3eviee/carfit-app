@@ -4,7 +4,7 @@ import { ChangeClientProfileData, changeClientProfileData } from "@/lib/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ModalButtonBack } from "../../../buttons/modal-back-button";
 import { UserProfileDataEditModalImage } from "./user-profile-data-edit-modal-image";
-import { FormError } from "../../../forms/form-error";
+import { FormError } from "../../../forms/FormError";
 import { UserProfileModalSubmitButton } from "./user-profile-modal-submit-button";
 import { UserProfileModalLabel } from "./user-profile-modal-label";
 import { UserProfileModalInput } from "./user-profile-modal-input";

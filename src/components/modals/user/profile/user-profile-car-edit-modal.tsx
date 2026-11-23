@@ -1,5 +1,5 @@
 'use client'
-import { FormError } from "@/components/forms/form-error";
+import { FormError } from "@/components/forms/FormError";
 import { useForm } from "react-hook-form";
 import { ModalButtonBack } from "../../../buttons/modal-back-button";
 import { AddNewCar, addNewCarSchema } from "@/lib/schema";

@@ -1,86 +1,28 @@
-'use client'
-import { sendSupportTicket } from "./actions";
-import { SupportFormSchema, supportFormSchema } from "@/lib/schema";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { FormError } from "@/components/forms/form-error";
-import { useToastStore } from "@/lib/store";
-import { SupportLabel } from "@/components/support/support-label";
-import { SupportInput } from "@/components/support/support-input";
+import { SupportForm } from "@/components/support/SupportForm"
+import type { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "CarFit | Wsparcie",
+  description: "Skontaktuj się z zespołem CarFit. Pomożemy w razie pytań lub problemów technicznych.",
+}
 
 export default function SupportPage() {
-  const showToast = useToastStore(store => store.showToast)
-  const { register, handleSubmit, formState, reset, watch} = useForm<SupportFormSchema>({
-    resolver: zodResolver(supportFormSchema)
-  })
-
-  const isDisabled = !(watch("name") && watch("email") &&  watch("title") && watch("content"))
-  
-  // HANDLING SENDING FORM
-  const onSubmit: SubmitHandler<SupportFormSchema> = async (data) => {
-    const response = await sendSupportTicket(data)
-    if(!response.success){
-      showToast(response.message, "error")
-      return
-    }
-    showToast(response.message, "success")
-    reset()
-    return
-  }
-
   return (
-    <div className="h-full w-full mt-5 flex flex-col px-4 gap-10 md:gap-0 md:flex-row md:justify-between md:px-10 md:mt-16 xl:px-20 2xl:px-64"> 
+    <div className="h-full w-full mt-5 flex flex-col px-4 gap-10 md:gap-0 md:flex-row md:justify-between md:px-10 md:mt-16 xl:px-20 2xl:px-64">
       {/* PAGE HEADINGS */}
       <div className="w-full flex flex-col gap-1 text-pretty">
         <h1 className="text-[#191919] text-2xl font-semibold">Daj nam znać</h1>
-        <p className="texx-[#191919] text-base font-light">Jesteśmy tutaj, aby Ci pomóc! Jeśli masz pytania, napotkałeś problem techniczny lub potrzebujesz wsparcia przy korzystaniu z naszego serwisu, skontaktuj się z nami za pomocą formularza kontaktowego lub napisz bezpośrednio na nasz adres e-mail: <i>support@car-fit.pl</i>. Odpowiemy tak szybko, jak to możliwe!</p>
+        <p className="text-[#191919] text-base font-light">
+          Jesteśmy tutaj, aby Ci pomóc! Jeśli masz pytania, napotkałeś problem techniczny lub potrzebujesz wsparcia przy
+          korzystaniu z naszego serwisu, skontaktuj się z nami za pomocą formularza kontaktowego lub napisz bezpośrednio
+          na nasz adres e-mail:{" "}
+          <a href="mailto:support@car-fit.pl" className="italic">support@car-fit.pl</a>. Odpowiemy tak szybko, jak to możliwe!
+        </p>
       </div>
 
       {/* CONTACT FORM */}
       <div className="w-full flex flex-row items-center justify-center">
-        <form 
-          className="w-full flex flex-col gap-10 sm:w-[380px] lg:w-[450px] sm:px-8 sm:ring-[0.5px] sm:ring-[#D4D4D4] sm:py-8 sm:rounded-3xl sm:shadow-lg"
-          onSubmit={handleSubmit(onSubmit)}
-        >
-          <div className="w-full flex flex-col gap-6">
-            <div className="flex flex-col gap-2.5">
-              <SupportLabel htmlFor="name" labelText="Imię"/>
-              <SupportInput type="text" id="name" register={register("name")}/>
-              <FormError error={formState.errors.name?.message}/>
-            </div>
-
-            <div className="flex flex-col gap-2.5">
-              <SupportLabel htmlFor="email" labelText="Email"/>
-              <SupportInput type="email" id="email" register={register("email")}/>
-              <FormError error={formState.errors.email?.message}/>
-            </div>
-
-            <div className="flex flex-col gap-2.5">
-              <SupportLabel htmlFor="title" labelText="Temat"/>
-              <SupportInput type="text" id="title" register={register("title")}/>
-              <FormError error={formState.errors.title?.message}/>
-            </div>
-
-            <div className="flex flex-col gap-2.5">
-              <SupportLabel htmlFor="content" labelText="Opis"/>
-              <textarea
-                rows={5}
-                id="content"
-                {...register("content")}
-                className="w-full bg-[#F6F7FB] px-2 py-2.5 text-sm text-main-black  rounded-xl border outline-none border-transparent focus:border-[#D4D4D4]"
-              ></textarea>
-              <FormError error={formState.errors.content?.message}/>
-            </div>
-          </div>
-          
-          <button 
-            disabled={isDisabled}
-            type="submit"
-            className="w-full text-center font-semibold text-sm py-3 rounded-xl bg-[#242426] shadow-md text-white hover:cursor-pointer hover:bg-[#333333] disabled:bg-[#E0E0E2] disabled:cursor-not-allowed active:scale-105" 
-          >
-            Wyślij
-          </button>
-        </form>
+        <SupportForm />
       </div>
     </div>
   )

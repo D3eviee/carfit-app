@@ -6,7 +6,7 @@ import { DashboardProfileModalLabel } from "./dashboard-profile-modal-label";
 import { DashboardProfileModalInput } from "./dashboard-profile-modal-input";
 import { DashboardProfileModalSubmitButton } from "./dashboard-profile-modal-submit-button";
 import { DashboardProfileDataEditImage } from "./dashboard-profile-data-edit-image";
-import { FormError } from "@/components/forms/form-error";
+import { FormError } from "@/components/forms/FormError";
 import { ModalButtonBack } from "@/components/buttons/modal-back-button";
 import { useEditDashboardProfileData } from "@/lib/hooks/dashboard/useEditDashboardProfileData";
 

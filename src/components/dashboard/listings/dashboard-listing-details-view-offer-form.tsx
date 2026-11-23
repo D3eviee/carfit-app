@@ -1,5 +1,5 @@
 import { useActiveListingStore } from "@/lib/store"
-import { FormError } from "@/components/forms/form-error"
+import { FormError } from "@/components/forms/FormError"
 import { useForm } from "react-hook-form"
 import { useAddOffer } from "@/lib/hooks/dashboard/useAddOffer"
 

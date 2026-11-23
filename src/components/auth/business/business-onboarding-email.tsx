@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useBusinessOnboardingStore, useToastStore } from "@/lib/store";
-import { FormError } from "../../forms/form-error";
+import { FormError } from "../../forms/FormError";
 import { BusinessOnboardingButton } from "./business-onboarding-button";
 import { businessOnboardingEmailSchema, BusinessOnboardingEmailSchema } from "@/lib/schema";
 import { isBusinessEmailAvailable } from "@/app/(auth)/business/onboarding/actions";

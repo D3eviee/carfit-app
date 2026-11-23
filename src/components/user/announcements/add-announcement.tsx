@@ -1,6 +1,6 @@
 'use client'
 import { CloseButton } from "@/components/buttons/ButtonClose";
-import { FormError } from "@/components/forms/form-error";
+import { FormError } from "@/components/forms/FormError";
 import { useModalStore } from "@/lib/store";
 import { useForm } from "react-hook-form";
 import { Spinner } from "@/components/spinner";

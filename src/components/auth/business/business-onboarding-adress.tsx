@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { useBusinessOnboardingStore } from '@/lib/store';
 import { BusinessOnboardingButton } from './business-onboarding-button';
-import { FormError } from '@/components/forms/form-error';
+import { FormError } from '@/components/forms/FormError';
 import { useRef } from 'react';
 import { AuthFormLabel } from '../auth-form-label';
 import { AuthFormInput } from '../auth-form-input';

@@ -1,5 +1,5 @@
 'use client'
-import { FormError } from "@/components/forms/form-error";
+import { FormError } from "@/components/forms/FormError";
 import { FormInput } from "@/components/forms/form-input";
 import { FormLabel } from "@/components/forms/form-label";
 import { Spinner } from "@/components/spinner";

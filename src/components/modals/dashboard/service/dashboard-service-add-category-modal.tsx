@@ -1,5 +1,5 @@
 'use client'
-import { FormError } from "@/components/forms/form-error";
+import { FormError } from "@/components/forms/FormError";
 import { Spinner } from "@/components/spinner";
 import { useAddServiceCategory } from "@/lib/hooks/dashboard/useAddServiceCategory";
 import { CategoryName, categoryNameSchema } from "@/lib/schema";

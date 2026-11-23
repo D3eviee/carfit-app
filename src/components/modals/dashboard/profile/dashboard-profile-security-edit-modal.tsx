@@ -3,7 +3,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ModalButtonBack } from "../../../buttons/modal-back-button";
 import { ChangePasswordInput, changePasswordSchema } from "@/lib/schema"
-import { FormError } from "../../../forms/form-error";
+import { FormError } from "../../../forms/FormError";
 import { DashboardProfileModalLabel } from "./dashboard-profile-modal-label";
 import { DashboardProfileModalInput } from "./dashboard-profile-modal-input";
 import { useChangeDashboardProfilePassword } from "@/lib/hooks/dashboard/useChangeDashboardProfilePassword";
